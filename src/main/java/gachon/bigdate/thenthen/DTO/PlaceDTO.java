@@ -2,6 +2,8 @@ package gachon.bigdate.thenthen.DTO;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+
 @Data
 public class PlaceDTO {
     private int placeId;
@@ -15,4 +17,6 @@ public class PlaceDTO {
     private double placeY;
     private String placeUrl;
     private String placePhone;
+    private int score;
+    ArrayList<CourseDTO> courseList;
 }

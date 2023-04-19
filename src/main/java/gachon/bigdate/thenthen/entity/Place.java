@@ -1,46 +1,54 @@
 package gachon.bigdate.thenthen.entity;
 
 import lombok.Getter;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Table(name ="places_tb")
 public class Place {
     @Id
-    private Integer place_id;
+    @Column(name="place_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long placeId;
 
-    @Column(nullable = false)
-    private int hotpot_id;
+    @Column(name="kakao_place_id")
+    private Long kakaoPlaceId;
 
-    @Column(nullable = false)
-    private String category_group_code;
+    @Column(name="hotspot_id")
+    private int hotspotId;
 
-    @Column(nullable = false)
-    private String category_name;
+    @Column(name="category_group_code")
+    private String categoryGroupCode;
 
-    @Column(nullable = false)
-    private String place_name;
+    @Column(name="category_name")
+    private String categoryName;
 
-    @Column(nullable = false)
-    private String place_mood;
+    @Column(name="place_name")
+    private String placeName;
 
-    @Column(nullable = false)
-    private String address_name;
+    @Column(name="place_mood")
+    private String placeMood;
 
-    @Column(nullable = false)
-    private double place_x;
+    @Column(name="address_name")
+    private String addressName;
 
-    @Column(nullable = false)
-    private double place_y;
+    @Column(name="place_x")
+    private double placeX;
 
-    @Column(nullable = true)
-    private String place_url;
+    @Column(name="place_y")
+    private double placeY;
 
-    @Column(nullable = true)
-    private String place_phone;
+    @Column(name="place_url")
+    private String placeUrl;
+
+    @Column(name="place_phone")
+    private String placePhone;
+
+    @Column(name="image_url")
+    private String imageUrl;
 
 }
+
+
