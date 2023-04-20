@@ -1,12 +1,16 @@
 package gachon.bigdate.thenthen.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
 @Table(name="hotspots_tb")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Hotspot {
     @Id
     @Column(name="hotspot_id")

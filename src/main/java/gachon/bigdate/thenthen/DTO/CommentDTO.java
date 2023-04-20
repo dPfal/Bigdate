@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CommentDTO {
-    private Integer userId;
+    private Long Id;
     private String commentDate;
     private String commentText;
 }

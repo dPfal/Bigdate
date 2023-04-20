@@ -1,8 +1,6 @@
 package gachon.bigdate.thenthen.DTO;
 
-import com.fasterxml.jackson.annotation.JsonGetter;
-import gachon.bigdate.thenthen.entity.Place;
-import lombok.Data;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +8,7 @@ import java.util.ArrayList;
 
 @Setter
 @Getter
+@AllArgsConstructor
 public class HotspotDTO {
     private Long hotspotId;
     private String hotspotName; //    지역명
