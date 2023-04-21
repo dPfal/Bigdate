@@ -16,7 +16,7 @@ public class AuthController {
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody UserDTO userDTO){
         return authService.join(userDTO.getUserId(),userDTO.getPassword()
-                        ,userDTO.getUserName(),"USER",userDTO.getUserMood());
+                        ,userDTO.getUserName(),userDTO.getUserMood());
     }
 
     @PostMapping("/login")
