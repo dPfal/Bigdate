@@ -37,6 +37,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 if (JwtUtil.isExpired(token, secretKey)) {
                     System.out.println("JWT가 만료되었습니다.");
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 만료되었습니다.");
+                    return;
                 }
                 // Token에서 Id 꺼내기.
                 Long Id = JwtUtil.getUserIdFromToken(token, secretKey);
@@ -44,6 +45,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                     if (JwtUtil.getUserRoleFromToken(token, secretKey).equals("USER")) {
                         System.out.println("권한이 없습니다");
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "권한이 없습니다");
+                        return;
                     }
                 }
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("" + Id, null, List.of(new SimpleGrantedAuthority(JwtUtil.getUserRoleFromToken(token, secretKey))));
@@ -52,7 +54,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
                 SecurityContextHolder.getContext().setAuthentication(authToken);
             }else{
-                System.out.println("JWT가 만료되었습니다.");
+                System.out.println("JWT가 없습니다.");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 없습니다.");
                 return;
             }
