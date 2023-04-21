@@ -19,7 +19,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
-public class JwtTokenFilter extends OncePerRequestFilter {
+public class JwtFilter extends OncePerRequestFilter {
     private final String secretKey;
 
     @Override
@@ -35,32 +35,29 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 String token = authorization.split(" ")[1];
                 // Token expired check
                 if (JwtUtil.isExpired(token, secretKey)) {
-                    System.out.println("JWT가 만료되었습니다.");
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 만료되었습니다.");
-                    return;
-                }
-                // Token에서 Id 꺼내기.
-                Long Id = JwtUtil.getUserIdFromToken(token, secretKey);
-                if (request.getRequestURI().startsWith("/admin")) {
-                    if (JwtUtil.getUserRoleFromToken(token, secretKey).equals("USER")) {
-                        System.out.println("권한이 없습니다");
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 만료되었습니다");
+                }else{
+                    if (request.getRequestURI().startsWith("/admin")
+                            && JwtUtil.getUserRoleFromToken(token, secretKey).equals("USER")) {
+                        log.warn("권한이 없습니다");
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "권한이 없습니다");
-                        return;
                     }
+                    // Token에서 Id 꺼내기.
+                    Long Id = JwtUtil.getUserIdFromToken(token, secretKey);
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("" + Id, null, List.of(new SimpleGrantedAuthority(JwtUtil.getUserRoleFromToken(token, secretKey))));
+
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    filterChain.doFilter(request, response);
                 }
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("" + Id, null, List.of(new SimpleGrantedAuthority(JwtUtil.getUserRoleFromToken(token, secretKey))));
 
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-
-                SecurityContextHolder.getContext().setAuthentication(authToken);
             }else{
-                System.out.println("JWT가 없습니다.");
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 없습니다.");
-                return;
             }
+        }else{
+            filterChain.doFilter(request, response);
         }
-
-        filterChain.doFilter(request, response);
         //filterChain에 인증 도장을 찍어줌!
     }
 

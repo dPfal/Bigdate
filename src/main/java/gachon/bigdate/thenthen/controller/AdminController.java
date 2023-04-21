@@ -13,6 +13,6 @@ public class AdminController {
     @GetMapping("/")
     public ResponseEntity<String> adminTest(Authentication authentication){
         System.out.println(authentication);
-        return ResponseEntity.ok().body("ok");
+        return ResponseEntity.ok().body("admin 인증 완료");
     }
 }

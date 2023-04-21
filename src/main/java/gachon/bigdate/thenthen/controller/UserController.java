@@ -18,6 +18,6 @@ public class UserController {
     }
     @GetMapping("/")
     public ResponseEntity<String> test(Authentication authentication){
-        return ResponseEntity.ok().body(authentication.getDetails().toString());
+        return ResponseEntity.ok().body("user 인증 완료");
     }
 }

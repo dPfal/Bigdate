@@ -47,6 +47,7 @@ public class AuthService {
             }
             User user = userRepository.findByUserId(userId).get();
             // token 유효시간 : 30분
+            //1000L*60*30
             return ResponseEntity.ok().body(JwtUtil.IssuanceToken(user.getId(),key,user.getUserRole(),1000L*60*30));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

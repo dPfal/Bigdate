@@ -1,6 +1,6 @@
 package gachon.bigdate.thenthen.config;
 
-import gachon.bigdate.thenthen.security.JwtTokenFilter;
+import gachon.bigdate.thenthen.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +39,7 @@ public class SecurityConfig {
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 서버에서 세션을 사용하지 않음 (JWT 사용)
                 .and()
-                .addFilterBefore(new JwtTokenFilter(secretKey), UsernamePasswordAuthenticationFilter.class) // JWT 토큰 필터 추가
+                .addFilterBefore(new JwtFilter(secretKey), UsernamePasswordAuthenticationFilter.class) // JWT 토큰 필터 추가
                 .build();
 
     }
