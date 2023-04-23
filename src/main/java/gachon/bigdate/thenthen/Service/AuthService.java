@@ -10,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +39,8 @@ public class AuthService {
         return ResponseEntity.ok().body(userName + "님 회원 가입 성공! (아이디는 "+userId+"입니다.)" );
     }
 
-    public ResponseEntity<String> login(String userId, String password) throws Exception {
+    public ResponseEntity<Map> login(String userId, String password) throws Exception {
+        Map<String, String> messages = new HashMap<>();
         // Id가 없을 경우, orElseThrow: 값을 바로 얻거나, 예외를 바로 던짐
         try {
             User selectedUser = userRepository.findByUserId(userId)
@@ -48,9 +52,14 @@ public class AuthService {
             User user = userRepository.findByUserId(userId).get();
             // token 유효시간 : 30분
             //1000L*60*30
-            return ResponseEntity.ok().body(JwtUtil.IssuanceToken(user.getId(),key,user.getUserRole(),1000L*60*30));
+            messages.put("JWT", JwtUtil.IssuanceToken(user.getId(),key,user.getUserRole(),1000L*60*30));
+            messages.put("userRole", user.getUserRole());
+            messages.put("userId", user.getUserId());
+            messages.put("Id", String.valueOf(user.getId()));
+            return ResponseEntity.ok().body(messages);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            messages.put("message",e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messages);
         }
 
     }
