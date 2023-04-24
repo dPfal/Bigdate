@@ -23,7 +23,7 @@ public class MainController {
     @GetMapping("/hotspots")
     public ResponseEntity<String> index() throws Exception {
         // return ResponseEntity.ok().body(hotspotService.getHotspots());
-        return ResponseEntity.ok().body("빌드 배포 자동화 test");
+        return ResponseEntity.ok().body("빌드 배포 자동화 test2");
     }
 
     @GetMapping("/hotspots/{hotspotId}")
