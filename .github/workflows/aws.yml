@@ -19,6 +19,7 @@ jobs:
           
       - name: Build the project with Gradle
         run: |
+          ll
           cd ~/Bigdate
           sudo ./gradlew build
 
