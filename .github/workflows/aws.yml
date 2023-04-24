@@ -20,6 +20,7 @@ jobs:
           script: |
             ls -l
             cd ~/Bigdate
+            git pull
             sudo ./gradlew build
             PID=$(sudo lsof -i :8080 | grep -v PID | awk '{print $2}')
             if [ -n "$PID" ]; then
