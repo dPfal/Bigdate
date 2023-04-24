@@ -28,4 +28,4 @@ jobs:
               sudo kill $PID
             fi
             cd build/libs
-            nohup java -jar then-then-0.0.1-SNAPSHOT.jar > then-then.log 2>&1 &
+            nohup java -jar then-then-0.0.1-SNAPSHOT.jar&
