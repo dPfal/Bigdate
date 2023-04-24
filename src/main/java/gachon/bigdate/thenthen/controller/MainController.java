@@ -2,6 +2,7 @@ package gachon.bigdate.thenthen.controller;
 
 import gachon.bigdate.thenthen.Service.HotspotService;
 import gachon.bigdate.thenthen.Service.PlaceService;
+import gachon.bigdate.thenthen.entity.Hotspot;
 import gachon.bigdate.thenthen.entity.Place;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,8 @@ public class MainController {
 
 
     @GetMapping("/hotspots")
-    public ResponseEntity<String> index() throws Exception {
-        // return ResponseEntity.ok().body(hotspotService.getHotspots());
-        return ResponseEntity.ok().body("빌드 배포 자동화 test2");
+    public ResponseEntity<List<Hotspot>> index() throws Exception {
+         return ResponseEntity.ok().body(hotspotService.getHotspots());
     }
 
     @GetMapping("/hotspots/{hotspotId}")
