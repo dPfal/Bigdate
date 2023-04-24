@@ -10,28 +10,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v2
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.SSH_KEY }}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
-          
-      - name: Build the project with Gradle
-        run: |
-          ll
-          cd ~/Bigdate
-          sudo ./gradlew build
-
-      - name: Stop the previous process
-        run: |
-          PID=$(sudo lsof -i :8080 | grep -v PID | awk '{print $2}')
-          if [ -n "$PID" ]; then
-            echo "Stopping the previous process (PID: $PID)..."
-            sudo kill $PID
-          fi
-
-      - name: Start the new process
-        run: |
-          cd build/libs
-          nohup java -jar then-then-0.0.1-SNAPSHOT.jar > then-then.log 2>&1 &
+          script: |
+            ls -l
+            cd ~/Bigdate
+            sudo ./gradlew build
+            PID=$(sudo lsof -i :8080 | grep -v PID | awk '{print $2}')
+            if [ -n "$PID" ]; then
+              echo "Stopping the previous process (PID: $PID)..."
+              sudo kill $PID
+            fi
+            cd build/libs
+            nohup java -jar then-then-0.0.1-SNAPSHOT.jar > then-then.log 2>&1 &
