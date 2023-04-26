@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 @Data
 public class PlaceDTO {
-    private int placeId;
+    private Long placeId;
     private int hotpotId;
     private String categoryGroupCode;
     private String categoryName;
@@ -19,4 +19,9 @@ public class PlaceDTO {
     private String placePhone;
     private int score;
     ArrayList<CourseDTO> courseList;
+
+    public PlaceDTO(Long placeId, String placeName) {
+        this.placeId = placeId;
+        this.placeName = placeName;
+    }
 }

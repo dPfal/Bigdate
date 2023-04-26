@@ -34,6 +34,7 @@ public class MainController {
     @GetMapping("/places/{placeId}")
     public Optional<Place> getPlaceById(@PathVariable("placeId") Long placeId){
         return this.placeService.getPlaceById(placeId);
-
     }
+
+
 }
