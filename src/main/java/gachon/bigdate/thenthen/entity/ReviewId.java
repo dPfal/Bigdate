@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Data
 @Embeddable
-public class ReviewId implements Serializable {
+public class ReviewId implements Serializable { //Review Entity의 복합키
     @Column(name = "course_id")
     private Long courseId;
 
