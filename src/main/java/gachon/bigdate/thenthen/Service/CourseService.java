@@ -46,7 +46,6 @@ public class CourseService {
                     .build();
             reviewArrayList.add(review);
         }
-        System.out.println(reviewArrayList);
         reviewRepository.saveAll(reviewArrayList);
         courseDTO.setPostedDate(String.valueOf(createdCourse.getPostedDate()));
         courseDTO.setCourseId(courseId);
