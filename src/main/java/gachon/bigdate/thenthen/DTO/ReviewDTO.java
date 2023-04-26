@@ -5,8 +5,9 @@ import lombok.Data;
 @Data
 public class ReviewDTO {
     private int placeSequence;
-    private int avg_score;
+    private int avgScore;
     private int expense;
+    private Long placeId;
     private String reviewInfo;
-    private boolean isDel;
+    private int isDel;
 }
