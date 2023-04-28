@@ -35,8 +35,7 @@
     "sweetalert": "^2.1.2",
     "timers-browserify": "^2.0.12",
     "web-vitals": "^2.1.4",
-    "xml-js": "^1.6.11",
-    "xml2js": "^0.4.23"
+    "xml-js": "^1.6.11"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -61,5 +60,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "xml2js": "^0.5.0"
   }
 }

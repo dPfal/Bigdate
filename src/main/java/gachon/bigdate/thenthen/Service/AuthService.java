@@ -45,9 +45,11 @@ public class AuthService {
         try {
             User selectedUser = userRepository.findByUserId(userId)
                     .orElseThrow(() -> new Exception("로그인 정보를 확인해주세요. (Id 정보 없음)"));
+            System.out.println(selectedUser);
+            System.out.println(encoder.matches(password, selectedUser.getUserPassword()));
             // Pw가 틀렸을 경우
             if (!encoder.matches(password, selectedUser.getUserPassword())) {
-                new Exception("로그인 정보를 확인해주세요.(Pw 정보 없음)");
+                throw new Exception("로그인 정보를 확인해주세요.(Pw 정보 없음)");
             }
             User user = userRepository.findByUserId(userId).get();
             // token 유효시간 : 30분
@@ -59,9 +61,17 @@ public class AuthService {
             return ResponseEntity.ok().body(messages);
         } catch (Exception e) {
             messages.put("message",e.getMessage());
+            System.out.println(messages);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messages);
         }
 
     }
 
+    public ResponseEntity<?> idDuplicateCheck(String userId) {
+        if(this.userRepository.findByUserId(userId).isEmpty()){
+          return ResponseEntity.ok().body("true");
+        }else{
+            return  ResponseEntity.ok().body("false");
+        }
+    }
 }
