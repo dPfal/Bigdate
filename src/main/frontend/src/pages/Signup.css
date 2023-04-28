@@ -1,0 +1,38 @@
+.mood{
+    width: 80px;
+    height: 25px;
+    border-style: solid;
+    border-color: #1E90FF;
+    color: #1E90FF;
+    border-radius: 10px;
+    font-weight: lighter;
+    font-size: 15px;
+    margin-right: 5px;
+  }
+
+  .input{
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 400px;
+  }
+
+  .userMood.selected {
+    width: 80px;
+    height: 25px;
+    border-style: solid;
+    background-color: #1E90FF;
+    color: white;
+    border-radius: 10px;
+    font-weight: lighter;
+    font-size: 15px;
+    margin-right: 5px;
+  }
+ 
+  
+  
+  
+  
+  
+  

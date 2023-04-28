@@ -1,0 +1,26 @@
+.postComment{
+    color: white;
+    background-color: #1E90FF;
+    border-radius: 10px;
+    font-size: small;
+    width: 80px;
+    height: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 600px;
+}
+
+.line{
+    font-weight: bold;
+    font-size: large;
+    margin-right: 40px;
+    margin-left: 40px;
+    padding-top: 40px;
+    border-bottom: 1px solid gray;
+}
+
+.toCenter{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
