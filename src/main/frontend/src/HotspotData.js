@@ -1,4 +1,3 @@
-
     const hotspots= [
     {
         "hotspot_id": "H01",
