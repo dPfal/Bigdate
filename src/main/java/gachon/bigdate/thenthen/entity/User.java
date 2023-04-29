@@ -36,6 +36,10 @@ public class User{
     @Column(name ="user_mood")
     private String userMood;
 
+    @OneToOne
+    @JoinColumn(name = "id")
+    private Course course;
+
     /* *Role이 여러개일 경우*/
     public List<String> getRoleList(){
         if(this.userRole.length()>0){
