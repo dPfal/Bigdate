@@ -1,5 +1,6 @@
 package gachon.bigdate.thenthen.controller;
 
+import gachon.bigdate.thenthen.DTO.PlaceDTO;
 import gachon.bigdate.thenthen.Service.HotspotService;
 import gachon.bigdate.thenthen.Service.PlaceService;
 import gachon.bigdate.thenthen.entity.Hotspot;
@@ -32,8 +33,8 @@ public class MainController {
     }
 
     @GetMapping("/places/{placeId}")
-    public Optional<Place> getPlaceById(@PathVariable("placeId") Long placeId){
-        return this.placeService.getPlaceById(placeId);
+    public ResponseEntity<PlaceDTO> getPlaceById(@PathVariable("placeId") Long placeId){
+        return ResponseEntity.ok().body(this.placeService.getPlaceByPlaceId(placeId));
     }
 
 

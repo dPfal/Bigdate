@@ -1,14 +1,15 @@
 package gachon.bigdate.thenthen.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-
 @Data
+@NoArgsConstructor
 @Embeddable
-public class ReviewId implements Serializable { //Review Entity의 복합키
+public class ReviewId implements Serializable {
     @Column(name = "course_id")
     private Long courseId;
 

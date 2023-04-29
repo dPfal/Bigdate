@@ -1,19 +1,19 @@
 package gachon.bigdate.thenthen.entity;
 
-import lombok.*;
+import gachon.bigdate.thenthen.entity.ReviewId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
-@Entity
-@Table(name ="reviews_tb")
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@ToString
-public class Review {
 
+@Builder
+@AllArgsConstructor
+@Entity(name ="reviews_tb")
+@NoArgsConstructor
+public class Review {
     @EmbeddedId
     private ReviewId reviewId;
 
@@ -28,6 +28,5 @@ public class Review {
 
     @Column(name ="is_del")
     private int isDel;
-
 }
 
