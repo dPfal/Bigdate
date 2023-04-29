@@ -5,6 +5,8 @@ import gachon.bigdate.thenthen.entity.Review;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 public class ReviewDTO {
@@ -15,6 +17,19 @@ public class ReviewDTO {
     private String reviewInfo;
     private int isDel;
     private Place place;
+    private LocalDateTime postedDate;
+    private String userId;
+
+    public ReviewDTO(Review review,LocalDateTime postedDate){
+        this.placeSequence = review.getReviewId().getPlaceSequence();
+        this.avgScore = review.getAvgScore();
+        this.expense = review.getExpense();
+        this.placeId = review.getReviewId().getPlaceId();
+        this.reviewInfo = review.getReviewInfo();
+        this.isDel = review.getIsDel();
+        this.postedDate=postedDate;
+        this.userId=review.getCourse().getUser().getUserId();
+    }
 
     public ReviewDTO(Review review){
         this.placeSequence = review.getReviewId().getPlaceSequence();
@@ -23,7 +38,8 @@ public class ReviewDTO {
         this.placeId = review.getReviewId().getPlaceId();
         this.reviewInfo = review.getReviewInfo();
         this.isDel = review.getIsDel();
-        this.place = review.getPlace();
+        this.place=review.getPlace();
+        this.userId=review.getCourse().getUser().getUserId();
     }
 }
 

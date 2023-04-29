@@ -44,7 +44,7 @@ public class User{
             return new ArrayList<>(); //null 방지
          }
     }
-
+    @Transient
     @OneToMany(mappedBy="user")
     private List<Course> courseList;
 

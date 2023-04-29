@@ -1,5 +1,6 @@
 package gachon.bigdate.thenthen.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -21,10 +22,11 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
-    @Column(name ="id", insertable = false, updatable = false)
+    @Column
     private Long id;
 
     @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name ="posted_date")
     private LocalDateTime postedDate;
 
@@ -34,14 +36,17 @@ public class Course {
     @Column(name ="course_info")
     private String courseInfo;
 
+    @Transient
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id")
     @JsonIgnore
     private User user;
 
+    @Transient
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
+    @Transient
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 

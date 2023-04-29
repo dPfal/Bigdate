@@ -32,14 +32,16 @@ public class Review {
     @Column(name ="is_del")
     private int isDel;
 
+    @Transient
     @MapsId("courseId")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "course_id")
     @JsonIgnore
     private Course course;
 
+    @Transient
     @MapsId("placeId")
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY,optional = true)
     @JoinColumn(name = "place_id")
     @JsonIgnore
     private Place place;

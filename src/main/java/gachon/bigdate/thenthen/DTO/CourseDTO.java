@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ public class CourseDTO {
     private Long courseId;
     private Long id;
     private String userId;
-    private String postedDate;
+    private LocalDateTime postedDate;
     private String courseTitle;
     private String courseInfo;
     private int scrapCount;
@@ -37,7 +38,7 @@ public class CourseDTO {
         this.courseId = course.getCourseId();
         this.courseInfo = course.getCourseInfo();
         this.courseTitle = course.getCourseName();
-        this.postedDate = course.getPostedDate()+"";
+        this.postedDate = course.getPostedDate();
         this.scrapCount = scrapCount;
         this.likeCount = likeCount;
         this.commentCount = commentCount;

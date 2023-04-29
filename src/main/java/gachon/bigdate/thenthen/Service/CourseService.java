@@ -5,6 +5,7 @@ import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.ReviewDTO;
 import gachon.bigdate.thenthen.Repository.*;
 import gachon.bigdate.thenthen.entity.Course;
+import gachon.bigdate.thenthen.entity.Place;
 import gachon.bigdate.thenthen.entity.Review;
 import gachon.bigdate.thenthen.entity.ReviewId;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,9 @@ public class CourseService {
                 .courseInfo(courseDTO.getCourseInfo())
                 .courseName(courseDTO.getCourseTitle())
                 .build());
-
         Long courseId = createdCourse.getCourseId();
         System.out.println(courseId);
         ArrayList<Review> reviewArrayList = new ArrayList<>();
-
         for (ReviewDTO reviewDTO : courseDTO.getReviewList()) {
             ReviewId reviewId = new ReviewId();
             reviewId.setPlaceId(reviewDTO.getPlaceId());
@@ -52,7 +51,7 @@ public class CourseService {
             reviewArrayList.add(review);
         }
         reviewRepository.saveAll(reviewArrayList);
-        courseDTO.setPostedDate(String.valueOf(createdCourse.getPostedDate()));
+        courseDTO.setPostedDate(createdCourse.getPostedDate());
         courseDTO.setCourseId(courseId);
         return courseDTO;
     }

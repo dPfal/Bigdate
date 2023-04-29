@@ -2,6 +2,7 @@ package gachon.bigdate.thenthen.DTO;
 
 import gachon.bigdate.thenthen.entity.Course;
 import gachon.bigdate.thenthen.entity.Place;
+import gachon.bigdate.thenthen.entity.Review;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,14 +27,16 @@ public class PlaceDTO {
     private String placeUrl;
     private String placePhone;
     private double score;
+    private String imageUrl;
     private ArrayList<CourseDTO> courseList;
+    private ArrayList<ReviewDTO> reviewList;
 
     public PlaceDTO(Long placeId, String placeName) {
         this.placeId = placeId;
         this.placeName = placeName;
     }
 
-    public PlaceDTO (Place place, double score, ArrayList<CourseDTO> courseList) {
+    public PlaceDTO (Place place, double score, ArrayList<CourseDTO> courseList, ArrayList<ReviewDTO> reviewList) {
         this.placeId = place.getPlaceId();
         this.placeX = place.getPlaceX();
         this.placeY = place.getPlaceY();
@@ -41,11 +44,13 @@ public class PlaceDTO {
         this.placeMood = place.getPlaceMood();
         this.placePhone = place.getPlacePhone();
         this.placeUrl = place.getPlaceUrl();
+        this.imageUrl=place.getImageUrl();
         this.addressName = place.getAddressName();
         this.categoryGroupCode = place.getCategoryGroupCode();
         this.categoryName = place.getCategoryName();
         this.hotpotId = place.getHotspotId();
         this.score = score;
         this.courseList = courseList;
+        this.reviewList = reviewList;
     }
 }

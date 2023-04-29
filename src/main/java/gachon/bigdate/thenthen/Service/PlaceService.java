@@ -3,12 +3,15 @@ package gachon.bigdate.thenthen.Service;
 
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
+import gachon.bigdate.thenthen.DTO.ReviewDTO;
 import gachon.bigdate.thenthen.Repository.*;
 import gachon.bigdate.thenthen.entity.Course;
 import gachon.bigdate.thenthen.entity.Place;
+import gachon.bigdate.thenthen.entity.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,23 +30,31 @@ public class PlaceService {
     }
 
     public PlaceDTO getPlaceByPlaceId(Long placeId){
-       Optional<Place> place = this.placeRepository.findById(placeId);
+       Place place = this.placeRepository.findByPlaceId(placeId);
+       ArrayList<ReviewDTO> reviewDTOs = new ArrayList<>();
+        ArrayList<CourseDTO> courseDTOArrayList = new ArrayList<>();
+
+       if(place.getReviewList().size()>0){
+           for(Review review : place.getReviewList()){
+               ReviewDTO reviewDTO = new ReviewDTO(review,courseRepository.findByCourseId(review.getCourse().getCourseId()).getPostedDate());
+               reviewDTOs.add(reviewDTO);
+           }
+       }
        double placeAvg = this.placeRepository.calculateAvg(placeId);
-       Optional<List<Course>> courseList = Optional.of(this.courseRepository.findCourseByPlaceId(place.get().getPlaceId()));
-       ArrayList<CourseDTO> courseDTOArrayList = new ArrayList<>();
+       Optional<List<Course>> courseList = Optional.of(this.courseRepository.findCourseByPlaceId(place.getPlaceId()));
        if(courseList.isPresent()){
         for (Course course : courseList.get()) {
             CourseDTO courseDTO = new CourseDTO();
             courseDTO.setCourseId(course.getCourseId());
             courseDTO.setCourseTitle(course.getCourseName());
-            courseDTO.setPostedDate(course.getPostedDate()+"");
+            courseDTO.setPostedDate(course.getPostedDate());
             courseDTO.setLikeCount(this.likeRepository.countByLikeIdCourseId(course.getCourseId()));
             courseDTO.setScrapCount(this.scrapRepository.countByScrapIdCourseId(course.getCourseId()));
             courseDTO.setUserId(this.userRepository.findById(course.getId()).get().getUserId());
             courseDTOArrayList.add(courseDTO);
         }
        }
-      return new PlaceDTO(place.get(),placeAvg,courseDTOArrayList);
+      return new PlaceDTO(place,placeAvg,courseDTOArrayList,reviewDTOs);
     }
     public List<PlaceDTO> getPlaceByPlaceName(String searchData) {
         Optional<List<Place>> placeList = this.placeRepository.findByPlaceNameContaining(searchData);

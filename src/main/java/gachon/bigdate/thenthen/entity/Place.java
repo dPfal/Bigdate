@@ -1,11 +1,17 @@
 package gachon.bigdate.thenthen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor
 @Table(name ="places_tb")
 public class Place {
     @Id
@@ -49,8 +55,9 @@ public class Place {
     @Column(name="image_url")
     private String imageUrl;
 
-    @OneToOne(mappedBy = "place")
-    private Review review;
+    @OneToMany(mappedBy = "reviewId.placeId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Review> reviewList = new ArrayList<>();
 
 }
 
