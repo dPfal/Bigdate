@@ -28,7 +28,7 @@ public class PlaceService {
 
     public PlaceDTO getPlaceByPlaceId(Long placeId){
        Optional<Place> place = this.placeRepository.findById(placeId);
-       Long placeAvg = this.placeRepository.calculateAvg(placeId);
+       double placeAvg = this.placeRepository.calculateAvg(placeId);
        Optional<List<Course>> courseList = Optional.of(this.courseRepository.findCourseByPlaceId(place.get().getPlaceId()));
        ArrayList<CourseDTO> courseDTOArrayList = new ArrayList<>();
        if(courseList.isPresent()){

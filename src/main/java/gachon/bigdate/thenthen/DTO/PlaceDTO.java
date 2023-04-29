@@ -25,7 +25,7 @@ public class PlaceDTO {
     private double placeY;
     private String placeUrl;
     private String placePhone;
-    private long score;
+    private double score;
     private ArrayList<CourseDTO> courseList;
 
     public PlaceDTO(Long placeId, String placeName) {
@@ -33,7 +33,7 @@ public class PlaceDTO {
         this.placeName = placeName;
     }
 
-    public PlaceDTO (Place place, long score, ArrayList<CourseDTO> courseList) {
+    public PlaceDTO (Place place, double score, ArrayList<CourseDTO> courseList) {
         this.placeId = place.getPlaceId();
         this.placeX = place.getPlaceX();
         this.placeY = place.getPlaceY();
