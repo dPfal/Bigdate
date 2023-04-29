@@ -22,7 +22,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
-    @Column
+    @Column(name="id")
     private Long id;
 
     @CreationTimestamp
@@ -36,9 +36,9 @@ public class Course {
     @Column(name ="course_info")
     private String courseInfo;
 
-    @Transient
+
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="id")
+    @JoinColumn(name="id",insertable=false, updatable=false)
     @JsonIgnore
     private User user;
 
