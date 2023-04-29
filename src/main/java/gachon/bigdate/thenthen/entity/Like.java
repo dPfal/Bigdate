@@ -10,4 +10,8 @@ import java.io.Serializable;
 public class Like {
     @EmbeddedId
     private LikeId likeId;
+    @MapsId("courseId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 }

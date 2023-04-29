@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @Embeddable
 public class LikeId implements Serializable {
-    @Column(name="course_id")
+    @Column(name="course_id", insertable = false, updatable = false)
     private Long courseId;
     @Column(name="id")
     private Long id;

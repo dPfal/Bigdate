@@ -44,7 +44,12 @@ public class MainController {
     }
     @GetMapping("/courses")
     public ResponseEntity<Page<CourseDTO>> getCourseList(@PageableDefault(size = 15) @SortDefault(sort = "courseId", direction = Sort.Direction.DESC)Pageable pageable){
-        return ResponseEntity.ok().body(this.courseService.getCourse(pageable));
+        return ResponseEntity.ok().body(this.courseService.getCourseList(pageable));
+    }
+
+    @GetMapping("/courses/{courseId}")
+    public ResponseEntity<CourseDTO> getCourseByCourseId(@PathVariable("courseId") long courseId){
+        return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId));
     }
 
 }

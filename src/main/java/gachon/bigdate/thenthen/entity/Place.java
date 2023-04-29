@@ -49,6 +49,9 @@ public class Place {
     @Column(name="image_url")
     private String imageUrl;
 
+    @OneToOne(mappedBy = "place")
+    private Review review;
+
 }
 
 

@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Embeddable
 public class CommentId implements Serializable {
-    @Column(name="course_id")
+    @Column(name="course_id", insertable = false, updatable = false)
     private long courseId;
     @Column(name="id")
     private long id;

@@ -19,4 +19,5 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
             "group by mydatabase.reviews_tb.course_id",nativeQuery = true)
     List<Course> findCourseByPlaceId(Long placeId);
 
+    Course findByCourseId(long courseId);
 }

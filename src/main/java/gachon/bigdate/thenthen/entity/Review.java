@@ -1,8 +1,10 @@
 package gachon.bigdate.thenthen.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import gachon.bigdate.thenthen.entity.ReviewId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Entity(name ="reviews_tb")
 @NoArgsConstructor
+@Getter
 public class Review {
     @EmbeddedId
     private ReviewId reviewId;
@@ -28,5 +31,18 @@ public class Review {
 
     @Column(name ="is_del")
     private int isDel;
+
+    @MapsId("courseId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    @JsonIgnore
+    private Course course;
+
+    @MapsId("placeId")
+    @OneToOne
+    @JoinColumn(name = "place_id")
+    @JsonIgnore
+    private Place place;
+
 }
 

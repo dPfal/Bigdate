@@ -17,4 +17,9 @@ public class Comment{
 
     @Column (name="comment_text")
     private String commentText;
+
+    @MapsId("courseId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 }

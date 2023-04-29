@@ -6,4 +6,8 @@ import javax.persistence.*;
 public class Scrap {
    @EmbeddedId
     private ScrapId scrapId;
+    @MapsId("courseId")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
 }

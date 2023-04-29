@@ -1,9 +1,7 @@
 package gachon.bigdate.thenthen.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -23,7 +21,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long courseId;
 
-    @Column(name ="id")
+    @Column(name ="id", insertable = false, updatable = false)
     private Long id;
 
     @CreationTimestamp
@@ -35,4 +33,37 @@ public class Course {
 
     @Column(name ="course_info")
     private String courseInfo;
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="id")
+    @JsonIgnore
+    private User user;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Review> reviewList = new ArrayList<>();
+
+    @Transient
+    private int commentCount;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Comment> likeList = new ArrayList<>();
+
+    @Transient
+    private int likeCount;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Comment> scrapList = new ArrayList<>();
+
+    @Transient
+    private int scrapCount;
+    @PostLoad
+    private void postLoad() {
+        this.likeCount = likeList.size();
+        this.commentCount = commentList.size();
+    }
+
+
 }

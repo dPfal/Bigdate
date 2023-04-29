@@ -1,5 +1,6 @@
 package gachon.bigdate.thenthen.Service;
 
+import gachon.bigdate.thenthen.DTO.CommentDTO;
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.ReviewDTO;
 import gachon.bigdate.thenthen.Repository.*;
@@ -22,10 +23,7 @@ import java.util.List;
 public class CourseService {
     private final CourseRepository courseRepository;
     private final ReviewRepository reviewRepository;
-    private final LikeRepository likeRepository;
-    private final UserRepository userRepository;
-    private final ScrapRepository scrapRepository;
-    private final CommentRepository commentRepository;
+
     @Transactional
     public CourseDTO createCourse(CourseDTO courseDTO){
         Course createdCourse = this.courseRepository.save(Course.builder()
@@ -60,14 +58,21 @@ public class CourseService {
     }
 
 
-    public Page<CourseDTO> getCourse(Pageable pageable) {
+    public Page<CourseDTO> getCourseList(Pageable pageable) {
         Page<Course> courseList = this.courseRepository.findAll(pageable);
         List<CourseDTO> courseDTOList = new ArrayList<>();
         for(Course course : courseList.getContent()){
-            courseDTOList.add(new CourseDTO(course,this.userRepository.findById(course.getId()).get().getUserId(),
-                    this.likeRepository.countByLikeIdCourseId(course.getCourseId()),this.scrapRepository.countByScrapIdCourseId(course.getCourseId()),
-                    this.commentRepository.countByCommentIdCourseId(course.getCourseId())));
+            courseDTOList.add(new CourseDTO(course,course.getUser().getUserId(),
+                    course.getLikeCount(),course.getScrapCount(),
+                    course.getCommentCount()));
         }
         return new PageImpl<>(courseDTOList, pageable, courseList.getTotalElements());
+    }
+
+    public CourseDTO getCourseByCourseId(long courseId){
+        Course course = this.courseRepository.findByCourseId(courseId);
+        return new CourseDTO(course,course.getReviewList(),
+                course.getCommentList(), course.getUser().getUserId(),
+                course.getLikeCount(),course.getScrapCount());
     }
 }

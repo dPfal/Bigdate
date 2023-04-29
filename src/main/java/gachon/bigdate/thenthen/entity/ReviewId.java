@@ -10,7 +10,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Embeddable
 public class ReviewId implements Serializable {
-    @Column(name = "course_id")
+    @Column(name = "course_id", insertable = false, updatable = false)
     private Long courseId;
 
     @Column(name = "place_id")
