@@ -13,9 +13,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Getter
 public class ScrapId implements Serializable {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @Column(name="course_id")
+    private Long courseId;
 
     @Column(name="id")
     private Long id;

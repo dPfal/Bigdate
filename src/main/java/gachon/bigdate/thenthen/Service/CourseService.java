@@ -6,12 +6,10 @@ import gachon.bigdate.thenthen.DTO.ReviewDTO;
 import gachon.bigdate.thenthen.Repository.*;
 import gachon.bigdate.thenthen.entity.*;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.tuple.entity.EntityTuplizer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -75,7 +73,7 @@ public class CourseService {
 
     public String toggleLike(long courseId, long id){
         String message;
-        Like like = Like.builder().likeId(LikeId.builder().course(Course.builder().courseId(courseId).build()).id(id).build()).build();
+        Like like = Like.builder().likeId(LikeId.builder().courseId(courseId).id(id).build()).build();
         Optional<Like> existingScrap = this.likeRepository.findById(like.getLikeId());
         if(existingScrap.isPresent()){
             this.likeRepository.delete(existingScrap.get());
@@ -89,7 +87,7 @@ public class CourseService {
 
     public String toggleScrap(long courseId, long id) {
         String message;
-        Scrap scrap = Scrap.builder().scrapId(ScrapId.builder().course(courseRepository.findByCourseId(courseId)).id(id).build()).build();
+        Scrap scrap = Scrap.builder().scrapId(ScrapId.builder().courseId(courseId).id(id).build()).build();
         Optional<Scrap> existingScrap = this.scrapRepository.findById(scrap.getScrapId());
         if (existingScrap.isPresent()) {
             this.scrapRepository.delete(existingScrap.get());
@@ -111,8 +109,8 @@ public class CourseService {
        }else{
             for(Scrap scrap: scrapList.get()){
                 CourseDTO courseDTO =
-                        new CourseDTO(scrap.getScrapId().getCourse(),scrap.getScrapId().getCourse().getUser().getUserId(),scrap.getScrapId().getCourse().getLikeCount(),
-                                scrap.getScrapId().getCourse().getScrapCount(),scrap.getScrapId().getCourse().getCommentCount());
+                        new CourseDTO(scrap.getCourse(),scrap.getCourse().getUser().getUserId(),scrap.getCourse().getLikeCount(),
+                                scrap.getCourse().getScrapCount(),scrap.getCourse().getCommentCount());
                 courseDTOS.add(courseDTO);
             }
             return courseDTOS;
@@ -125,5 +123,15 @@ public class CourseService {
                 .id(commentDTO.getId()).commentDate(LocalDateTime.now()).build()).commentText(commentDTO.getCommentText()).course(course).build();
        this.commentRepository.save(comment);
        return new CommentDTO(comment);
+    }
+    @Transactional
+    public String deleteCourse(Long courseId){
+        String message = "삭제 실패";
+        this.scrapRepository.deleteAllByScrapIdCourseId(courseId);
+        this.likeRepository.deleteAllByLikeIdCourseId(courseId);
+        if(this.courseRepository.deleteByCourseId(courseId)==1){
+            message = "course Id : "+ courseId + " 삭제 완료!";
+        }
+        return message;
     }
 }

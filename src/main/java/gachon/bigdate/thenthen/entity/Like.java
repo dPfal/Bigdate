@@ -15,4 +15,8 @@ import java.io.Serializable;
 public class Like {
     @EmbeddedId
     private LikeId likeId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id", insertable = false, updatable = false)
+    private Course course;
 }

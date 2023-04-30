@@ -64,4 +64,9 @@ public class UserController {
         commentDTO.setId(Long.valueOf(authentication.getName()));
         return ResponseEntity.ok().body(this.courseService.createComment(commentDTO));
     }
+
+    @DeleteMapping("/courses/{courseId}")
+    public ResponseEntity<?> deleteCourse(@PathVariable("courseId") Long courseId){
+        return ResponseEntity.ok().body(this.courseService.deleteCourse(courseId));
+    }
 }

@@ -1,16 +1,11 @@
 package gachon.bigdate.thenthen.Repository;
 
-import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.entity.Course;
-import net.bytebuddy.asm.Advice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course,Long> {
@@ -22,5 +17,6 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
     List<Course> findCourseByPlaceId(Long placeId);
 
     Course findByCourseId(long courseId);
+    int deleteByCourseId(long courseId);
 
 }

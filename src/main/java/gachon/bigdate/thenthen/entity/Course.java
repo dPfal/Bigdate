@@ -45,11 +45,11 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Review> reviewList = new ArrayList<>();
-
     @Transient
     private int commentCount;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> likeList = new ArrayList<>();

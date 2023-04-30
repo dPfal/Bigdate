@@ -15,9 +15,9 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 public class LikeId implements Serializable {
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private Course course;
+
+    @Column(name ="course_id")
+    private Long courseId;
 
     @Column(name="id")
     private Long id;

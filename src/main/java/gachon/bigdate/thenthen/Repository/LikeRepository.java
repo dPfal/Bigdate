@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface LikeRepository extends JpaRepository<Like, LikeId> {
     int countByLikeIdCourseId(Long courseId);
     int countByLikeIdCourseIdAndLikeIdId(Long courseId, Long id);
+
+    int deleteAllByLikeIdCourseId(Long courseId);
 }
