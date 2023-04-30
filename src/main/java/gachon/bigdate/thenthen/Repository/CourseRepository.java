@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course,Long> {
@@ -18,5 +19,7 @@ public interface CourseRepository extends JpaRepository<Course,Long> {
 
     Course findByCourseId(long courseId);
     int deleteByCourseId(long courseId);
+
+    List<Course> findById(long id);
 
 }

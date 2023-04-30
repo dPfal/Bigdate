@@ -33,7 +33,7 @@ public class CourseDTO {
         this.likeCount=0;
     }
 
-    public CourseDTO(Course course, String userId, int likeCount,int scrapCount,  int commentCount) {
+    public CourseDTO(Course course, String userId, int likeCount, int scrapCount,  int commentCount) {
         this.id = course.getId();
         this.courseId = course.getCourseId();
         this.courseInfo = course.getCourseInfo();

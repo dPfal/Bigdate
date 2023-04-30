@@ -69,4 +69,9 @@ public class UserController {
     public ResponseEntity<?> deleteCourse(@PathVariable("courseId") Long courseId){
         return ResponseEntity.ok().body(this.courseService.deleteCourse(courseId));
     }
+
+    @GetMapping("/{id}/courses")
+    public ResponseEntity<?> getUserCourses(@PathVariable("id") Long userId){
+        return ResponseEntity.ok().body(this.courseService.getUserCourses(userId) == null ? "등록한 코스가 없습니다." : this.courseService.getUserCourses(userId));
+    }
 }

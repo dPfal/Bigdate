@@ -134,4 +134,19 @@ public class CourseService {
         }
         return message;
     }
+
+    public ArrayList<CourseDTO> getUserCourses(long id) {
+        ArrayList<CourseDTO> courseDTOArrayList = new ArrayList<>();
+       Optional<List<Course>> courseList = Optional.ofNullable(courseRepository.findById(id));
+
+       if(courseList.isPresent()){
+           for(Course course : courseList.get()){
+               courseDTOArrayList.add(new CourseDTO(course, course.getUser().getUserId(), course.getLikeCount(), course.getScrapCount(), course.getCommentCount()));
+           }
+           return courseDTOArrayList;
+       }else{
+           return null;
+       }
+
+    }
 }

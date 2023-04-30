@@ -1,7 +1,9 @@
 package gachon.bigdate.thenthen.Service;
 
+import gachon.bigdate.thenthen.Repository.UserLogRepository;
 import gachon.bigdate.thenthen.Repository.UserRepository;
 import gachon.bigdate.thenthen.entity.User;
+import gachon.bigdate.thenthen.entity.UserLog;
 import gachon.bigdate.thenthen.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,6 +23,7 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
+    private final UserLogRepository userLogRepository;
     @Value("${jwt.token.secret}")
     private String key;
 
@@ -32,6 +36,8 @@ public class AuthService {
             User user = User.builder()
                     .userId(userId).userPassword(encoder.encode(password)).userName(userName).userRole("USER").userMood(userMood).build();
             userRepository.save(user);
+            userLogRepository.save(UserLog.builder().id(userRepository.findByUserId(userId).get().getId()).joinDate(LocalDateTime.now()).withDrawDate(null).build());
+
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
