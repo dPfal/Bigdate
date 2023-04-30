@@ -36,17 +36,14 @@ public class Course {
     @Column(name ="course_info")
     private String courseInfo;
 
-
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id",insertable=false, updatable=false)
     @JsonIgnore
     private User user;
 
-    @Transient
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
-    @Transient
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
 
@@ -68,6 +65,7 @@ public class Course {
     private void postLoad() {
         this.likeCount = likeList.size();
         this.commentCount = commentList.size();
+        this.scrapCount = scrapList.size();
     }
 
 

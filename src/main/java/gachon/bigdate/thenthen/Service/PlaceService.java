@@ -36,7 +36,7 @@ public class PlaceService {
 
        if(place.getReviewList().size()>0){
            for(Review review : place.getReviewList()){
-               ReviewDTO reviewDTO = new ReviewDTO(review,courseRepository.findByCourseId(review.getCourse().getCourseId()).getPostedDate());
+               ReviewDTO reviewDTO = new ReviewDTO(review,courseRepository.findByCourseId(review.getReviewId().getCourseId()).getPostedDate());
                reviewDTOs.add(reviewDTO);
            }
        }

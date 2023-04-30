@@ -1,13 +1,15 @@
 package gachon.bigdate.thenthen.entity;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity (name="scraps_tb")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
 public class Scrap {
-   @EmbeddedId
+    @EmbeddedId
     private ScrapId scrapId;
-    @MapsId("courseId")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private Course course;
 }

@@ -1,5 +1,6 @@
 package gachon.bigdate.thenthen.controller;
 
+import gachon.bigdate.thenthen.DTO.CommentDTO;
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
 import gachon.bigdate.thenthen.Service.CourseService;
@@ -10,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.awt.print.Pageable;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -19,11 +21,6 @@ public class UserController {
     private final PlaceService placeService;
     private final CourseService courseService;
 
-    @PostMapping("/comments")
-    public ResponseEntity<String> userEx(Authentication authentication){
-        System.out.println(authentication);
-        return ResponseEntity.ok().body("id : "+ authentication.getName() + " \n댓글 등록 완료!");
-    }
     @GetMapping("/")
     public ResponseEntity<String> test(Authentication authentication){
         return ResponseEntity.ok().body("user 인증 완료");
@@ -46,5 +43,25 @@ public class UserController {
         return ResponseEntity.ok().body(this.courseService.createCourse(courseDTO));
     }
 
+    @PostMapping("/likes")
+    public ResponseEntity<?> toggleLike(@RequestParam("courseId") long courseId, Authentication authentication){
+        return ResponseEntity.ok().body(this.courseService.toggleLike(courseId, Long.parseLong(authentication.getName())));
+    }
 
+    @PostMapping("/scraps")
+    public ResponseEntity<?> toggleScrap(@RequestParam("courseId") long courseId, Authentication authentication){
+        return ResponseEntity.ok().body(this.courseService.toggleScrap(courseId, Long.parseLong(authentication.getName())));
+    }
+
+    @GetMapping("/scraps")
+    public ResponseEntity<ArrayList<CourseDTO>> getScrapsList(Authentication authentication){
+        return ResponseEntity.ok().body(this.courseService.getScrapList(Long.parseLong(authentication.getName())));
+    }
+
+    @PostMapping("/comments")
+    public ResponseEntity<?> createComment(@RequestBody CommentDTO commentDTO, Authentication authentication){
+        System.out.println(commentDTO);
+        commentDTO.setId(Long.valueOf(authentication.getName()));
+        return ResponseEntity.ok().body(this.courseService.createComment(commentDTO));
+    }
 }

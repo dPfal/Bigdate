@@ -1,12 +1,22 @@
 package gachon.bigdate.thenthen.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 import java.io.Serializable;
 @Embeddable
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class ScrapId implements Serializable {
-    @Column(name="course_id", insertable = false, updatable = false)
-    private Long courseId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
     @Column(name="id")
     private Long id;
 }
