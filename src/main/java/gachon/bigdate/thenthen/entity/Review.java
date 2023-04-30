@@ -39,7 +39,6 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id",insertable = false,updatable = false)
-    @JsonIgnore
     private Course course;
 
 

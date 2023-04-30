@@ -42,15 +42,10 @@ public class PlaceService {
        }
        double placeAvg = this.placeRepository.calculateAvg(placeId);
        Optional<List<Course>> courseList = Optional.of(this.courseRepository.findCourseByPlaceId(place.getPlaceId()));
+
        if(courseList.isPresent()){
         for (Course course : courseList.get()) {
-            CourseDTO courseDTO = new CourseDTO();
-            courseDTO.setCourseId(course.getCourseId());
-            courseDTO.setCourseTitle(course.getCourseName());
-            courseDTO.setPostedDate(course.getPostedDate());
-            courseDTO.setLikeCount(this.likeRepository.countByLikeIdCourseId(course.getCourseId()));
-            courseDTO.setScrapCount(this.scrapRepository.countByScrapIdCourseId(course.getCourseId()));
-            courseDTO.setUserId(this.userRepository.findById(course.getId()).get().getUserId());
+            CourseDTO courseDTO = new CourseDTO(course,course.getReviewList(),course.getCommentList(),course.getUser().getUserId(), course.getLikeCount(), course.getScrapCount());
             courseDTOArrayList.add(courseDTO);
         }
        }

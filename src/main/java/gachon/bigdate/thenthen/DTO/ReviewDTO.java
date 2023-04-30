@@ -16,9 +16,9 @@ public class ReviewDTO {
     private Long placeId;
     private String reviewInfo;
     private int isDel;
-    private Place place;
     private LocalDateTime postedDate;
     private String userId;
+    private PlaceDTO placeDTO;
 
     public ReviewDTO(Review review,LocalDateTime postedDate){
         this.placeSequence = review.getReviewId().getPlaceSequence();
@@ -38,7 +38,7 @@ public class ReviewDTO {
         this.placeId = review.getReviewId().getPlaceId();
         this.reviewInfo = review.getReviewInfo();
         this.isDel = review.getIsDel();
-        this.place=review.getPlace();
+        this.placeDTO = new PlaceDTO(review.getPlace());
         this.userId=review.getCourse().getUser().getUserId();
     }
 }

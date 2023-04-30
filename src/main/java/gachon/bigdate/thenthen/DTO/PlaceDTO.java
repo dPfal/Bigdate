@@ -35,7 +35,20 @@ public class PlaceDTO {
         this.placeId = placeId;
         this.placeName = placeName;
     }
-
+    public PlaceDTO(Place place){
+        this.placeId = place.getPlaceId();
+        this.placeX = place.getPlaceX();
+        this.placeY = place.getPlaceY();
+        this.placeName = place.getPlaceName();
+        this.placeMood = place.getPlaceMood();
+        this.placePhone = place.getPlacePhone();
+        this.placeUrl = place.getPlaceUrl();
+        this.imageUrl=place.getImageUrl();
+        this.addressName = place.getAddressName();
+        this.categoryGroupCode = place.getCategoryGroupCode();
+        this.categoryName = place.getCategoryName();
+        this.hotpotId = place.getHotspotId();
+    }
     public PlaceDTO (Place place, double score, ArrayList<CourseDTO> courseList, ArrayList<ReviewDTO> reviewList) {
         this.placeId = place.getPlaceId();
         this.placeX = place.getPlaceX();
