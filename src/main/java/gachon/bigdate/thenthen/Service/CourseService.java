@@ -137,9 +137,10 @@ public class CourseService {
 
     public ArrayList<CourseDTO> getUserCourses(long id) {
         ArrayList<CourseDTO> courseDTOArrayList = new ArrayList<>();
-       Optional<List<Course>> courseList = Optional.ofNullable(courseRepository.findById(id));
+       Optional<List<Course>> courseList = Optional.ofNullable(courseRepository.findAllById(id));
 
        if(courseList.isPresent()){
+           System.out.println(courseList);
            for(Course course : courseList.get()){
                courseDTOArrayList.add(new CourseDTO(course, course.getUser().getUserId(), course.getLikeCount(), course.getScrapCount(), course.getCommentCount()));
            }

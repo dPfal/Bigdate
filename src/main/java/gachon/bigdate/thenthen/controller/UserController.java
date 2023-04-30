@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}/courses")
-    public ResponseEntity<?> getUserCourses(@PathVariable("id") Long userId){
-        return ResponseEntity.ok().body(this.courseService.getUserCourses(userId) == null ? "등록한 코스가 없습니다." : this.courseService.getUserCourses(userId));
+    public ResponseEntity<?> getUserCourses(@PathVariable("id") Long id){
+        return ResponseEntity.ok().body(this.courseService.getUserCourses(id) == null ? "등록한 코스가 없습니다." : this.courseService.getUserCourses(id));
     }
 }
