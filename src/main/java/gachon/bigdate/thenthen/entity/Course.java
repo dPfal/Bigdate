@@ -52,22 +52,20 @@ public class Course {
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Comment> likeList = new ArrayList<>();
+    private List<Like> likeList = new ArrayList<>();
 
     @Transient
     private int likeCount;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
-    private List<Comment> scrapList = new ArrayList<>();
+    private List<Scrap> scrapList = new ArrayList<>();
 
     @Transient
     private int scrapCount;
     @PostLoad
-    private void postLoad() {
-        this.likeCount = likeList.size();
+    private void initializeCounts() {
         this.commentCount = commentList.size();
+        this.likeCount = likeList.size();
         this.scrapCount = scrapList.size();
     }
-
-
 }

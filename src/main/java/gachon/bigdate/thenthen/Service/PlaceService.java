@@ -10,6 +10,7 @@ import gachon.bigdate.thenthen.entity.Place;
 import gachon.bigdate.thenthen.entity.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class PlaceService {
         return this.placeRepository.findByHotspotId(hotspotId);
     }
 
+    @Transactional
     public PlaceDTO getPlaceByPlaceId(Long placeId){
        Place place = this.placeRepository.findByPlaceId(placeId);
        ArrayList<ReviewDTO> reviewDTOs = new ArrayList<>();

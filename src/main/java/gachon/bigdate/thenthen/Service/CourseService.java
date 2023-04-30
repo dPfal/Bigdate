@@ -50,7 +50,7 @@ public class CourseService {
         return courseDTO;
     }
 
-
+    @Transactional
     public Page<CourseDTO> getCourseList(Pageable pageable) {
         Page<Course> courseList = this.courseRepository.findAll(pageable);
         List<CourseDTO> courseDTOList = new ArrayList<>();
@@ -70,7 +70,7 @@ public class CourseService {
                 course.getCommentList(), course.getUser().getUserId(),
                 course.getLikeCount(),course.getScrapCount());
     }
-
+    @Transactional
     public String toggleLike(long courseId, long id){
         String message;
         Like like = Like.builder().likeId(LikeId.builder().courseId(courseId).id(id).build()).build();
@@ -84,7 +84,7 @@ public class CourseService {
         }
         return message;
     }
-
+    @Transactional
     public String toggleScrap(long courseId, long id) {
         String message;
         Scrap scrap = Scrap.builder().scrapId(ScrapId.builder().courseId(courseId).id(id).build()).build();
@@ -116,7 +116,7 @@ public class CourseService {
             return courseDTOS;
        }
     }
-
+    @Transactional
     public CommentDTO createComment(CommentDTO commentDTO) {
         Course course = courseRepository.findByCourseId(commentDTO.getCourseId());
         Comment comment = Comment.builder().commentId(CommentId.builder().courseId(commentDTO.getCourseId())
