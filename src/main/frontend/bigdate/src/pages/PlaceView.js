@@ -143,7 +143,8 @@ const PlaceView = (props) => {
               width:'300px',
               marginLeft:'50px',
               marginTop:'30px',
-              padding:'10px'}}><a href={place.placeUrl}>{place.placeUrl}</a></div>
+              padding:'10px',
+              wordWrap: 'break-word'}}><a href={place.placeUrl}>{place.placeUrl}</a></div>
           </div>
           
         </div>
@@ -170,60 +171,69 @@ const PlaceView = (props) => {
 
 
         <div className='line'>"{place.placeName}" 을 포함한 추천 코스 </div>
-
         <div style={{flexDirection: 'column'}} className='toCenter'>
-          {place.courseList&&place.courseList.map((course, index) => (
-            <div key={index} className='courseBox' style={{padding:'10px'}}  onClick={() => handleClick(course.courseId)}>
-              <div style={{display:'flex',justifyContent:'space-between'}}>
-              <div style={{fontSize:'20px'}}>{course.courseTitle}</div>
-              <div>{course.userId}</div>
-              </div>
-              <div style={{marginfTop:'15px',color:'gray'}}>
-                총 지출 비용   원
-              </div>
-              <div  style={{display:'flex',justifyContent:'space-between'}}>
-                <div style={{display:'flex', marginTop:'10px'}}>
-                <div style={{marginLeft:'5px'}}><HandThumbsUp/>{course.likeCount}</div>
-                <div style={{marginLeft:'20px'}}><HeartFill style={{color:'red'}}/>{course.scrapCount}</div>
+          {place.courseList && place.courseList.length > 0 ? (
+            place.courseList.map((course, index) => (
+              <div key={index} className='courseBox' style={{padding:'10px'}}  onClick={() => handleClick(course.courseId)}>
+                <div style={{display:'flex',justifyContent:'space-between'}}>
+                  <div style={{fontSize:'20px'}}>{course.courseTitle}</div>
+                  <div>{course.userId}</div>
                 </div>
-                <div style={{ marginTop:'10px'}}>{moment(course.postedDate).format('YYYY-MM-DD')}</div>
+                <div style={{marginfTop:'15px',color:'gray'}}>
+                  총 지출 비용   {course.totalExpense} 원
+                </div>
+                <div  style={{display:'flex',justifyContent:'space-between'}}>
+                  <div style={{display:'flex', marginTop:'10px'}}>
+                    <div style={{marginLeft:'5px'}}><HandThumbsUp/>{course.likeCount}</div>
+                    <div style={{marginLeft:'20px'}}><HeartFill style={{color:'red'}}/>{course.scrapCount}</div>
+                  </div>
+                  <div style={{ marginTop:'10px'}}>{moment(course.postedDate).format('YYYY-MM-DD')}</div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className='toCenter'>장소가 포함된 코스가 없습니다</div>
+          )}
         </div>
 
 
 
 
 
+
         <div className='line'>리뷰</div>
-          {place.reviewList && place.reviewList.map((review) => (
-            <div className='toCenter'>
-              <div>
-                <div style={{display:'flex',marginLeft:'80px',marginTop:'10px'}}>
-                  <div>{moment(review.postedDate).format('YYYY-MM-DD')}</div>
-                  <div style={{marginLeft:'10px'}}> 
-                    {Array(review.avgScore).fill(<StarFill style={{color:'gold'}}/>)}
-                    {Array(5 - review.avgScore).fill(<Star style={{color:'lightgray'}}/>)}
+          {place.reviewList && place.reviewList.length > 0 ? (
+            place.reviewList.map((review) => (
+              <div className='toCenter'>
+                <div>
+                  <div style={{display:'flex',marginLeft:'80px',marginTop:'10px'}}>
+                    <div>{moment(review.postedDate).format('YYYY-MM-DD')}</div>
+                    <div style={{marginLeft:'10px'}}> 
+                      {Array(review.avgScore).fill(<StarFill style={{color:'gold'}}/>)}
+                      {Array(5 - review.avgScore).fill(<Star style={{color:'lightgray'}}/>)}
+                    </div>
                   </div>
-                </div>
 
-                <div style={{display:'flex'}}>
-                  <div>
-                    <div><PersonCircle style={{fontSize:'50px',color:'dimgray'}}/></div>
-                    <div style={{textAlign:'center'}}>{review.userId}</div>
+                  <div style={{display:'flex'}}>
+                    <div>
+                      <div><PersonCircle style={{fontSize:'50px',color:'dimgray'}}/></div>
+                      <div style={{textAlign:'center'}}>{review.userId}</div>
+                    </div>
+                    <div className='reviewBox'>
+                      {review.reviewInfo}
+                    </div>
                   </div>
-                  <div className='reviewBox'>
-                    {review.reviewInfo}
-                  </div>
-                </div>
 
-                <div style={{float:'right'}}>
-                  {review.expense}
+                  <div style={{float:'right'}}>
+                    {review.expense}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <div className='toCenter'>아직 작성된 리뷰가 없습니다</div>
+          )}
+
 
 
         
