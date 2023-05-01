@@ -1,0 +1,8 @@
+.carousel-slide {
+   
+    width: fit-content;
+    display: flex;
+   justify-content: center;
+   text-align: center;
+   
+  }
