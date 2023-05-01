@@ -1,0 +1,1 @@
+export const ADDRESS = 'http://3.38.34.39:8080';

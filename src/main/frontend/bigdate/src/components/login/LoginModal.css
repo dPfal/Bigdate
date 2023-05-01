@@ -1,0 +1,26 @@
+button{
+    border-style: none;
+    margin-right: 100px;
+    
+}
+.login_button{
+    text-align: center;
+
+}
+.modal-overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+.login {
+    text-align: center;
+    font-weight: 800;
+    margin-bottom: 7%;
+}
+.closebutton{
+    margin-top: 5%;
+    text-align: center;
+}
+.login_img{
+    width: 50%;
+    height: 40%;
+}
