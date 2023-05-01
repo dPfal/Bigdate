@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import "./Home.css"
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
-import {hotspots} from '../HotspotData';
 import axios from 'axios';
 import { ADDRESS } from '../Adress';
 
