@@ -105,10 +105,10 @@ const Navbar_ad=() =>{
           <Navbar.Toggle aria-controls='responsive-navbar-nav' />
           <Navbar.Collapse id='responsive-navbar-nav'>
             <Nav className='me-auto' style={{marginLeft:'100px'}}>
-              <Nav.Link href='/post'>커뮤니티 관리</Nav.Link>
+              <Nav.Link href='/posts'>커뮤니티 관리</Nav.Link>
             </Nav>
             <Nav className='me-auto'>
-              <Nav.Link href='/user'>회원 관리</Nav.Link>
+              <Nav.Link href='/users'>회원 관리</Nav.Link>
             </Nav>
             <Nav className='me-auto'>
               <Nav.Link href='/place'>장소 관리</Nav.Link>

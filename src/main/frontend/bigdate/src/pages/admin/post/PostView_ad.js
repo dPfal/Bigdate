@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { getPostByNo } from '../post/PostList';
 import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
-import { ADDRESS } from '../../Adress';
+
 import moment from 'moment';
+import { ADDRESS } from '../../../Adress';
 const { kakao } = window;
 
 
 
-const PostView = ({ history, location, match }) => {
+const PostView_ad = ({ history, location, match }) => {
   const [ data, setData ] = useState({});
   const [comment,setComment] = useState('');
-  const[places,setPlaces]=useState([]);
   const [likeCount, setLikeCount] = useState(data.likeCount);
-  const [isLiked, setIsLiked] = useState(false);
   const [scrapCount, setScrapCount] = useState(data.scrapCount);
-  const [isScrapped, setIsScrapped] = useState(false);
+  const [userRole,setUserRole] = useState('');
 
   const { course_id } = match.params;
 
@@ -30,7 +28,7 @@ useEffect(() => {
       console.log(response.data);
       setLikeCount(response.data.likeCount);
       setScrapCount(response.data.scrapCount);
-      setPlaces(response.data.reviewList);
+      
   
       
       const container = document.getElementById('myMap');
@@ -95,17 +93,19 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   const postComment = async (comment) => {
     setComment(comment);
     const id = localStorage.getItem('id');
+    const userRole=localStorage.getItem('userId');
 
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${ADDRESS}/users/comments`, { commentText:comment,courseId:parseInt(course_id),id:parseInt(id) }, {
+      const response = await axios.post(`${ADDRESS}/admin/comments`, { commentText:comment,courseId:parseInt(course_id) }, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
       alert('댓글이 등록되었습니다.')
+     
       window.location.reload(false);
    
       return response.data;
@@ -126,11 +126,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
       
       if(response.data=='좋아요 목록에서 삭제되었습니다.'){
         setLikeCount(likeCount-1);
-        setIsLiked(false);
+       
         
        }else{
         setLikeCount(likeCount+1);
-        setIsLiked(true);
+        
        
       }
       
@@ -151,11 +151,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
       
       if(response.data=='찜 목록에서 삭제되었습니다.'){
         setScrapCount(scrapCount-1);
-        setIsScrapped(false);
+        
        // localStorage.setItem('IsScrapped',isScrapped)
       }else{
         setScrapCount(scrapCount+1);
-        setIsScrapped(true);
+        
        // localStorage.setItem('IsScrapped',isScrapped)
       }
       
@@ -283,7 +283,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
               <div style={{display:'flex'}}>
                 <div style={{marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
                 <div style={{marginLeft:'20px'}}>{moment(comment.postedDate).format('YYYY-MM-DD')}</div>
-              </div>           
+              </div>         
 
               <div className='toCenter'>
                 <div style={{width: '50px', height: '50px' }} className='toCenter'>
@@ -341,4 +341,4 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   )
 }
 
-export default PostView;
+export default PostView_ad;
