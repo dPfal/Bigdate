@@ -3,7 +3,6 @@ import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import xml2js from 'xml2js';
 import { useState } from 'react';
-import { getPostByNo } from '../HotspotData';
 import './HotspotView.css';
 import { ThermometerHalf ,Sun,Cloudy,Wind} from 'react-bootstrap-icons';
 
@@ -12,35 +11,26 @@ import EbayCarousel from '../components/carousel/EbayCarousel';
 import { ADDRESS } from '../Adress';
 
 
-  // 장소 목록 데이터를 가지고 있는 places 배열을 정의
-  const places = [];
 
 function HotspotView() {
 
- const [ data, setData ] = useState({});
-
  const location = useLocation();
  const { hotspotName,hotspotId} = location.state;
-
- 
-
  const [placeList, setPlaceList] = useState([]);
 
 
- const [areaName, setAreaName] = useState('');
+
   const [congest, setCongest] = useState('');
   const [temp,setTemp] = useState('');
   const [sensible_temp,setSensibleTemp] = useState('');
   const [uv_level,setUv_level] = useState('');
-  const[humidity,setHumidity] = useState('');
-  const[rainper,setRainper] = useState('');
-  const[pm10,setPm10] = useState('');
-  const[air_level,setAir_level] = useState('');
-  const[air_msg,setAir_msg] = useState('');
-  const[traffic_msg,setTraffic_mag]=useState('');
-  const[traffic_level,setTraffic_level]=useState('');
-  const[traffic_speed,setTraffic_speed]=useState('');
-  const[sky,setSky]=useState('');
+  const [rainper,setRainper] = useState('');
+  const [pm10,setPm10] = useState('');
+  const [air_msg,setAir_msg] = useState('');
+  const [traffic_msg,setTraffic_mag]=useState('');
+  const [traffic_level,setTraffic_level]=useState('');
+  const [traffic_speed,setTraffic_speed]=useState('');
+  const [sky,setSky]=useState('');
 
   const [isLoading, setIsLoading] = useState(true);
   
@@ -254,10 +244,7 @@ function HotspotView() {
           <EbayCarousel places={filterRETRO} />
           </div>
          </div>
-         
-
-
-
+    
   </div>
          );
 }

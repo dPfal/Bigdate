@@ -108,17 +108,10 @@ function UserList() {
                   
                     <CommonTableRow key={index}>
                       <CommonTableColumn>{ item.id }</CommonTableColumn>
-                      <CommonTableColumn>
-                          <span onClick={() => history.push(`/postView/${item.courseId}`)}>
-                            {item.userName}
-                          </span>
-                      </CommonTableColumn>
+                      <CommonTableColumn> {item.userName} </CommonTableColumn>
                       <CommonTableColumn>{ item.userId }</CommonTableColumn>
-                      
                       <CommonTableColumn>{item.userMood}</CommonTableColumn>
-
                       <div><button className='delBtn'>탈퇴</button></div>
-  
                     </CommonTableRow>
                   )
                 }) : ''

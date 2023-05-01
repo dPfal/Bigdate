@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react'
 import { useState,useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Menu from '../../components/menu/Menu';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { PersonCircle } from 'react-bootstrap-icons';
 import './Mypage.css'
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 import { ADDRESS } from '../../Adress';
 
 
@@ -15,17 +13,20 @@ import { ADDRESS } from '../../Adress';
 
 function Mypage() {
   
-
+  const [data,setData]=useState({});
   const token = localStorage.getItem('token');
+  const id = localStorage.getItem('id');
   useEffect(() => {
    
   
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
-    axios.get(`${ADDRESS}/users/`)
+    axios.get(`${ADDRESS}/users/${id}`)
       .then(response => {
         // 서버로부터 받은 데이터 처리
         console.log(response.data);
+        setData(response.data);
+
       })
       .catch(error => {
         // 에러 처리
@@ -78,31 +79,13 @@ function Mypage() {
       <div style={{display:'flex'}}>
       <PersonCircle fontSize={100} style={{margin:'60px 50px'}}color='gray'/>
      <div style={{margin:"40px 20px"}}>
-      <div  style={{marginBottom: "10px"}}> 이름 : 이주영</div>
-      <div  style={{marginBottom: "10px"}}> 아이디 : 이주영</div>
-    
-      <div  style={{marginBottom: "10px"}}> 가입일자 : 2023-04-13</div>
-      <div  style={{marginBottom: "10px"}}> 내 취향 : 로맨틱한 <button  style={{
-                                                                color:"#1E90FF",
-                                                                backgroundColor:'white',
-                                                                border:'solid',
-                                                                borderColor:'#1E90FF',
-                                                                borderRadius:'10px',
-                                                                borderWidth:'0.5px'
-                                                            }}>수정</button></div>
+      <div  style={{marginBottom: "10px"}}> 이름 : {data.userName}</div>
+      <div  style={{marginBottom: "10px"}}> 아이디 : {data.userId}</div>
+      <div  style={{marginBottom: "10px"}}> 내 취향 : {data.userMood} <button className='reBtn'>수정</button></div>
       </div>
       </div>
       <div style={{margin:"50px 50px"}}>
-       <button 
-       style={{
-                color:"red",
-                backgroundColor:'white',
-                border:'solid',
-                borderColor:'red',
-                borderRadius:'10px',
-                borderWidth:'0.5px'
-               }}
-       > 
+       <button className='delBtn'> 
        회원탈퇴
        </button>
       </div>
