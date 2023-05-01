@@ -78,6 +78,7 @@ export default function LineChart() {
   const labels = log.map((item)=>item.date).reverse();
     
   const data = useMemo(function () {
+    
     return {
       datasets: [
         {
@@ -105,10 +106,12 @@ export default function LineChart() {
   return (
   <div className='background-container' >
     <div className="overlay-container">
+    <div className='line'>일자별 통계</div> 
       <Line data={data} options={options} />
     </div>
 
     <div >
+    
         <>
         <MycourseTable headersName={['일자','가입','탈퇴', '글','댓글']}>
           {log.map((item) => (

@@ -88,15 +88,7 @@ function UserList() {
   
      
 
-        <div style={{
-          fontWeight:"bold",
-          fontSize:"large",
-          marginRight:"40px",
-          marginLeft:"40px",
-          borderBottom: '1px solid gray',
-          height:'50px',
-          }}>회원 관리
-        </div>
+        <div className='line'>회원 관리</div>
 
         <div >
         <>
