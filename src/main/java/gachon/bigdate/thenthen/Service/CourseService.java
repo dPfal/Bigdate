@@ -24,6 +24,7 @@ public class CourseService {
     private final LikeRepository likeRepository;
     private final ScrapRepository scrapRepository;
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
     @Transactional
     public CourseDTO createCourse(CourseDTO courseDTO){
         Course createdCourse = this.courseRepository.save(Course.builder()
@@ -119,10 +120,11 @@ public class CourseService {
     @Transactional
     public CommentDTO createComment(CommentDTO commentDTO) {
         Course course = courseRepository.findByCourseId(commentDTO.getCourseId());
+        Optional<User> user = userRepository.findById(commentDTO.getId());
         Comment comment = Comment.builder().commentId(CommentId.builder().courseId(commentDTO.getCourseId())
-                .id(commentDTO.getId()).commentDate(LocalDateTime.now()).build()).commentText(commentDTO.getCommentText()).course(course).build();
+                .id(commentDTO.getId()).commentDate(LocalDateTime.now()).build()).commentText(commentDTO.getCommentText()).course(course).user(user.get()).build();
        this.commentRepository.save(comment);
-       return new CommentDTO(comment);
+       return new CommentDTO(comment,comment.getUser());
     }
     @Transactional
     public String deleteCourse(Long courseId){

@@ -29,12 +29,4 @@ public class Comment{
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="id", insertable = false, updatable = false)
     private User user;
-
-    @Transient
-    private String userName;
-
-    @PostLoad
-    private void postLoad() {
-        this.userName = user.getUserId();
-    }
 }
