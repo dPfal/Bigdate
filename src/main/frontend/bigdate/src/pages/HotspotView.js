@@ -19,15 +19,15 @@ function HotspotView() {
  const [placeList, setPlaceList] = useState([]);
 
 
- const [areaName, setAreaName] = useState('');
+
   const [congest, setCongest] = useState('');
   const [temp,setTemp] = useState('');
   const [sensible_temp,setSensibleTemp] = useState('');
   const [uv_level,setUv_level] = useState('');
-  const[humidity,setHumidity] = useState('');
+ 
   const[rainper,setRainper] = useState('');
   const[pm10,setPm10] = useState('');
-  const[air_level,setAir_level] = useState('');
+ 
   const[air_msg,setAir_msg] = useState('');
   const[traffic_msg,setTraffic_mag]=useState('');
   const[traffic_level,setTraffic_level]=useState('');
@@ -53,30 +53,30 @@ function HotspotView() {
           const jsonData = JSON.parse(jsonResult);
 
           // AREA_NM 태그의 값을 가져옴
-          const areaName = jsonData["SeoulRtd.citydata"].CITYDATA.AREA_NM;
+        
           const congest = jsonData["SeoulRtd.citydata"].CITYDATA.LIVE_PPLTN_STTS.LIVE_PPLTN_STTS.AREA_CONGEST_LVL;
           const temp = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.TEMP;
           const sensible_temp = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.SENSIBLE_TEMP;
           const uv_level = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.UV_INDEX;
-          const humidity = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.HUMIDITY;
+          
           const rainper = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.PCP_MSG;
           const pm10 = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.AIR_IDX_MVL;
           const sky = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.FCST24HOURS.FCST24HOURS[0].SKY_STTS;
-          const air_level = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.AIR_IDX;
+          
           const air_msg = jsonData["SeoulRtd.citydata"].CITYDATA.WEATHER_STTS.WEATHER_STTS.AIR_MSG;
           const traffic_msg=jsonData["SeoulRtd.citydata"].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_MSG;
           const traffic_level=jsonData["SeoulRtd.citydata"].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_IDX;
           const traffic_speed=jsonData["SeoulRtd.citydata"].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_SPD;
           
-          setAreaName(areaName);
+         
           setTemp(temp);
           setSensibleTemp(sensible_temp);
           setUv_level(uv_level);
-          setHumidity(humidity);
+         
           setRainper(rainper);
           setPm10(pm10);
           setSky(sky);
-          setAir_level(air_level);
+         
           setAir_msg(air_msg);
           setCongest(congest);
           setTraffic_mag(traffic_msg);
