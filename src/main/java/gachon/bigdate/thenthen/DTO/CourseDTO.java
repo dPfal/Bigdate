@@ -47,17 +47,17 @@ public class CourseDTO {
 
     public CourseDTO(Course course, List<Review> reviewList, List<Comment> commentList, String userId, int likeCount, int scrapCount) {
         this(course, userId, likeCount, scrapCount, commentList.size());
-        List<CommentDTO> commentDTOList = new ArrayList<>();
+        ArrayList<CommentDTO> commentDTOList = new ArrayList<>();
         for (Comment comment : commentList) {
-            commentDTOList.add(new CommentDTO(comment));
+            commentDTOList.add(new CommentDTO(comment,comment.getUser()));
         }
-        this.commentList = (ArrayList<CommentDTO>) commentDTOList;
+        this.commentList = commentDTOList;
 
-        List<ReviewDTO> reviewDTOList = new ArrayList<>();
+        ArrayList<ReviewDTO> reviewDTOList = new ArrayList<>();
         for (Review review : reviewList) {
             reviewDTOList.add(new ReviewDTO(review));
         }
-        this.reviewList = (ArrayList<ReviewDTO>) reviewDTOList;
+        this.reviewList = reviewDTOList;
     }
 
     public CourseDTO(int scrapCount, int likeCount){
