@@ -5,6 +5,7 @@ import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
 import gachon.bigdate.thenthen.service.CourseService;
 import gachon.bigdate.thenthen.service.PlaceService;
+import gachon.bigdate.thenthen.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -19,10 +20,16 @@ import java.util.List;
 public class UserController {
     private final PlaceService placeService;
     private final CourseService courseService;
+    private final UserService userService;
 
     @GetMapping("/")
     public ResponseEntity<String> test(Authentication authentication){
         return ResponseEntity.ok().body("user 인증 완료");
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUserInfo(@PathVariable("id") Long id){
+        return ResponseEntity.ok().body(this.userService.getUserInfo(id));
     }
 
     @GetMapping("/places")
@@ -73,4 +80,6 @@ public class UserController {
     public ResponseEntity<?> getUserCourses(@PathVariable("id") Long id){
         return ResponseEntity.ok().body(this.courseService.getUserCourses(id) == null ? "등록한 코스가 없습니다." : this.courseService.getUserCourses(id));
     }
+
+
 }
