@@ -15,12 +15,6 @@ public class AdminController {
 
     private final AdminService adminService;
     private final CourseService courseService;
-    @GetMapping("/")
-    public ResponseEntity<String> adminTest(Authentication authentication){
-        System.out.println(authentication);
-        return ResponseEntity.ok().body("admin 인증 완료");
-    }
-
     @GetMapping("/members")
     public ResponseEntity<?> getMemberList(){
         return ResponseEntity.ok().body(this.adminService.getMemberList());
@@ -30,5 +24,10 @@ public class AdminController {
     public ResponseEntity<?> createComment(@RequestBody CommentDTO commentDTO, Authentication authentication){
         commentDTO.setId(Long.valueOf(authentication.getName()));
         return ResponseEntity.ok().body(this.courseService.createComment(commentDTO));
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<?> adminMain(){
+        return ResponseEntity.ok().body(this.adminService.getAdminMain());
     }
 }
