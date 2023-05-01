@@ -49,7 +49,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin("http://localhost:3000"); // 로컬
-//        config.addAllowedOrigin("http://프론트 AWS  주소"); // 프론트 IPv4 주소
+        config.addAllowedOrigin("http://3.38.34.39:3000"); // 프론트 IPv4 주소
         config.addAllowedMethod("*"); // 모든 메소드 허용.
         config.addAllowedHeader("*");
         config.setAllowCredentials(true);
