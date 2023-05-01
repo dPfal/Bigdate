@@ -1,4 +1,4 @@
-package gachon.bigdate.thenthen.Repository;
+package gachon.bigdate.thenthen.repository;
 
 import gachon.bigdate.thenthen.entity.Scrap;
 import gachon.bigdate.thenthen.entity.ScrapId;

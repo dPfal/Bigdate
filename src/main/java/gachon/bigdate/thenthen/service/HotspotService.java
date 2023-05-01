@@ -1,6 +1,6 @@
-package gachon.bigdate.thenthen.Service;
+package gachon.bigdate.thenthen.service;
 
-import gachon.bigdate.thenthen.Repository.HotspotRepository;
+import gachon.bigdate.thenthen.repository.HotspotRepository;
 import gachon.bigdate.thenthen.entity.Hotspot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

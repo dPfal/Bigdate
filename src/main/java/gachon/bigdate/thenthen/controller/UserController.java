@@ -3,14 +3,13 @@ package gachon.bigdate.thenthen.controller;
 import gachon.bigdate.thenthen.DTO.CommentDTO;
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
-import gachon.bigdate.thenthen.Service.CourseService;
-import gachon.bigdate.thenthen.Service.PlaceService;
+import gachon.bigdate.thenthen.service.CourseService;
+import gachon.bigdate.thenthen.service.PlaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 

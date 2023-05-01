@@ -2,10 +2,9 @@ package gachon.bigdate.thenthen.controller;
 
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
-import gachon.bigdate.thenthen.Service.CourseService;
-import gachon.bigdate.thenthen.Service.HotspotService;
-import gachon.bigdate.thenthen.Service.PlaceService;
-import gachon.bigdate.thenthen.entity.Course;
+import gachon.bigdate.thenthen.service.CourseService;
+import gachon.bigdate.thenthen.service.HotspotService;
+import gachon.bigdate.thenthen.service.PlaceService;
 import gachon.bigdate.thenthen.entity.Hotspot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

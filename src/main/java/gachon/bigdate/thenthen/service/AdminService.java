@@ -1,15 +1,12 @@
-package gachon.bigdate.thenthen.Service;
+package gachon.bigdate.thenthen.service;
 
-import gachon.bigdate.thenthen.DTO.CommentDTO;
 import gachon.bigdate.thenthen.DTO.UserDTO;
-import gachon.bigdate.thenthen.Repository.UserRepository;
+import gachon.bigdate.thenthen.repository.UserRepository;
 import gachon.bigdate.thenthen.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.Repeat;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 

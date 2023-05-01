@@ -1,10 +1,10 @@
-package gachon.bigdate.thenthen.Service;
+package gachon.bigdate.thenthen.service;
 
 
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
 import gachon.bigdate.thenthen.DTO.ReviewDTO;
-import gachon.bigdate.thenthen.Repository.*;
+import gachon.bigdate.thenthen.repository.*;
 import gachon.bigdate.thenthen.entity.Course;
 import gachon.bigdate.thenthen.entity.Place;
 import gachon.bigdate.thenthen.entity.Review;
@@ -12,7 +12,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

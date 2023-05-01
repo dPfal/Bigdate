@@ -1,7 +1,7 @@
-package gachon.bigdate.thenthen.Service;
+package gachon.bigdate.thenthen.service;
 
-import gachon.bigdate.thenthen.Repository.UserLogRepository;
-import gachon.bigdate.thenthen.Repository.UserRepository;
+import gachon.bigdate.thenthen.repository.UserLogRepository;
+import gachon.bigdate.thenthen.repository.UserRepository;
 import gachon.bigdate.thenthen.entity.User;
 import gachon.bigdate.thenthen.entity.UserLog;
 import gachon.bigdate.thenthen.utils.JwtUtil;

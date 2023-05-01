@@ -1,6 +1,6 @@
 package gachon.bigdate.thenthen.security;
 
-import gachon.bigdate.thenthen.Repository.UserRepository;
+import gachon.bigdate.thenthen.repository.UserRepository;
 import gachon.bigdate.thenthen.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

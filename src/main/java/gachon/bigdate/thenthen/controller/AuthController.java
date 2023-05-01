@@ -1,7 +1,7 @@
 package gachon.bigdate.thenthen.controller;
 
 import gachon.bigdate.thenthen.DTO.UserDTO;
-import gachon.bigdate.thenthen.Service.AuthService;
+import gachon.bigdate.thenthen.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
