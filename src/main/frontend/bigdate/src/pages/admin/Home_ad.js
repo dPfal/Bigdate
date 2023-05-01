@@ -100,7 +100,7 @@ export default function LineChart() {
       ],
       labels,
     };
-  }, []);
+  }, [log]);
 
   return (
   <div className='background-container' >
