@@ -1,4 +1,4 @@
-name: Deploy to gachonServer
+name: Deploy to gachon
 
 on:
   push:
@@ -14,9 +14,10 @@ jobs:
       - name: Checkout
         uses: appleboy/ssh-action@master
         with:
-          key: ${{ secrets.SSH_KEY }}
+          password : ${{secrets.password}}
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER }}
+          port: 22
           script: |
             ls -l
             cd ~/svr/v0.5/Bigdate
