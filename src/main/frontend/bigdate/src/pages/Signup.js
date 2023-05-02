@@ -11,6 +11,7 @@ function Signup() {
     const [userId,setUserId] = useState('');
     const [password,setPassword] = useState('');
     const [userMood,setuserMood] = useState('');
+    const [isUserIdValid,setIsUserIdValid]=useState(false);
     const history = useHistory();
 
 
@@ -29,9 +30,12 @@ function Signup() {
         });
         if(response.data==true){
           alert('사용 하실 수 있는 아이디입니다.')
+          setIsUserIdValid(true); // 아이디 중복 체크 결과를 저장합니다.
         }else{
           alert('이미 가입된 아이디입니다.')
+          setIsUserIdValid(false); // 아이디 중복 체크 결과를 저장합니다.
           setUserId('')
+
         }
         console.log(response.data);
       
@@ -45,6 +49,16 @@ function Signup() {
 
   const handleSignup = async (event) => {
     event.preventDefault();
+    if (!userId || !password || !userName || !userMood) {
+      alert('사용자 정보를 빠짐없이 입력해주세요.');
+      return;
+    }
+
+    if (!isUserIdValid) {
+      alert('아이디 중복 체크를 해주세요.');
+      return;
+    }
+
     try {
       console.log(JSON.stringify({ userId, password,userName ,userMood }))
       const response = await axios.post(`${ADDRESS}/join`, {
