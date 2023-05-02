@@ -22,11 +22,11 @@ jobs:
             ls -l
             cd ~/svr/v0.5/Bigdate
             git pull
-            sudo ./gradlew build
-            PID=$(sudo lsof -i :60003 | grep -v PID | awk '{print $2}')
+            ./gradlew build
+            PID=$( lsof -i :60003 | grep -v PID | awk '{print $2}')
             if [ -n "$PID" ]; then
               echo "Stopping the previous process (PID: $PID)..."
-              sudo kill $PID
+              kill -9 $PID
             fi
             fuser -k 60003/tcp
             cd build/libs
