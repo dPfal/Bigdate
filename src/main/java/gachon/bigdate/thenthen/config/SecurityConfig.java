@@ -33,8 +33,8 @@ public class SecurityConfig {
                     .cors().configurationSource(corsConfigurationSource())
                 .and() // CORS(Cross-Origin Resource Sharing) 활성화
                 .authorizeRequests() // 권한 설정 시작
-                    .antMatchers("/**").permitAll().antMatchers("/users/**").authenticated() // /users/** 요청에 대해 인증 필요
-                    .antMatchers("/admin/**").hasRole("ADMIN") // /admin/** 요청에 대해 ADMIN 권한 필요
+                    .antMatchers("/**").permitAll().antMatchers("/api/users/**").authenticated() // /users/** 요청에 대해 인증 필요
+                    .antMatchers("/api/admin/**").hasRole("ADMIN") // /admin/** 요청에 대해 ADMIN 권한 필요
                 .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 서버에서 세션을 사용하지 않음 (JWT 사용)
@@ -49,7 +49,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin("http://localhost:3000"); // 로컬
-        config.addAllowedOrigin("http://210.102.178.98:60003");
+        config.addAllowedOrigin("http://localhost:60003");
+        config.addAllowedOrigin("http://210.102.178.98:3000");
         config.addAllowedOrigin("http://3.38.34.39:3000"); // 프론트 IPv4 주소
         config.addAllowedMethod("*"); // 모든 메소드 허용.
         config.addAllowedHeader("*");
@@ -59,7 +60,6 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return (web) -> web.ignoring().antMatchers("/images/**", "/js/**", "/webjars/**");
