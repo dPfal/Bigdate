@@ -33,8 +33,8 @@ public class SecurityConfig {
                     .cors().configurationSource(corsConfigurationSource())
                 .and() // CORS(Cross-Origin Resource Sharing) 활성화
                 .authorizeRequests() // 권한 설정 시작
-                    .antMatchers("/**").permitAll().antMatchers("/users/**").authenticated() // /users/** 요청에 대해 인증 필요
-                    .antMatchers("/admin/**").hasRole("ADMIN") // /admin/** 요청에 대해 ADMIN 권한 필요
+                    .antMatchers("/**").permitAll().antMatchers("/api/users/**").authenticated() // /users/** 요청에 대해 인증 필요
+                    .antMatchers("/api/admin/**").hasRole("ADMIN") // /admin/** 요청에 대해 ADMIN 권한 필요
                 .and()
                 .sessionManagement()
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 서버에서 세션을 사용하지 않음 (JWT 사용)
