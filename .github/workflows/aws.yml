@@ -1,4 +1,4 @@
-name: Deploy to gachon
+name: Deploy to gachonServer
 
 on:
   push:
