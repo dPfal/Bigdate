@@ -45,7 +45,7 @@ function UserList() {
       //서버에 코스 목록 조회 요청하기
       const fetchDataList = () => {
         const id = localStorage.getItem('id');
-        axios.get(`${ADDRESS}/api/admin/members`)
+        axios.get(`${ADDRESS}/admin/members`)
           .then(response => {
             console.log(response.data);
             setDataList(response.data);

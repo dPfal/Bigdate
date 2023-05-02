@@ -49,7 +49,7 @@ function MyPostList() {
       //서버에 코스 목록 조회 요청하기
       const fetchDataList = () => {
         const id = localStorage.getItem('id');
-        axios.get(`${ADDRESS}/api/users/${id}/courses`)
+        axios.get(`${ADDRESS}/users/${id}/courses`)
           .then(response => {
             console.log(response.data);
             setDataList(response.data);
@@ -69,7 +69,7 @@ function MyPostList() {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             
       try {
-        const response = await axios.delete(`${ADDRESS}/api/users/courses/${courseId}`);
+        const response = await axios.delete(`${ADDRESS}/users/courses/${courseId}`);
         console.log(response);
         
         // 목록을 다시 불러오기 위해 1초 대기 후에 실행

@@ -79,7 +79,7 @@ function HotspotView() {
       
         });
           //장소목록불러오기
-          const place_list =await axios.get(`${ADDRESS}/api/hotspots/${hotspotId}`);
+          const place_list =await axios.get(`${ADDRESS}/hotspots/${hotspotId}`);
          
           console.log(place_list.data);
           

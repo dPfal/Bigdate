@@ -57,7 +57,7 @@ const PostList_ad = props => {
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
-    axios.get(`${ADDRESS}/api/courses?page=${pageNumber}`)
+    axios.get(`${ADDRESS}/courses?page=${pageNumber}`)
       .then(response => {
         console.log(response.data);
         setDataList(response.data.content);

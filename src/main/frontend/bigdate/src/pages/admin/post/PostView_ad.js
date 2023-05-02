@@ -21,7 +21,7 @@ const PostView_ad = ({ history, location, match }) => {
 /**코스 댓글 조회 axio get */
 
 useEffect(() => {
-  axios.get(`${ADDRESS}/api/courses/${course_id}`)
+  axios.get(`${ADDRESS}/courses/${course_id}`)
     .then(response => {
       setData(response.data);
       console.log(response.data);
@@ -98,7 +98,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${ADDRESS}/api/admin/comments`, { commentText:comment,courseId:parseInt(course_id) }, {
+      const response = await axios.post(`${ADDRESS}/admin/comments`, { commentText:comment,courseId:parseInt(course_id) }, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     try {
-      const response = await axios.post(`${ADDRESS}/api/users/likes?courseId=${course_id}`,
+      const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`,
       );
       console.log(response);
       
@@ -146,7 +146,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
    
     try {
-      const response = await axios.post(`${ADDRESS}/api/users/scraps?courseId=${course_id}`,
+      const response = await axios.post(`${ADDRESS}/users/scraps?courseId=${course_id}`,
       );
       console.log(response);
       

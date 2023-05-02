@@ -39,7 +39,7 @@ const PlaceForm = (props) => {
     const token = localStorage.getItem('token');
   
     try {
-      const response = await axios.get(`${ADDRESS}/api/users/places`, { // 서버로 GET 요청을 보냄
+      const response = await axios.get(`${ADDRESS}/users/places`, { // 서버로 GET 요청을 보냄
         params: { searchData: value }, // 쿼리스트링으로 검색어를 전달
         headers: { Authorization: `Bearer ${token}` },
       });

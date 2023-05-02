@@ -18,7 +18,7 @@ function Mypage() {
   
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
-    axios.get(`${ADDRESS}/api/users/${id}`)
+    axios.get(`${ADDRESS}/users/${id}`)
       .then(response => {
         // 서버로부터 받은 데이터 처리
         console.log(response.data);

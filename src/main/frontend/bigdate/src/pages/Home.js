@@ -31,7 +31,7 @@ function Home() {
   const [lowFiveTraffic, setLowFiveTraffic] = useState([]);
   
   useEffect(() => {
-    axios.get(`${ADDRESS}/api/hotspots`)
+    axios.get(`${ADDRESS}/hotspots`)
       .then(response => {
         // 서버로부터 받은 데이터 처리
         console.log(response.data);
