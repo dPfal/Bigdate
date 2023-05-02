@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -45,7 +46,7 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
-    @Transient
+    @Formula("(select count(*) from comments_tb cm where cm.course_id = course_id)")
     private int commentCount;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
@@ -54,13 +55,13 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Like> likeList = new ArrayList<>();
 
-    @Transient
+    @Formula("(select count(*) from likes_tb lk where lk.course_id = course_id)")
     private int likeCount;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Scrap> scrapList = new ArrayList<>();
 
-    @Transient
+    @Formula("(select count(*) from scraps_tb sc where sc.course_id = course_id)")
     private int scrapCount;
     @PostLoad
     private void initializeCounts() {
