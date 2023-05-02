@@ -47,7 +47,7 @@ public class Course {
     private List<Comment> commentList = new ArrayList<>();
 
     @Formula("(select count(*) from comments_tb cm where cm.course_id = course_id)")
-    private int commentCount;
+    private int comment;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
@@ -56,13 +56,21 @@ public class Course {
     private List<Like> likeList = new ArrayList<>();
 
     @Formula("(select count(*) from likes_tb lk where lk.course_id = course_id)")
-    private int likeCount;
+    private int like;
+
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Scrap> scrapList = new ArrayList<>();
 
     @Formula("(select count(*) from scraps_tb sc where sc.course_id = course_id)")
+    private int scrap;
+
+    @Transient
     private int scrapCount;
+    @Transient
+    private int commentCount;
+    @Transient
+    private int likeCount;
     @PostLoad
     private void initializeCounts() {
         this.commentCount = commentList.size();
