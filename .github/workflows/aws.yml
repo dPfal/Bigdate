@@ -3,7 +3,7 @@ name: Deploy to gachon
 on:
   push:
     branches:
-      - master
+      - gachonServer
 
 jobs:
   deploy:
