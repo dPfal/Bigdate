@@ -47,7 +47,7 @@ public class Course {
     private List<Comment> commentList = new ArrayList<>();
 
     @Formula("(select count(*) from comments_tb cm where cm.course_id = course_id)")
-    @JsonIgnore
+    @Transient
     private int comments;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
@@ -57,14 +57,14 @@ public class Course {
     private List<Like> likeList = new ArrayList<>();
 
     @Formula("(select count(*) from likes_tb lk where lk.course_id = course_id)")
-    @JsonIgnore
+    @Transient
     private int likes;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Scrap> scrapList = new ArrayList<>();
 
     @Formula("(select count(*) from scraps_tb sc where sc.course_id = course_id)")
-    @JsonIgnore
+    @Transient
     private int scraps;
 
     @Transient
