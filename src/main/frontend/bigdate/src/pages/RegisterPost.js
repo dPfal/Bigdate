@@ -89,7 +89,7 @@ function RegistPost() {
     console.log(data);
     try {
       const response = await axios.post(
-        `${ADDRESS}/users/courses`,
+        `${ADDRESS}/api/users/courses`,
         data,
         {
           headers: {

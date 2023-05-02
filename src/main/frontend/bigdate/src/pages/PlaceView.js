@@ -20,7 +20,7 @@ const PlaceView = (props) => {
   const[place,setPlace]=useState('');
 
   useEffect(() => {
-    axios.get(`${ADDRESS}/places/${placeId}`)
+    axios.get(`${ADDRESS}/api/places/${placeId}`)
     .then(response => {
       console.log(response);
       const place =setPlace(response.data);

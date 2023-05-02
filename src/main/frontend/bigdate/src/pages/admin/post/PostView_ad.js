@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
-
+import { CircleFill, GeoAltFill, HandThumbsUp,StarFill, PersonCircle, HeartFill} from 'react-bootstrap-icons';
 import moment from 'moment';
 import { ADDRESS } from '../../../Adress';
 const { kakao } = window;
@@ -22,7 +21,7 @@ const PostView_ad = ({ history, location, match }) => {
 /**코스 댓글 조회 axio get */
 
 useEffect(() => {
-  axios.get(`${ADDRESS}/courses/${course_id}`)
+  axios.get(`${ADDRESS}/api/courses/${course_id}`)
     .then(response => {
       setData(response.data);
       console.log(response.data);
@@ -89,6 +88,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     setComment(''); // 댓글 등록 후 state를 초기화합니다.
   };
 
+
   //댓글 등록 함수
   const postComment = async (comment) => {
     setComment(comment);
@@ -98,7 +98,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${ADDRESS}/admin/comments`, { commentText:comment,courseId:parseInt(course_id) }, {
+      const response = await axios.post(`${ADDRESS}/api/admin/comments`, { commentText:comment,courseId:parseInt(course_id) }, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -114,13 +114,13 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     }
   };
   
-
+  //좋아요 등록
   const handleLikeClick = async () => {
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     try {
-      const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`,
+      const response = await axios.post(`${ADDRESS}/api/users/likes?courseId=${course_id}`,
       );
       console.log(response);
       
@@ -139,13 +139,14 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     }
   };
   
+  //찜 등록
   const handleScrapClick = async () => {
     
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
    
     try {
-      const response = await axios.post(`${ADDRESS}/users/scraps?courseId=${course_id}`,
+      const response = await axios.post(`${ADDRESS}/api/users/scraps?courseId=${course_id}`,
       );
       console.log(response);
       
@@ -167,7 +168,6 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   return (
     <>
      
-
       <div className="post-view-wrapper">
         {
           data ? (
@@ -190,8 +190,6 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
                       zIndex:0
                     }}>
                 </div>
-
-
 
 
 

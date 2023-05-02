@@ -63,7 +63,7 @@ export default function LineChart() {
     }
   
     axios
-      .get(`${ADDRESS}/admin/`)
+      .get(`${ADDRESS}/api/admin/`)
       .then((response) => {
         setLog(response.data)
        

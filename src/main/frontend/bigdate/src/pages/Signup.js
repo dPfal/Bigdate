@@ -20,7 +20,7 @@ function Signup() {
       event.preventDefault();
       try {
         console.log(JSON.stringify({ userId }))
-        const response = await axios.get(`${ADDRESS}/id`, {
+        const response = await axios.get(`${ADDRESS}/api/id`, {
           params: { userId: userId }
          
         }, {
@@ -37,7 +37,7 @@ function Signup() {
           setUserId('')
 
         }
-        console.log(response.data);
+        
       
       } catch (error) {
         console.error(error);
@@ -61,7 +61,7 @@ function Signup() {
 
     try {
       console.log(JSON.stringify({ userId, password,userName ,userMood }))
-      const response = await axios.post(`${ADDRESS}/join`, {
+      const response = await axios.post(`${ADDRESS}/api/join`, {
         userId,
         password,
         userName,

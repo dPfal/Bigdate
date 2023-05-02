@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-
+import {useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from 'react-bootstrap/Pagination';
-import { HandThumbsUp,Heart, HeartFill, } from 'react-bootstrap-icons';
-
+import { HandThumbsUp,HeartFill, } from 'react-bootstrap-icons';
 import moment from 'moment';
 import CommonTableRow from '../../../components/table/CommonTableRow';
 import CommonTableColumn from '../../../components/table/CommonTableColumn';
@@ -33,9 +31,10 @@ const PostList_ad = props => {
   }
 
   let items = [];
-  const totalPages = 10; // 예시로 총 10 페이지가 있다고 가정합니다.
+  const totalPages = 10;
   const startPage = Math.max(1, pageNumber - 2);
   const endPage = Math.min(totalPages, pageNumber + 2);
+
   for (let number = startPage; number <= endPage; number++) {
     items.push(
       <Pagination.Item
@@ -58,7 +57,7 @@ const PostList_ad = props => {
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
-    axios.get(`${ADDRESS}/courses?page=${pageNumber}`)
+    axios.get(`${ADDRESS}/api/courses?page=${pageNumber}`)
       .then(response => {
         console.log(response.data);
         setDataList(response.data.content);

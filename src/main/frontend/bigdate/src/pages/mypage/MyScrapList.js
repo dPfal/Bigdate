@@ -46,7 +46,7 @@ function MyPostList() {
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
-    axios.get(`${ADDRESS}/users/scraps`)
+    axios.get(`${ADDRESS}/api/users/scraps`)
       .then(response => {
         console.log(response.data);
         setDataList(response.data);
