@@ -1,6 +1,6 @@
 {
   "name": "bigdate",
-  "homepage": "https://localhost:8080",
+  "homepage": "https://localhost:60003",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -67,5 +67,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:60003"
 }
