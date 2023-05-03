@@ -49,6 +49,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         config.addAllowedOrigin("http://localhost:3000"); // 로컬
+        config.addAllowedOrigin("http://localhost:8080");
         config.addAllowedOrigin("http://localhost:60003");
         config.addAllowedOrigin("http://210.102.178.98:3000");
         config.addAllowedOrigin("http://3.38.34.39:3000"); // 프론트 IPv4 주소
