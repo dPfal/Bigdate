@@ -92,7 +92,7 @@ const handleSortOptionChange = (e) => {
       <div className='background-container'style={{height:'700px'}} >
         <div className='overlay-container'>
           <div className='line'>
-            그때 코스
+            커뮤니티 관리
           </div>
          
             {/* 라디오 버튼들 */}
@@ -141,6 +141,7 @@ const handleSortOptionChange = (e) => {
                           <CommonTableColumn>
                             {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
                           </CommonTableColumn>
+                          <div ><button className='delBtn' style={{width:'50px'}}>삭제</button></div>  
                         </CommonTableRow>
                       );
                     })
