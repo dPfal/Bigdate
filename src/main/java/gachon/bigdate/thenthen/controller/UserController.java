@@ -3,16 +3,20 @@ package gachon.bigdate.thenthen.controller;
 import gachon.bigdate.thenthen.DTO.CommentDTO;
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
+import gachon.bigdate.thenthen.repository.UserRepository;
 import gachon.bigdate.thenthen.service.CourseService;
 import gachon.bigdate.thenthen.service.PlaceService;
 import gachon.bigdate.thenthen.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/users")
@@ -79,6 +83,18 @@ public class UserController {
     @GetMapping("/{id}/courses")
     public ResponseEntity<?> getUserCourses(@PathVariable("id") Long id){
         return ResponseEntity.ok().body(this.courseService.getUserCourses(id) == null ? "등록한 코스가 없습니다." : this.courseService.getUserCourses(id));
+    }
+
+//    @PutMapping("/{user_id}") // 정보 수정
+//    public ResponseEntity<Void> updateUser(@PathVariable("user_id") String userId) {
+//        userService.updateUser(userId);
+//        return ResponseEntity.ok().body(this.userService.updateUser(userId);
+//    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        String message = userService.deleteUser(id);
+        return ResponseEntity.ok().body(message);
     }
 
 

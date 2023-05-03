@@ -81,7 +81,7 @@ const totalExpense = courses.reduce((acc, review) => {
   return acc + expense;
 }, 0);
 
-const date = moment(data.postedDate).format('YYYY-MM-DD');
+const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
 
 
@@ -284,12 +284,12 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
        <div>
        {commentArray && commentArray.length > 0 ? (
           commentArray.map((comment) => {
-          const { id, userId, createdAt, content } = comment;
+          const { id} = comment;
           return (
             <div key={id}>
               <div style={{display:'flex'}}>
                 <div style={{marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
-                <div style={{marginLeft:'20px'}}> {moment(comment.postedDate).format('YYYY-MM-DD HH:mm')}</div>
+                <div style={{marginLeft:'20px'}}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm')}</div>
               </div>           
 
               <div className='toCenter'>

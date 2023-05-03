@@ -202,7 +202,7 @@ const PlaceView = (props) => {
                   </div>
 
                   <div style={{float:'right'}}>
-                    {review.expense}
+                    비용 : {review.expense}원
                   </div>
                 </div>
               </div>
