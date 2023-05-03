@@ -96,6 +96,4 @@ public class UserController {
         String message = userService.deleteUser(id);
         return ResponseEntity.ok().body(message);
     }
-
-
 }
