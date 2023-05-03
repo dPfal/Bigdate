@@ -61,14 +61,6 @@ public class CourseService {
         return new PageImpl<>(courseDTOList, pageable, courseList.getTotalElements());
     }
 
-    public CourseDTO getCourseByCourseId(long courseId){
-        Course course = this.courseRepository.findByCourseId(courseId);
-        System.out.println(course);
-
-        return new CourseDTO(course,course.getReviewList(),
-                course.getCommentList(), course.getUser().getUserId(),
-                course.getLikeCount(),course.getScrapCount());
-    }
 
     public CourseDTO getCourseByCourseId(long... courseIdAndId){
         Course course = this.courseRepository.findByCourseId(courseIdAndId[0]);

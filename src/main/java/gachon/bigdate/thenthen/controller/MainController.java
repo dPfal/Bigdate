@@ -48,8 +48,14 @@ public class MainController {
     }
 
     @GetMapping("/courses/{courseId}")
-    public ResponseEntity<CourseDTO> getCourseByCourseId(@PathVariable("courseId") long courseId){
-        return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId));
+    public ResponseEntity<CourseDTO> getCourseByCourseId(@PathVariable("courseId") long courseId,
+                                                         @RequestParam(required = false) Long id){
+        if(id != null){
+            return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId,id));
+        }
+        else{
+            return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId));
+        }
     }
 
 }
