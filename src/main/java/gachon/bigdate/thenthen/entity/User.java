@@ -1,5 +1,6 @@
 package gachon.bigdate.thenthen.entity;
 
+import gachon.bigdate.thenthen.DTO.UserDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -35,6 +36,16 @@ public class User{
 
     @Column(name ="user_mood")
     private String userMood;
+
+//    public static User toupdateUser(UserDTO userDTO) {
+//        User userEntity = new UserEntity();
+//        User.setUserId(userDTO.getuserId());
+//        User.setUserPassword(userDTO.getuserPassword());
+//        User.setUserName(userDTO.getuserName());
+//        User.setUserRole(userDTO.getuserRole());
+//        User.setUserMood(userDTO.getuserMood());
+//        return UserEntity;
+//    }
 
     /* *Role이 여러개일 경우*/
     public List<String> getRoleList(){
