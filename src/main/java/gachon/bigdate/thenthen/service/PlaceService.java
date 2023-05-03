@@ -42,14 +42,20 @@ public class PlaceService {
            }
        }
        double placeAvg = this.placeRepository.calculateAvg(placeId);
-       Optional<List<Course>> courseList = Optional.of(this.courseRepository.findCourseByPlaceId(place.getPlaceId()));
+        Optional<List<Review>> reviewList = Optional.ofNullable(place.getReviewList());
 
-       if(courseList.isPresent()){
-        for (Course course : courseList.get()) {
-            CourseDTO courseDTO = new CourseDTO(course,course.getReviewList(),course.getCommentList(),course.getUser().getUserId(), course.getLikeCount(), course.getScrapCount());
-            courseDTOArrayList.add(courseDTO);
+        if(reviewList.isPresent()){
+            List<Course> courseList = new ArrayList<>();
+            for(Review review : reviewList.get()){
+                courseList.add(courseRepository.findByCourseId(review.getCourse().getCourseId()));
+            }
+            if(courseList!=null){
+                for (Course course : courseList) {
+                    CourseDTO courseDTO = new CourseDTO(course,course.getReviewList(),course.getCommentList(),course.getUser().getUserId(), course.getLikeCount(), course.getScrapCount());
+                    courseDTOArrayList.add(courseDTO);
+                }
+            }
         }
-       }
       return new PlaceDTO(place,placeAvg,courseDTOArrayList,reviewDTOs);
     }
     public List<PlaceDTO> getPlaceByPlaceName(String searchData) {

@@ -28,7 +28,7 @@ public class JwtFilter extends OncePerRequestFilter {
         final String authorization = request.getHeader(HttpHeaders.AUTHORIZATION);
         log.info("authorization : {}", authorization);
         // doFilter : 다음 필터 또는 서블릿으로 요청을 전달하는 역할
-        if (request.getRequestURI().startsWith("/admin") || request.getRequestURI().startsWith("/users")) {
+        if (request.getRequestURI().startsWith("/api/admin") || request.getRequestURI().startsWith("/api/users")) {
             if (authorization != null && authorization.startsWith("Bearer ")) { //JWT가 있을 경우!
                 // header에서 token 추출!
                 // ex. Bearer asdfasfd.asdagsasd.asdewe ~~
@@ -37,7 +37,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 if (JwtUtil.isExpired(token, secretKey)) {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 만료되었습니다");
                 }else{
-                    if (request.getRequestURI().startsWith("/admin")
+                    if (request.getRequestURI().startsWith("/api/admin")
                             && JwtUtil.getUserRoleFromToken(token, secretKey).equals("USER")) {
                         log.warn("권한이 없습니다");
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "권한이 없습니다");
