@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { getPostByNo } from '../post/PostList';
 import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
-import { ADDRESS } from '../../Adress';
+import { ADDRESS } from '../../../Adress';
 import moment from 'moment';
 const { kakao } = window;
 
 
 
-const PostView = ({ history, location, match }) => {
+const PostView_ad = ({ history, location, match }) => {
   const [ data, setData ] = useState({});
   const [comment,setComment] = useState('');
   const[places,setPlaces]=useState([]);
@@ -341,4 +340,4 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   )
 }
 
-export default PostView;
+export default PostView_ad;
