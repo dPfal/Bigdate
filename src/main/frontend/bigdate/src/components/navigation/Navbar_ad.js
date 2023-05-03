@@ -52,7 +52,8 @@ const Navbar_ad=() =>{
       localStorage.removeItem('userId');
       
       // 로그아웃 후 리다이렉트할 페이지로 이동
-      history.push("/");
+      // 로그아웃 후 리다이렉트할 페이지로 이동
+      window.location.pathname = '/'
       alert('로그아웃 되셨습니다')
      
     };
