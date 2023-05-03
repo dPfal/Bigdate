@@ -37,8 +37,6 @@ out/
 .vscode/
 
 **/application.properties
-**/package.json
-**/build.gradle
 **/Adress.js
 */Address.js
 
