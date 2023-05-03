@@ -87,15 +87,7 @@ const handleSortOptionChange = (e) => {
     <div>
       <div className='background-container'style={{height:'700px'}} >
         <div className='overlay-container'>
-          <div
-            style={{
-              fontWeight: 'bold',
-              fontSize: 'large',
-              marginRight: '40px',
-              marginLeft: '40px',
-              borderBottom: '1px solid gray',
-            }}
-          >
+          <div className='line'>
             그때 코스
           </div>
          
