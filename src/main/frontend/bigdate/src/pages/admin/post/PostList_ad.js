@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import {useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+
 import axios from 'axios';
 import Pagination from 'react-bootstrap/Pagination';
-import { HandThumbsUp,HeartFill, } from 'react-bootstrap-icons';
+import { HandThumbsUp,Heart, HeartFill, } from 'react-bootstrap-icons';
+
 import moment from 'moment';
+import { ADDRESS } from '../../../Adress';
 import CommonTableRow from '../../../components/table/CommonTableRow';
 import CommonTableColumn from '../../../components/table/CommonTableColumn';
 import CommonTable from '../../../components/table/CommonTable';
-import { ADDRESS } from '../../../Adress';
+
+
 
 
 
@@ -15,8 +19,24 @@ const PostList_ad = props => {
   const history=useHistory();
   const [dataList, setDataList] = useState([]);
   const [pageNumber, setPageNumber] = useState(0); 
-
+  const [sortOption, setSortOption] = useState(""); // 라디오 버튼의 선택된 옵션 상태 관리
   
+
+// 라디오 버튼의 옵션 변경 핸들러
+const handleSortOptionChange = (e) => {
+  const newSortOption = e.target.value;
+  setSortOption(newSortOption);
+  
+  axios.get(`${ADDRESS}/courses?page=${pageNumber}&sort=${newSortOption}`)
+    .then(response => {
+      console.log(response.data);
+      setDataList(response.data.content);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
 
   const handlePageChange = (page) => {
     setPageNumber(page);
@@ -31,10 +51,9 @@ const PostList_ad = props => {
   }
 
   let items = [];
-  const totalPages = 10;
+  const totalPages = 10; // 예시로 총 10 페이지가 있다고 가정합니다.
   const startPage = Math.max(1, pageNumber - 2);
   const endPage = Math.min(totalPages, pageNumber + 2);
-
   for (let number = startPage; number <= endPage; number++) {
     items.push(
       <Pagination.Item
@@ -70,7 +89,7 @@ const PostList_ad = props => {
   
   return (
     <div>
-      <div className='background-container' >
+      <div className='background-container'style={{height:'700px'}} >
         <div className='overlay-container'>
           <div
             style={{
@@ -81,8 +100,20 @@ const PostList_ad = props => {
               borderBottom: '1px solid gray',
             }}
           >
-            커뮤니티 관리
+            그때 코스
           </div>
+         
+            {/* 라디오 버튼들 */}
+         
+            <div className='select_container'>
+              <select value={sortOption} onChange={handleSortOptionChange}>
+                <option value="courseId">최신 순</option>
+                <option value="like">좋아요 순</option>
+                <option value="scrap">찜 순</option>
+                <option value="comment">댓글 많은 순</option>
+              </select>
+            </div>
+
 
           <div>
             <>
@@ -94,7 +125,6 @@ const PostList_ad = props => {
                   '좋아요 수',
                   '찜 수',
                   '작성일',
-                  "관리"
                 ]}
               >
                 {dataList
@@ -103,8 +133,8 @@ const PostList_ad = props => {
                         <CommonTableRow key={index}>
                           <CommonTableColumn>{item.courseId}</CommonTableColumn>
                           <CommonTableColumn>
-                          <span onClick={() => history.push(`/postViewAd/${item.courseId}`)}>
-                            {item.courseTitle}
+                          <span onClick={() => history.push(`/postView/${item.courseId}`)}>
+                            {item.courseTitle} ({item.commentCount})
                           </span>
                           </CommonTableColumn>
                           <CommonTableColumn>{item.userId}</CommonTableColumn>
@@ -119,14 +149,13 @@ const PostList_ad = props => {
                           <CommonTableColumn>
                             {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
                           </CommonTableColumn>
-                          <div ><button className='delBtn' style={{width:'50px'}}>삭제</button></div>  
                         </CommonTableRow>
                       );
                     })
                   : ''}
               </CommonTable>
             </>
-            <div className='pagination'>{paginationBasic}</div>
+            <div className='pagination' >{paginationBasic}</div>
           </div>
           
         </div>

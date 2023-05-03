@@ -7,20 +7,6 @@ import { ADDRESS } from '../Adress';
 
 
 
-/** 
-axios(
-  {
-    url: `${process.env.LOCALHOST_ADDRESS}/places`,
-    method: 'get'
-  }
-).then(function (response) {
-  console.log(response.data)
-});
-*/
-
-
- 
-
 function Home() {
  
 
