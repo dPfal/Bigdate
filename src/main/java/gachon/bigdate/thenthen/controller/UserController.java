@@ -91,9 +91,8 @@ public class UserController {
 //        return ResponseEntity.ok().body(this.userService.updateUser(userId);
 //    }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        String message = userService.deleteUser(id);
-        return ResponseEntity.ok().body(message);
+    @DeleteMapping("/{id}") // 현재 empty 계정만 삭제 가능
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
+        return ResponseEntity.ok().body(this.userService.deleteUser(id));
     }
 }

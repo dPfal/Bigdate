@@ -56,7 +56,8 @@ public class User{
          }
     }
     @Transient
-    @OneToMany(mappedBy="user")
+    @OneToMany(mappedBy="user", orphanRemoval = true)
     private List<Course> courseList;
+
 
 }
