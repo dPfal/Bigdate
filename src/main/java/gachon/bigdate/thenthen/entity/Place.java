@@ -57,6 +57,7 @@ public class Place {
 
     @OneToMany(mappedBy = "reviewId.placeId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
+
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "courseId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)

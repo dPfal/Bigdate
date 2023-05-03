@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +58,7 @@ public class CourseDTO {
         for (Review review : reviewList) {
             reviewDTOList.add(new ReviewDTO(review));
         }
+
         this.reviewList = reviewDTOList;
     }
 

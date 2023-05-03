@@ -55,6 +55,7 @@ public class Course {
     private int comment;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OrderBy("reviewId.placeSequence ASC")
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
