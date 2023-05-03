@@ -1,22 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import CommonTable from '../../components/table/CommonTable';
-import CommonTableColumn from '../../components/table/CommonTableColumn';
-import CommonTableRow from '../../components/table/CommonTableRow';
+
 import axios from 'axios';
 import Pagination from 'react-bootstrap/Pagination';
 import { HandThumbsUp,Heart, HeartFill, } from 'react-bootstrap-icons';
-import { ADDRESS } from '../../Adress';
 import moment from 'moment';
-
+import { ADDRESS } from '../../Adress';
+import CommonTable from '../../components/table/CommonTable';
+import CommonTableColumn from '../../components/table/CommonTableColumn';
+import CommonTableRow from '../../components/table/CommonTableRow';
 
 
 const PostList = props => {
   const history=useHistory();
   const [dataList, setDataList] = useState([]);
   const [pageNumber, setPageNumber] = useState(0); 
-
+  const [sortOption, setSortOption] = useState(""); // 라디오 버튼의 선택된 옵션 상태 관리
   
+
+// 라디오 버튼의 옵션 변경 핸들러
+const handleSortOptionChange = (e) => {
+  const newSortOption = e.target.value;
+  setSortOption(newSortOption);
+  
+  axios.get(`${ADDRESS}/courses?page=${pageNumber}&sort=${newSortOption}`)
+    .then(response => {
+      console.log(response.data);
+      setDataList(response.data.content);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
+
 
   const handlePageChange = (page) => {
     setPageNumber(page);
@@ -69,7 +85,7 @@ const PostList = props => {
   
   return (
     <div>
-      <div className='background-container' >
+      <div className='background-container'style={{height:'700px'}} >
         <div className='overlay-container'>
           <div
             style={{
@@ -82,6 +98,18 @@ const PostList = props => {
           >
             그때 코스
           </div>
+         
+            {/* 라디오 버튼들 */}
+         
+            <div className='select_container'>
+              <select value={sortOption} onChange={handleSortOptionChange}>
+                <option value="courseId">최신 순</option>
+                <option value="like">좋아요 순</option>
+                <option value="scrap">찜 순</option>
+                <option value="comment">댓글 많은 순</option>
+              </select>
+            </div>
+
 
           <div>
             <>
@@ -102,7 +130,7 @@ const PostList = props => {
                           <CommonTableColumn>{item.courseId}</CommonTableColumn>
                           <CommonTableColumn>
                           <span onClick={() => history.push(`/postView/${item.courseId}`)}>
-                            {item.courseTitle}
+                            {item.courseTitle} ({item.commentCount})
                           </span>
                           </CommonTableColumn>
                           <CommonTableColumn>{item.userId}</CommonTableColumn>
@@ -123,7 +151,7 @@ const PostList = props => {
                   : ''}
               </CommonTable>
             </>
-            <div className='pagination'>{paginationBasic}</div>
+            <div className='pagination' >{paginationBasic}</div>
           </div>
           
         </div>
