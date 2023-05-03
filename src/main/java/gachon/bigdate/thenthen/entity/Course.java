@@ -41,10 +41,13 @@ public class Course {
     @JoinColumn(name="id",insertable=false, updatable=false)
     @JsonIgnore
     private User user;
-    @ManyToOne(fetch =FetchType.LAZY)
-    @JoinColumn(name= "course_id",insertable = false,updatable = false)
+
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="course_id",insertable=false, updatable=false)
     @JsonIgnore
     private Place place;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
@@ -73,6 +76,7 @@ public class Course {
     private int commentCount;
     @Transient
     private int likeCount;
+    
     @PostLoad
     private void initializeCounts() {
         this.commentCount = commentList.size();
