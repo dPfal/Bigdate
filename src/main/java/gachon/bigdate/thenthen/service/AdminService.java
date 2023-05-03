@@ -1,14 +1,13 @@
 package gachon.bigdate.thenthen.service;
 
 import gachon.bigdate.thenthen.DTO.AdminMainDTO;
-import gachon.bigdate.thenthen.DTO.PlaceDTO;
 import gachon.bigdate.thenthen.DTO.UserDTO;
-import gachon.bigdate.thenthen.entity.Place;
 import gachon.bigdate.thenthen.entity.User;
-import gachon.bigdate.thenthen.repository.*;
+import gachon.bigdate.thenthen.repository.CommentRepository;
+import gachon.bigdate.thenthen.repository.CourseRepository;
+import gachon.bigdate.thenthen.repository.UserLogRepository;
+import gachon.bigdate.thenthen.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +50,12 @@ public class AdminService {
         }
         return adminMainDTOArrayList;
     }
-
-
+    public String deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return "{\"message\":\"사용자 삭제 완료!\"}";
+        } else {
+            return "{\"message\":\"사용자 삭제 실패!\"}";
+        }
+    }
 }

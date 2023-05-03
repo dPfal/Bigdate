@@ -3,11 +3,7 @@ package gachon.bigdate.thenthen.controller;
 import gachon.bigdate.thenthen.DTO.CommentDTO;
 import gachon.bigdate.thenthen.service.AdminService;
 import gachon.bigdate.thenthen.service.CourseService;
-import gachon.bigdate.thenthen.service.PlaceService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +15,6 @@ public class AdminController {
 
     private final AdminService adminService;
     private final CourseService courseService;
-    private final PlaceService placeService;
     @GetMapping("/members")
     public ResponseEntity<?> getMemberList(){
         return ResponseEntity.ok().body(this.adminService.getMemberList());
@@ -36,9 +31,9 @@ public class AdminController {
         return ResponseEntity.ok().body(this.adminService.getAdminMain());
     }
 
-    @GetMapping("/places")
-    public ResponseEntity<?> getPlaceList(Pageable pageable){
-        pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
-        return ResponseEntity.ok().body(this.placeService.getPlaceList(pageable));
+    @DeleteMapping("/members/{id}")
+    public ResponseEntity<?> deleteUserByAdmin(@PathVariable Long id) {
+        String message = adminService.deleteUser(id);
+        return ResponseEntity.ok().body(message);
     }
 }
