@@ -48,11 +48,6 @@ function Home() {
         setLowFiveTraffic(lowFiveTraffic);
   
   
-        console.log(topFiveCongest);
-        console.log(lowFiveCongest);
-        console.log(lowFiveDust);
-        console.log(lowFiveSky);
-        console.log(lowFiveTraffic);
       })
       .catch(error => {
         // 에러 처리
