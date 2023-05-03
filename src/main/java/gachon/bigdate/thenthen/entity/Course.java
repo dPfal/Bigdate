@@ -26,7 +26,6 @@ public class Course {
 
     @Column(name="id")
     private Long id;
-
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name ="posted_date")
@@ -42,7 +41,10 @@ public class Course {
     @JoinColumn(name="id",insertable=false, updatable=false)
     @JsonIgnore
     private User user;
-
+    @ManyToOne(fetch =FetchType.LAZY)
+    @JoinColumn(name= "course_id",insertable = false,updatable = false)
+    @JsonIgnore
+    private Place place;
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 
