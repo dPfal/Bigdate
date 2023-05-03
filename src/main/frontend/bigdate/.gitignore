@@ -23,4 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 **/package.json
 **/Adress.js
+../Adress.js
 **/Address.js
