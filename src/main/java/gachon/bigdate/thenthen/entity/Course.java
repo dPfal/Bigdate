@@ -26,7 +26,6 @@ public class Course {
 
     @Column(name="id")
     private Long id;
-
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name ="posted_date")
@@ -43,6 +42,7 @@ public class Course {
     @JsonIgnore
     private User user;
 
+
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="course_id",insertable=false, updatable=false)
     @JsonIgnore
@@ -52,8 +52,7 @@ public class Course {
     private List<Comment> commentList = new ArrayList<>();
 
     @Formula("(select count(*) from comments_tb cm where cm.course_id = course_id)")
-    @Transient
-    private int comments;
+    private int comment;
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Review> reviewList = new ArrayList<>();
@@ -62,24 +61,22 @@ public class Course {
     private List<Like> likeList = new ArrayList<>();
 
     @Formula("(select count(*) from likes_tb lk where lk.course_id = course_id)")
-    @Transient
-    private int likes;
+    private int like;
+
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Scrap> scrapList = new ArrayList<>();
 
     @Formula("(select count(*) from scraps_tb sc where sc.course_id = course_id)")
-    @Transient
-    private int scraps;
+    private int scrap;
 
     @Transient
     private int scrapCount;
     @Transient
-    private int likeCount;
-    @Transient
     private int commentCount;
-
-
+    @Transient
+    private int likeCount;
+    
     @PostLoad
     private void initializeCounts() {
         this.commentCount = commentList.size();
