@@ -43,6 +43,11 @@ public class Course {
     @JsonIgnore
     private User user;
 
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="courseId",insertable=false, updatable=false)
+    @JsonIgnore
+    private Place place;
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Comment> commentList = new ArrayList<>();
 

@@ -59,6 +59,10 @@ public class Place {
     @JsonIgnore
     private List<Review> reviewList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "courseId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Course> courseList = new ArrayList<>();
+
 }
 
 
