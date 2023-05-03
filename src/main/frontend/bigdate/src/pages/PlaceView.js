@@ -69,29 +69,6 @@ const PlaceView = (props) => {
   };
 
 
-  const reviews = [
-    {
-      date: "2023-04-28",
-      rating: 4,
-      user: {
-        name: "Alice",
-        profilePic: "https://example.com/profile_pic_alice.jpg"
-      },
-      reviewText: "좋은 장소입니다.",
-      totalCost: 100000
-    },
-    {
-      date: "2023-04-27",
-      rating: 3,
-      user: {
-        name: "Bob",
-        profilePic: "https://example.com/profile_pic_bob.jpg"
-      },
-      reviewText: "보통입니다.",
-      totalCost: 50000
-    },
-    // 이하 리뷰 데이터가 추가될 수 있습니다.
-  ]
 
  //const totalExpense = place.courseList.reviewList.reduce((acc, review) => acc + review.expense, 0);
  
@@ -115,7 +92,7 @@ const PlaceView = (props) => {
             }}/></div>
           <div>
             <div style=
-            {{borderBottom :'1px solid gray', 
+            {{borderBottom :'1px solid lightgray', 
               width:'300px',
               marginLeft:'50px',
               padding:'10px'}}>
@@ -123,7 +100,7 @@ const PlaceView = (props) => {
                 {place.addressName}</div>
 
             <div style=
-            {{borderBottom :'1px solid gray', 
+            {{borderBottom :'1px solid lightgray', 
               width:'300px',
               marginLeft:'50px',
               marginTop:'30px',
@@ -131,7 +108,7 @@ const PlaceView = (props) => {
                 {place.categoryName}</div>
 
             <div style=
-            {{borderBottom :'1px solid gray', 
+            {{borderBottom :'1px solid lightgray', 
               width:'300px',
               marginLeft:'50px',
               marginTop:'30px',
@@ -139,7 +116,7 @@ const PlaceView = (props) => {
 
 
             <div style=
-            {{borderBottom :'1px solid gray', 
+            {{borderBottom :'1px solid lightgray', 
               width:'300px',
               marginLeft:'50px',
               marginTop:'30px',
@@ -187,12 +164,12 @@ const PlaceView = (props) => {
                     <div style={{marginLeft:'5px'}}><HandThumbsUp/>{course.likeCount}</div>
                     <div style={{marginLeft:'20px'}}><HeartFill style={{color:'red'}}/>{course.scrapCount}</div>
                   </div>
-                  <div style={{ marginTop:'10px'}}>{moment(course.postedDate).format('YYYY-MM-DD')}</div>
+                  <div style={{ marginTop:'10px'}}> {moment(course.postedDate).format('YYYY-MM-DD HH:mm')}</div>
                 </div>
               </div>
             ))
           ) : (
-            <div className='toCenter'>장소가 포함된 코스가 없습니다</div>
+            <div className='toCenter' style={{marginTop:'30px'}}>장소가 포함된 코스가 없습니다</div>
           )}
         </div>
 
@@ -207,7 +184,7 @@ const PlaceView = (props) => {
               <div className='toCenter'>
                 <div>
                   <div style={{display:'flex',marginLeft:'80px',marginTop:'10px'}}>
-                    <div>{moment(review.postedDate).format('YYYY-MM-DD')}</div>
+                    <div> {moment(review.postedDate).format('YYYY-MM-DD HH:mm')}</div>
                     <div style={{marginLeft:'10px'}}> 
                       {Array(review.avgScore).fill(<StarFill style={{color:'gold'}}/>)}
                       {Array(5 - review.avgScore).fill(<Star style={{color:'lightgray'}}/>)}
@@ -231,7 +208,7 @@ const PlaceView = (props) => {
               </div>
             ))
           ) : (
-            <div className='toCenter'>아직 작성된 리뷰가 없습니다</div>
+            <div className='toCenter' style={{marginTop:'30px',paddingBottom:'30px'}}>아직 작성된 리뷰가 없습니다</div>
           )}
 
 

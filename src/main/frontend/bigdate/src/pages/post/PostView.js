@@ -119,6 +119,10 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
+    if(token==null){
+      alert('로그인이 필요한 서비스입니다.')
+    }
+    
     try {
       const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`,
       );
@@ -142,6 +146,9 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   const handleScrapClick = async () => {
     
     const token = localStorage.getItem('token');
+    if(token==null){
+      alert('로그인이 필요한 서비스입니다.')
+    }
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
    
     try {
@@ -216,7 +223,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
                   
                 ))}
 
-                    <div style={{marginTop:'50px',display:'flex',justifyContent:'center',borderTop:'1px solid gray'}}>
+                    <div style={{marginTop:'50px',display:'flex',justifyContent:'center',borderTop:'1px solid lightgray',width:'300px'}}>
                   1인 예상 금액 :{totalExpense}  원</div>
                 
               </div>
@@ -248,7 +255,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
                       <div><GeoAltFill style={{color:'#3163C9',fontSize:'20px'}}/> {course.placeDTO.addressName} <StarFill style={{color:'orange',marginBottom:'5px'}}/>
                        {course.avgScore}</div>
                     
-                      <div style={{border:'1px solid gray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px'}}>{course.reviewInfo}</div>
+                      <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px'}}>{course.reviewInfo}</div>
                       </div>
                     </div>
                     
@@ -260,11 +267,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
 
         
         <div style={{display:'flex',justifyContent:'center',marginTop:'50px'}}>
-          <div style={{border: '1px solid gray',padding:'10px',alignContent:'center',textAlign:'center'}} onClick={handleLikeClick}>
+          <div style={{border: '1px solid lightgray',padding:'10px',alignContent:'center',textAlign:'center'}} onClick={handleLikeClick}>
               <HandThumbsUp style={{ fontSize: '20px',color:'#1E90FF'}} />
               <div>{likeCount}</div>
           </div>
-          <div style={{ border: '1px solid gray', padding: '10px', marginLeft: '20px', textAlign: 'center' }} onClick={handleScrapClick}>
+          <div style={{ border: '1px solid lightgray', padding: '10px', marginLeft: '20px', textAlign: 'center' }} onClick={handleScrapClick}>
               <HeartFill style={{ fontSize: '20px', color: 'red' }} /> 
               <div>{scrapCount}</div>
           </div>
@@ -282,14 +289,14 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
             <div key={id}>
               <div style={{display:'flex'}}>
                 <div style={{marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
-                <div style={{marginLeft:'20px'}}>{moment(comment.postedDate).format('YYYY-MM-DD')}</div>
+                <div style={{marginLeft:'20px'}}> {moment(comment.postedDate).format('YYYY-MM-DD HH:mm')}</div>
               </div>           
 
               <div className='toCenter'>
                 <div style={{width: '50px', height: '50px' }} className='toCenter'>
                   <PersonCircle style={{ fontSize: '40px',color:'dimgray' }} />
                 </div>
-                <div style={{ marginLeft: '10px', width: '600px',borderBottom:'1px solid gray',marginTop:'20px',paddingBottom:'25px' }}>
+                <div style={{ marginLeft: '10px', width: '600px',borderBottom:'1px solid lightgray',marginTop:'20px',paddingBottom:'25px' }}>
                   {comment.commentText}
                 </div>
               </div>
@@ -297,7 +304,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
           )
           })
           ) : (
-            <div style={{textAlign:'center',color:'gray'}}>댓글이 없습니다.</div>
+            <div style={{textAlign:'center',color:'gray',marginTop:'30px',marginBottom:'30px'}}>댓글이 없습니다.</div>
           )}
         </div>
 
