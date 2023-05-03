@@ -43,7 +43,8 @@ public class MainController {
     }
     @GetMapping("/courses")
     public ResponseEntity<Page<CourseDTO>> getCourseList(Pageable pageable){
-        pageable = PageRequest.of(pageable.getPageNumber(),15, pageable.getSort().descending());
+        if(!pageable.getSort().isSorted()) pageable = PageRequest.of(pageable.getPageNumber(),15,Sort.by(Sort.Direction.DESC, "courseId"));
+        else pageable = PageRequest.of(pageable.getPageNumber(),15, pageable.getSort().descending());
         return ResponseEntity.ok().body(this.courseService.getCourseList(pageable));
     }
 

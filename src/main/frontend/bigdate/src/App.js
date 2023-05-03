@@ -21,6 +21,7 @@ import Navbar_ad from './components/navigation/Navbar_ad';
 import UserList from './pages/admin/UserList';
 import PostMain_ad from './pages/admin/post/PostMain_ad';
 import PostView_ad from './pages/admin/post/PostView_ad';
+import PlaceList from './pages/admin/places/PlaceList';
 
 
 
@@ -29,10 +30,10 @@ import PostView_ad from './pages/admin/post/PostView_ad';
 const App = () => {
 
 
-  const [isAdminPage, setIsAdminPage] = useState(window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/users')|| window.location.pathname.startsWith('/posts')|| window.location.pathname.startsWith('/postViewAd'));
+  const [isAdminPage, setIsAdminPage] = useState(window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/users')|| window.location.pathname.startsWith('/posts')|| window.location.pathname.startsWith('/postViewAd')|| window.location.pathname.startsWith('/places'));
 
   useEffect(() => {
-    const handleLocationChange = () => setIsAdminPage(window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/users')|| window.location.pathname.startsWith('/posts')|| window.location.pathname.startsWith('/postViewAd'));
+    const handleLocationChange = () => setIsAdminPage(window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/users')|| window.location.pathname.startsWith('/posts')|| window.location.pathname.startsWith('/postViewAd')|| window.location.pathname.startsWith('/places'));
     window.addEventListener('popstate', handleLocationChange);
     return () => window.removeEventListener('popstate', handleLocationChange);
   }, []);
@@ -55,6 +56,7 @@ const App = () => {
         <Route path="/users" component={UserList}/>
         <Route path="/posts" component={PostMain_ad}/>
         <Route path="/postViewAd/:course_id" component={PostView_ad}/>
+        <Route path="/places" component={PlaceList}/>
 
       </>
     </BrowserRouter>
