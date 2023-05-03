@@ -48,9 +48,12 @@ const Navbar_ad=() =>{
       setIsLoggedIn(false);
       // 또는 로컬 스토리지에서 삭제
       localStorage.removeItem("token");
+      localStorage.removeItem('id');
+      localStorage.removeItem('userId');
       
       // 로그아웃 후 리다이렉트할 페이지로 이동
-      window.location.pathname = '/'
+      history.push("/");
+      alert('로그아웃 되셨습니다')
      
     };
   
@@ -111,7 +114,7 @@ const Navbar_ad=() =>{
               <Nav.Link href='/users'>회원 관리</Nav.Link>
             </Nav>
             <Nav className='me-auto'>
-              <Nav.Link href='/place'>장소 관리</Nav.Link>
+              <Nav.Link href='/places'>장소 관리</Nav.Link>
             </Nav>
             <Nav>
               <Nav.Link onClick={() => {
