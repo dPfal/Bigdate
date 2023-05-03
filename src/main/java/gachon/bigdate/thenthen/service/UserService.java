@@ -34,8 +34,13 @@ public class UserService {
 //    }
 
 
-    public void deleteUser(Long id) { //회원 탈퇴
-        userRepository.deleteById(id);
+    public String deleteUser(Long id) {
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+            return "{\"message\":\"삭제 완료!\"}";
+        } else {
+            return "{\"message\":\"삭제 실패!\"}";
+        }
     }
 }
 

@@ -8,6 +8,7 @@ import gachon.bigdate.thenthen.service.CourseService;
 import gachon.bigdate.thenthen.service.PlaceService;
 import gachon.bigdate.thenthen.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
@@ -90,11 +91,10 @@ public class UserController {
 //        return ResponseEntity.ok().body(this.userService.updateUser(userId);
 //    }
 
-    @DeleteMapping("/{id}") // 회원 탈퇴
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
-        //return ResponseEntity.ok().build();
-        return ResponseEntity.ok().body("{\"message\":\"탈퇴되었습니다\"}");
+        String message = userService.deleteUser(id);
+        return ResponseEntity.ok().body(message);
     }
 
 
