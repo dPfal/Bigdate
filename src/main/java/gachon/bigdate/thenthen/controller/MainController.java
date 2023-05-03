@@ -8,15 +8,13 @@ import gachon.bigdate.thenthen.service.PlaceService;
 import gachon.bigdate.thenthen.entity.Hotspot;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,7 +42,8 @@ public class MainController {
         return ResponseEntity.ok().body(this.placeService.getPlaceByPlaceId(placeId));
     }
     @GetMapping("/courses")
-    public ResponseEntity<Page<CourseDTO>> getCourseList(@PageableDefault(size = 15) @SortDefault(sort = "courseId", direction = Sort.Direction.DESC)Pageable pageable){
+    public ResponseEntity<Page<CourseDTO>> getCourseList(Pageable pageable){
+        pageable = PageRequest.of(pageable.getPageNumber(),15, pageable.getSort().descending());
         return ResponseEntity.ok().body(this.courseService.getCourseList(pageable));
     }
 
