@@ -53,7 +53,10 @@ public class UserController {
     public ResponseEntity<?> toggleLike(@RequestParam("courseId") long courseId, Authentication authentication){
         return ResponseEntity.ok().body(this.courseService.toggleLike(courseId, Long.parseLong(authentication.getName())));
     }
-
+    @GetMapping("/courses/{courseId}")
+    public ResponseEntity<CourseDTO> getCourseByCourseId(@PathVariable("courseId") long courseId,Authentication authentication){
+        return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId,Long.parseLong(authentication.getName())));
+    }
     @PostMapping("/scraps")
     public ResponseEntity<?> toggleScrap(@RequestParam("courseId") long courseId, Authentication authentication){
         return ResponseEntity.ok().body(this.courseService.toggleScrap(courseId, Long.parseLong(authentication.getName())));

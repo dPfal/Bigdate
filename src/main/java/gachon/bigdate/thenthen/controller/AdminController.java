@@ -30,4 +30,5 @@ public class AdminController {
     public ResponseEntity<?> adminMain(){
         return ResponseEntity.ok().body(this.adminService.getAdminMain());
     }
+
 }

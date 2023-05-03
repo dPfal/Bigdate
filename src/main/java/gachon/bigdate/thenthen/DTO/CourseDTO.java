@@ -3,10 +3,7 @@ package gachon.bigdate.thenthen.DTO;
 import gachon.bigdate.thenthen.entity.Comment;
 import gachon.bigdate.thenthen.entity.Course;
 import gachon.bigdate.thenthen.entity.Review;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
 public class CourseDTO {
@@ -29,10 +27,8 @@ public class CourseDTO {
     private ArrayList<ReviewDTO> reviewList;
     private ArrayList<CommentDTO> commentList;
     private int commentCount;
-    public CourseDTO(){
-        this.scrapCount=0;
-        this.likeCount=0;
-    }
+    private boolean scraped;
+    private boolean liked;
 
     public CourseDTO(Course course, String userId, int likeCount, int scrapCount,  int commentCount) {
         this.id = course.getId();
@@ -46,7 +42,8 @@ public class CourseDTO {
         this.userId = userId;
     }
 
-    public CourseDTO(Course course, List<Review> reviewList, List<Comment> commentList, String userId, int likeCount, int scrapCount) {
+    public CourseDTO(Course course, List<Review> reviewList, List<Comment> commentList, String userId
+            , int likeCount, int scrapCount) {
         this(course, userId, likeCount, scrapCount, commentList.size());
         ArrayList<CommentDTO> commentDTOList = new ArrayList<>();
         for (Comment comment : commentList) {
@@ -60,10 +57,9 @@ public class CourseDTO {
         }
 
         this.reviewList = reviewDTOList;
+        this.liked=false;
+        this.scraped=false;
     }
 
-    public CourseDTO(int scrapCount, int likeCount){
-        this.scrapCount=scrapCount;
-        this.likeCount=likeCount;
-    }
+
 }
