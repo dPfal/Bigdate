@@ -125,8 +125,8 @@ const handleSortOptionChange = (e) => {
                         <CommonTableRow key={index}>
                           <CommonTableColumn>{item.courseId}</CommonTableColumn>
                           <CommonTableColumn>
-                          <span onClick={() => history.push(`/postView/${item.courseId}`)}>
-                            {item.courseTitle} ({item.commentCount})
+                          <span onClick={() => history.push(`/postViewAd/${item.courseId}`)}>
+                            {item.courseTitle}
                           </span>
                           </CommonTableColumn>
                           <CommonTableColumn>{item.userId}</CommonTableColumn>
