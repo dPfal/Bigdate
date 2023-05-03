@@ -42,7 +42,7 @@ public class PlaceService {
            }
        }
        double placeAvg = this.placeRepository.calculateAvg(placeId);
-       Optional<List<Course>> courseList = Optional.of(this.courseRepository.findCourseByPlaceId(place.getPlaceId()));
+       Optional<List<Course>> courseList = Optional.ofNullable(place.getCourseList());
 
        if(courseList.isPresent()){
         for (Course course : courseList.get()) {
