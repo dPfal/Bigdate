@@ -44,7 +44,7 @@ public class Course {
     private User user;
 
     @ManyToOne(fetch=FetchType.LAZY)
-    @JoinColumn(name="courseId",insertable=false, updatable=false)
+    @JoinColumn(name="course_id",insertable=false, updatable=false)
     @JsonIgnore
     private Place place;
 
