@@ -1,13 +1,13 @@
 import React from 'react'
 import './UserListTable.css';
-import { Pencil} from 'react-bootstrap-icons';
+
 import { useHistory } from 'react-router-dom';
 
 
 
 
 
-const UserListTable = props => {
+const ListTable = props => {
 
   const { headersName, children} = props;
   
@@ -43,4 +43,4 @@ const UserListTable = props => {
     </div>
   )
 }
-export default UserListTable
+export default ListTable

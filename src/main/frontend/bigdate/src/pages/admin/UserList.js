@@ -5,7 +5,7 @@ import CommonTableRow from '../../components/table/CommonTableRow';
 import { ADDRESS } from '../../Adress';
 import { useHistory } from 'react-router-dom';
 import Pagination from 'react-bootstrap/Pagination';
-import UserListTable from '../../components/table/admin/UserListTable';
+import ListTable from '../../components/table/admin/ListTable';
 
 
 function UserList() {
@@ -74,7 +74,7 @@ function UserList() {
         <div >
         <>
             
-            <UserListTable headersName={['유저번호','이름','아이디', '취향', '관리']}>
+            <ListTable headersName={['유저번호','이름','아이디', '취향', '관리']}>
                 
               { dataList ? dataList.map((item, index) => {
                   return (
@@ -89,7 +89,7 @@ function UserList() {
                   )
                 }) : ''
               }
-            </UserListTable>
+            </ListTable>
           </>
         </div>
         
