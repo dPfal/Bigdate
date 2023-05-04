@@ -3,8 +3,9 @@ import "./RegisterPost.css";
 import { PlusSquare,DashSquare, ConeStriped} from 'react-bootstrap-icons';
 import PlaceForm from '../components/form/PlaceForm';
 import axios from 'axios';
-import { ADDRESS } from '../Adress';
+
 import { useHistory } from 'react-router-dom';
+import { ADDRESS } from '../Adress';
 
 
 function RegistPost() {
@@ -65,28 +66,33 @@ function RegistPost() {
   
   
 
-  const handleRegister = (event) => {
-    if(components.length<1){
-      alert('2개 이상 입력하세요')
+  const handleRegister = async (event) => {
+    event.preventDefault();
+  
+    if (components.length < 2) {
+      alert('2개 이상 입력하세요');
       return;
     }
-
-    setTotalData({
-      courseTitle: courseTitle,
-      reviewList: components,
-      courseInfo: info,
-
-    
-    });
-
-    event.preventDefault();
-    sendDataToServer(totalData);
+  
+    try {
+      const token = localStorage.getItem('token');
+      const data = {
+        courseTitle: courseTitle,
+        reviewList: components,
+        courseInfo: info,
+      };
+  
+      await setTotalData(data);
+      await sendDataToServer(data, token);
+      history.push('/post');
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-
-  const sendDataToServer = async (data) => {
-    const token = localStorage.getItem('token');
-    console.log(data);
+  
+ 
+  
+  const sendDataToServer = async (data, token) => {
     try {
       const response = await axios.post(
         `${ADDRESS}/users/courses`,
@@ -99,11 +105,11 @@ function RegistPost() {
         },
       );
       console.log(response.data);
-      history.push('/post');
     } catch (error) {
       console.error(error);
     }
   };
+  
   
 
 
