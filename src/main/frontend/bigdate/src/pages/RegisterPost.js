@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import { ADDRESS } from '../Adress';
 
 
-function RegistPost() {
+function RegisterPost() {
   const [inputVal, setInputVal] = useState(''); // 입력창의 값을 상태로 관리
   const [showTextArea, setShowTextArea] = useState(false);
   const [info, setInfo] = useState('');
@@ -68,9 +68,25 @@ function RegistPost() {
 
   const handleRegister = async (event) => {
     event.preventDefault();
+
+    if(courseTitle===''){
+      alert('제목을 입력하세요.');
+      return;
+    }
+
+    if(info===''){
+      alert('코스 설명을 입력하세요.');
+      return;
+    }
+
+   const hasEmpty = components.some(component => component.expense === '' || component.avgScore === ''||component.reviewInfo===''||component.placeId==='');
+    if (hasEmpty) {
+      alert('모든 값을 입력 후 확인 버튼을 누르세요.');
+      return;
+    }
   
     if (components.length < 2) {
-      alert('2개 이상 입력하세요');
+      alert('2개 이상 입력하세요.');
       return;
     }
   
@@ -119,13 +135,7 @@ function RegistPost() {
       
     <div className="overlay-container">
 
-    <div style={{
-      fontWeight:"bold",
-      fontSize:"large",
-      marginRight:"40px",
-      marginLeft:"40px",
-      borderBottom: '1px solid gray'
-      }}>코스 등록
+    <div className='line'>코스 등록
     </div>
 
       <div style={{margin:"20px 40px"}}> 
@@ -153,7 +163,7 @@ function RegistPost() {
       </div>    
 
 
-      <div style={{fontWeight:"bold",fontSize:"large",marginLeft:"40px",marginRight:"40px",borderBottom: '1px solid gray'}}>코스 설명</div>
+      <div className='line'>코스 설명</div>
       <div  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}  >
       <textarea
             className='input'
@@ -189,4 +199,4 @@ function RegistPost() {
 };
 
 
-export default RegistPost
+export default RegisterPost
