@@ -4,11 +4,11 @@ import axios from 'axios';
 import xml2js from 'xml2js';
 import { useState } from 'react';
 import './HotspotView.css';
-import { ThermometerHalf ,Sun,Cloudy,Wind} from 'react-bootstrap-icons';
+import { ThermometerHalf ,Sun,Cloudy,Wind,Clock} from 'react-bootstrap-icons';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import EbayCarousel from '../components/carousel/EbayCarousel';
 import { ADDRESS } from '../Adress';
-
+import moment from 'moment';
 
   // 장소 목록 데이터를 가지고 있는 places 배열을 정의
   const places = [];
@@ -24,8 +24,10 @@ function HotspotView() {
   const [temp,setTemp] = useState('');
   const [sensible_temp,setSensibleTemp] = useState('');
   const [uv_level,setUv_level] = useState('');
+ 
   const[rainper,setRainper] = useState('');
   const[pm10,setPm10] = useState('');
+ 
   const[air_msg,setAir_msg] = useState('');
   const[traffic_msg,setTraffic_mag]=useState('');
   const[traffic_level,setTraffic_level]=useState('');
@@ -33,7 +35,29 @@ function HotspotView() {
   const[sky,setSky]=useState('');
 
   const [isLoading, setIsLoading] = useState(true);
+
+  const [data,setData]=useState({});
+  const token = localStorage.getItem('token');
+  const id = localStorage.getItem('id');
+  useEffect(() => {
+   
+  if(!id){return;}
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
+    axios.get(`${ADDRESS}/users/${id}`)
+      .then(response => {
+        // 서버로부터 받은 데이터 처리
+        console.log(response.data);
+        setData(response.data);
+
+      })
+      .catch(error => {
+        // 에러 처리
+        console.error(error);
+      });
+      
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -80,7 +104,7 @@ function HotspotView() {
         });
           //장소목록불러오기
           const place_list =await axios.get(`${ADDRESS}/hotspots/${hotspotId}`);
-         
+        
           setPlaceList(place_list.data);
 
           //로드완료시
@@ -136,15 +160,72 @@ function HotspotView() {
     const filterACTIVE = placeList.filter(function(place) {
       return place.placeMood === '활동적인';
     });
+    
+    const tags = ['#로맨틱한', '#활동적인', '#힐링', '#힙한', '#레트로'];
+    let filteredPlaces;
+    if (data.userMood === '로맨틱한') {
+      filteredPlaces = filterROMANTIC;
+    } else if (data.userMood === '활동적인') {
+      filteredPlaces = filterACTIVE;
+    } else if (data.userMood === '힐링') {
+      filteredPlaces = filterHEALING;
+    } else if (data.userMood === '힙한') {
+      filteredPlaces = filterHIP;
+    } else if (data.userMood === '레트로') {
+      filteredPlaces = filterRETRO;
+    }
 
 
+    if (data.userMood) {
+      const index = tags.indexOf(`#${data.userMood}`);
+      if (index > -1) {
+        tags.splice(index, 1);
+      }
+      tags.unshift(`#${data.userMood}`);
+    }
 
+
+    const renderTag = (tag) => {
+      if (tag === `#${data.userMood}`) {
+        return (
+          <div key={tag}>
+            <div className='tag' style={{backgroundColor:'#1E90FF',color:'white',width:'400px'}}>회원님을 위한 {tag} 분위기의 장소 추천해요!</div>
+            <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
+              <EbayCarousel places={filteredPlaces} />
+            </div>
+          </div>
+        );
+      } else {
+        let filter;
+        if (tag === '#로맨틱한') {
+          filter = filterROMANTIC;
+        } else if (tag === '#활동적인') {
+          filter = filterACTIVE;
+        } else if (tag === '#힐링') {
+          filter = filterHEALING;
+        } else if (tag === '#힙한') {
+          filter = filterHIP;
+        } else if (tag === '#레트로') {
+          filter = filterRETRO;
+        }
+        return (
+          <div key={tag}>
+            <div className='tag'>{tag}</div>
+            <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
+              <EbayCarousel places={filter} />
+            </div>
+          </div>
+        );
+      }
+    };
 
   return (
 <div>
+<div className='toCenter' style={{fontSize:'25px',fontWeight:'bold'}}><Clock style={{marginRight:'10px'}}/>{moment().format('YYYY-MM-DD HH:mm')}</div>
   <div className='hotspot_container'>
          <div className='hotspot_title'>{hotspotName}의 실시간 정보</div>
   </div>      
+  
          <div className='row-1'> 
             <img src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${hotspotName}.jpg`} width="25%"/>
             <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -178,6 +259,11 @@ function HotspotView() {
             </div>
             </div>
          </div>
+
+         <div style={{marginTop:'50px'}}>
+          {tags.map((tag) => renderTag(tag))}
+         </div>
+
          <div >
           <div className='tag'> # 음식점</div>
           <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
@@ -198,46 +284,7 @@ function HotspotView() {
           <EbayCarousel places={filterAT} />
           </div>
          </div>
-
-
-         <div >
-          <div className='tag'> # 로맨틱</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
-          <EbayCarousel places={filterROMANTIC} />
-          </div>
-         </div>
-
-         <div >
-          <div className='tag'> # 활동적인</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
-          <EbayCarousel places={filterACTIVE} />
-          </div>
-         </div>
-
-         <div >
-          <div className='tag'> # 힐링</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
-          <EbayCarousel places={filterHEALING} />
-          </div>
-         </div>
-
-         <div >
-          <div className='tag'> # 힙한</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
-          <EbayCarousel places={filterHIP} />
-          </div>
-         </div>
-
-         <div >
-          <div className='tag'> # 레트로</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
-          <EbayCarousel places={filterRETRO} />
-          </div>
-         </div>
-         
-
-
-
+     
   </div>
          );
 }
