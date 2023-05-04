@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { getPostByNo } from '../post/PostList';
 import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
 import { ADDRESS } from '../../Adress';
 import moment from 'moment';
@@ -24,12 +23,16 @@ const PostView = ({ history, location, match }) => {
 /**코스 댓글 조회 axio get */
 
 useEffect(() => {
-  axios.get(`${ADDRESS}/courses/${course_id}`)
+  const id = localStorage.getItem('id');
+  const url = id ? `${ADDRESS}/courses/${course_id}?id=${id}` : `${ADDRESS}/courses/${course_id}`;
+  axios.get(url)
     .then(response => {
       setData(response.data);
       console.log(response.data);
       setLikeCount(response.data.likeCount);
+      setIsLiked(response.data.liked);
       setScrapCount(response.data.scrapCount);
+      setIsScrapped(response.data.scraped);
       setPlaces(response.data.reviewList);
   
       
@@ -94,8 +97,17 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
   //댓글 등록 함수
   const postComment = async (comment) => {
     setComment(comment);
-    const id = localStorage.getItem('id');
+    if (!comment) {
+      alert('글 내용을 입력해주세요.');
+      return;
+    }
 
+    if (!localStorage.getItem('token')) {
+      alert('로그인 후 댓글을 작성할 수 있습니다.');
+      return;
+    }
+    const id = localStorage.getItem('id');
+    
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
@@ -124,7 +136,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
     }
     
     try {
-      const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`,
+      const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`
       );
       console.log(response);
       
@@ -159,11 +171,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       if(response.data=='찜 목록에서 삭제되었습니다.'){
         setScrapCount(scrapCount-1);
         setIsScrapped(false);
-       // localStorage.setItem('IsScrapped',isScrapped)
+      
       }else{
         setScrapCount(scrapCount+1);
         setIsScrapped(true);
-       // localStorage.setItem('IsScrapped',isScrapped)
+       
       }
       
     } catch (error) {
@@ -183,7 +195,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
             <div className="overlay-container">
             <div className='line' style={{display:'flex', justifyContent:'space-between'}}>
             <div>{data.courseTitle}</div>  
-            <div style={{fontSize:'12px',color:'dimgray'}}>{date}</div>  
+            <div style={{fontSize:'12px',color:'dimgray'}}><div > {date}</div><div style={{float:'right'}}> {data.userId}</div> </div>
             </div>
 
 
@@ -268,11 +280,19 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
         
         <div style={{display:'flex',justifyContent:'center',marginTop:'50px'}}>
           <div style={{border: '1px solid lightgray',padding:'10px',alignContent:'center',textAlign:'center'}} onClick={handleLikeClick}>
-              <HandThumbsUp style={{ fontSize: '20px',color:'#1E90FF'}} />
+              {isLiked?
+              (<HandThumbsUpFill style={{ fontSize: '20px',color:'#1E90FF'}} />):
+              (<HandThumbsUp style={{ fontSize: '20px',color:'#1E90FF'}} />)
+              }
+
               <div>{likeCount}</div>
           </div>
           <div style={{ border: '1px solid lightgray', padding: '10px', marginLeft: '20px', textAlign: 'center' }} onClick={handleScrapClick}>
-              <HeartFill style={{ fontSize: '20px', color: 'red' }} /> 
+              
+              {isScrapped?
+              (<HeartFill style={{ fontSize: '20px', color: 'red' }} /> ):
+              (<Heart style={{ fontSize: '20px', color: 'red' }} /> )
+              }
               <div>{scrapCount}</div>
           </div>
         </div>

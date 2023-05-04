@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { getPostByNo } from '../post/PostList';
 import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
-import { ADDRESS } from '../../Adress';
+
 import moment from 'moment';
+import { ADDRESS } from '../../../Adress';
 const { kakao } = window;
 
 
 
-const PostView = ({ history, location, match }) => {
+const PostView_ad = ({ history, location, match }) => {
   const [ data, setData ] = useState({});
   const [comment,setComment] = useState('');
   const[places,setPlaces]=useState([]);
@@ -24,11 +24,14 @@ const PostView = ({ history, location, match }) => {
 /**코스 댓글 조회 axio get */
 
 useEffect(() => {
-  axios.get(`${ADDRESS}/courses/${course_id}`)
+  const id = localStorage.getItem('id');
+  const url = id ? `${ADDRESS}/courses/${course_id}?id=${id}` : `${ADDRESS}/courses/${course_id}`;
+  axios.get(url)
     .then(response => {
       setData(response.data);
       console.log(response.data);
       setLikeCount(response.data.likeCount);
+      setIsLiked(response.data.liked);
       setScrapCount(response.data.scrapCount);
       setPlaces(response.data.reviewList);
   
@@ -81,7 +84,7 @@ const totalExpense = courses.reduce((acc, review) => {
   return acc + expense;
 }, 0);
 
-const date = moment(data.postedDate).format('YYYY-MM-DD');
+const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
 
 
@@ -94,8 +97,17 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   //댓글 등록 함수
   const postComment = async (comment) => {
     setComment(comment);
-    const id = localStorage.getItem('id');
+    if (!comment) {
+      alert('글 내용을 입력해주세요.');
+      return;
+    }
 
+    if (!localStorage.getItem('token')) {
+      alert('로그인 후 댓글을 작성할 수 있습니다.');
+      return;
+    }
+    const id = localStorage.getItem('id');
+    
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
@@ -119,6 +131,10 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
+    if(token==null){
+      alert('로그인이 필요한 서비스입니다.')
+    }
+    
     try {
       const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`,
       );
@@ -142,6 +158,9 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   const handleScrapClick = async () => {
     
     const token = localStorage.getItem('token');
+    if(token==null){
+      alert('로그인이 필요한 서비스입니다.')
+    }
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
    
     try {
@@ -152,11 +171,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
       if(response.data=='찜 목록에서 삭제되었습니다.'){
         setScrapCount(scrapCount-1);
         setIsScrapped(false);
-       // localStorage.setItem('IsScrapped',isScrapped)
+      
       }else{
         setScrapCount(scrapCount+1);
         setIsScrapped(true);
-       // localStorage.setItem('IsScrapped',isScrapped)
+       
       }
       
     } catch (error) {
@@ -176,7 +195,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
             <div className="overlay-container">
             <div className='line' style={{display:'flex', justifyContent:'space-between'}}>
             <div>{data.courseTitle}</div>  
-            <div style={{fontSize:'12px',color:'dimgray'}}>{date}</div>  
+            <div style={{fontSize:'12px',color:'dimgray'}}><div > {date}</div><div style={{float:'right'}}> {data.userId}</div> </div>
             </div>
 
 
@@ -216,7 +235,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
                   
                 ))}
 
-                    <div style={{marginTop:'50px',display:'flex',justifyContent:'center',borderTop:'1px solid lightgray'}}>
+                    <div style={{marginTop:'50px',display:'flex',justifyContent:'center',borderTop:'1px solid lightgray',width:'300px'}}>
                   1인 예상 금액 :{totalExpense}  원</div>
                 
               </div>
@@ -261,11 +280,19 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
         
         <div style={{display:'flex',justifyContent:'center',marginTop:'50px'}}>
           <div style={{border: '1px solid lightgray',padding:'10px',alignContent:'center',textAlign:'center'}} onClick={handleLikeClick}>
-              <HandThumbsUp style={{ fontSize: '20px',color:'#1E90FF'}} />
+              {isLiked?
+              (<HandThumbsUpFill style={{ fontSize: '20px',color:'#1E90FF'}} />):
+              (<HandThumbsUp style={{ fontSize: '20px',color:'#1E90FF'}} />)
+              }
+
               <div>{likeCount}</div>
           </div>
           <div style={{ border: '1px solid lightgray', padding: '10px', marginLeft: '20px', textAlign: 'center' }} onClick={handleScrapClick}>
-              <HeartFill style={{ fontSize: '20px', color: 'red' }} /> 
+              
+              {isScrapped?
+              (<HeartFill style={{ fontSize: '20px', color: 'red' }} /> ):
+              (<Heart style={{ fontSize: '20px', color: 'red' }} /> )
+              }
               <div>{scrapCount}</div>
           </div>
         </div>
@@ -277,12 +304,12 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
        <div>
        {commentArray && commentArray.length > 0 ? (
           commentArray.map((comment) => {
-          const { id, userId, createdAt, content } = comment;
+          const { id} = comment;
           return (
             <div key={id}>
               <div style={{display:'flex'}}>
                 <div style={{marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
-                <div style={{marginLeft:'20px'}}> {moment(comment.postedDate).format('YYYY-MM-DD HH:mm')}</div>
+                <div style={{marginLeft:'20px'}}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm')}</div>
               </div>           
 
               <div className='toCenter'>
@@ -297,7 +324,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
           )
           })
           ) : (
-            <div style={{textAlign:'center',color:'gray'}}>댓글이 없습니다.</div>
+            <div style={{textAlign:'center',color:'gray',marginTop:'30px',marginBottom:'30px'}}>댓글이 없습니다.</div>
           )}
         </div>
 
@@ -341,4 +368,4 @@ const date = moment(data.postedDate).format('YYYY-MM-DD');
   )
 }
 
-export default PostView;
+export default PostView_ad;
