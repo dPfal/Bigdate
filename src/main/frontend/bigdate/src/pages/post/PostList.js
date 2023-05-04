@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
-import axios from 'axios';
-import Pagination from 'react-bootstrap/Pagination';
-import { HandThumbsUp,Heart, HeartFill, } from 'react-bootstrap-icons';
-import moment from 'moment';
-import { ADDRESS } from '../../Adress';
 import CommonTable from '../../components/table/CommonTable';
 import CommonTableColumn from '../../components/table/CommonTableColumn';
 import CommonTableRow from '../../components/table/CommonTableRow';
+import axios from 'axios';
 
+import { HandThumbsUp,Heart, Pencil } from 'react-bootstrap-icons';
+import { ADDRESS } from '../../Adress';
+import moment from 'moment';
+import Pagination from "react-js-pagination";
 
 const PostList = props => {
   const history=useHistory();
   const [dataList, setDataList] = useState([]);
-  const [pageNumber, setPageNumber] = useState(0); 
-  const [sortOption, setSortOption] = useState(""); 
+  const [pageNumber, setPageNumber] = useState(1); 
+  const [sortOption, setSortOption] = useState(""); // 라디오 버튼의 선택된 옵션 상태 관리
   
 
 
+//페이지 이동
+  const handlePageChange = (page) => {
+    setPageNumber(page);
+  };
+
+
+//서버에 정렬 조회 요청하기
 const handleSortOptionChange = (e) => {
   const newSortOption = e.target.value;
   setSortOption(newSortOption);
   
-  axios.get(`${ADDRESS}/courses?page=${pageNumber}&sort=${newSortOption}`)
+  axios.get(`${ADDRESS}/courses?page=${pageNumber-1}&sort=${newSortOption}`)
     .then(response => {
       console.log(response.data);
       setDataList(response.data.content);
@@ -33,46 +39,11 @@ const handleSortOptionChange = (e) => {
     });
 };
 
-
-  const handlePageChange = (page) => {
-    setPageNumber(page);
-  };
-
-  const getPostByNo = course_id => {
-    const array = dataList.filter(x => x.course_id == course_id);
-    if (array.length == 1) {
-      return array[0];
-    }
-    return null;
-  }
-
-  let items = [];
-  const totalPages = 10; // 예시로 총 10 페이지가 있다고 가정합니다.
-  const startPage = Math.max(1, pageNumber - 2);
-  const endPage = Math.min(totalPages, pageNumber + 2);
-  for (let number = startPage; number <= endPage; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === pageNumber + 1}
-        onClick={() => setPageNumber(number - 1)}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-    
-    const paginationBasic = (
-      <div>
-        <Pagination size="sm">{items}</Pagination>
-      </div>
-  );
-
  
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
-    axios.get(`${ADDRESS}/courses?page=${pageNumber}`)
+    axios.get(`${ADDRESS}/courses?page=${pageNumber-1}&id=${localStorage.getItem('id')}`)
       .then(response => {
         console.log(response.data);
         setDataList(response.data.content);
@@ -82,18 +53,29 @@ const handleSortOptionChange = (e) => {
       });
   }, [pageNumber]);
   
-  
+
+  const handleButtonClick = () => {
+    //로그인 안 한 사용자일 경우 글쓰기 x
+    if (!localStorage.getItem('token')) {
+      alert('로그인이 필요한 서비스입니다.');
+      return;
+    }
+   
+    window.location.pathname = '/user/course/write';
+  };
+
   return (
     <div>
       <div className='background-container'style={{height:'700px'}} >
         <div className='overlay-container'>
-          <div className='line'>
+          <div className='line'
+          >
             그때 코스
           </div>
          
-
-         
-            <div className='select_container'>
+           
+         <div style={{display:'flex',justifyContent:'space-between'}}>
+            <div className='select_container' style={{marginLeft:'10px'}}>
               <select value={sortOption} onChange={handleSortOptionChange}>
                 <option value="courseId">최신 순</option>
                 <option value="like">좋아요 순</option>
@@ -102,6 +84,14 @@ const handleSortOptionChange = (e) => {
               </select>
             </div>
 
+          <div className='head_container'>
+            <div style={{marginRight:'30px'}}>
+                <button onClick={handleButtonClick} style={{margiLeft:'100px',marginTop:'10px'}}>
+                <Pencil fontSize={10} /> 글쓰기
+                </button>
+            </div> 
+          </div>   
+       </div>
 
           <div>
             <>
@@ -131,7 +121,7 @@ const handleSortOptionChange = (e) => {
                             {item.likeCount}
                           </CommonTableColumn>
                           <CommonTableColumn>
-                          <HeartFill style={{color: 'red' , marginRight: '5px'}} /> 
+                          <Heart style={{color: 'red' , marginRight: '5px'}} /> 
                             {item.scrapCount}
                           </CommonTableColumn>
                           <CommonTableColumn>
@@ -143,11 +133,29 @@ const handleSortOptionChange = (e) => {
                   : ''}
               </CommonTable>
             </>
-            <div className='pagination' >{paginationBasic}</div>
+          
+
           </div>
           
         </div>
       </div>
+      <div  className="pagination-container">
+            <Pagination 
+              activePage={pageNumber}
+              itemsCountPerPage={15}
+              totalItemsCount={450}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              itemClass="page-item"
+              linkClass="page-link"
+              innerClass="pagination"
+              prevPageLinkClassName="page-link prev"
+              nextPageLinkClassName="page-link next"
+            
+            />
+            </div>  
     </div>
   );
 };
