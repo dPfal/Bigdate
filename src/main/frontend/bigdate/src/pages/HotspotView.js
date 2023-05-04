@@ -190,7 +190,7 @@ function HotspotView() {
         return (
           <div key={tag}>
             <div className='tag' style={{backgroundColor:'#1E90FF',color:'white',width:'400px'}}>회원님을 위한 {tag} 분위기의 장소 추천해요!</div>
-            <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
+            <div style={{backgroundColor:'white',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
               <EbayCarousel places={filteredPlaces} />
             </div>
           </div>
@@ -211,7 +211,7 @@ function HotspotView() {
         return (
           <div key={tag}>
             <div className='tag'>{tag}</div>
-            <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
+            <div style={{backgroundColor:'white',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
               <EbayCarousel places={filter} />
             </div>
           </div>
@@ -220,6 +220,9 @@ function HotspotView() {
     };
 
   return (
+    <div className="background-container">
+      
+    <div className="overlay-container">
 <div>
 <div className='toCenter' style={{fontSize:'25px',fontWeight:'bold'}}><Clock style={{marginRight:'10px'}}/>{moment().format('YYYY-MM-DD HH:mm')}</div>
   <div className='hotspot_container'>
@@ -243,7 +246,7 @@ function HotspotView() {
          <div  className="row-2"> 
             <div>
             <div >교통</div>
-            <div style={{width:"400px",backgroundColor:"white",marginTop:"2%",height:"120px",paddingTop:"1px"}}>
+            <div style={{width:"300px",backgroundColor:"#f5f5f5",marginTop:"2%",height:"120px",paddingTop:"1px"}}>
             <div className='row-2_content'> 도로 소통 단계 <span style={{fontWeight:"bold"}}> {traffic_level} </span> </div>
             <div className='row-2_content'>평균 주행 속도는 <span style={{fontWeight:"bold"}}> {traffic_speed} </span> km/h 입니다.</div>
             </div>
@@ -266,25 +269,25 @@ function HotspotView() {
 
          <div >
           <div className='tag'> # 음식점</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
+          <div style={{backgroundColor:'white',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
           <EbayCarousel places={filterRE} />
           </div>
          </div>
 
          <div >
           <div className='tag'> # 카페</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
+          <div style={{backgroundColor:'white',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
           <EbayCarousel places={filterCA} />
           </div>
          </div>
 
          <div >
           <div className='tag'> # 놀거리</div>
-          <div style={{backgroundColor:'white',width:'1000px', marginLeft:'10%',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
+          <div style={{backgroundColor:'white',marginTop:'10px',marginBottom:'30px',borderRadius:'20px'}}>
           <EbayCarousel places={filterAT} />
           </div>
          </div>
-     
+         </div></div>
   </div>
          );
 }
