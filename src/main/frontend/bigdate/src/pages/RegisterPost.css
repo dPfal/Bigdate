@@ -1,28 +1,26 @@
 .background-container {
-    width: 800px; /* 배경의 너비 설정 */
-    height:fit-content;
-    margin: 0 auto; /* 가운데 정렬 */
-    background-color: white; /* 흰색 배경 설정 */
-    /* 바탕과 내용 사이의 간격 설정 */
-  }
+  width: 800px; /* 배경의 너비 설정 */
+  height: fit-content;
+  margin: 0 auto; /* 가운데 정렬 */
+  background-color: white; /* 흰색 배경 설정 */
+  /* 바탕과 내용 사이의 간격 설정 */
+}
+
+.overlay-container {
+
+ font-size: small;
+ font-weight: 600;
   
-  .overlay-container {
-  
-   font-size: small;
-   font-weight: bold;
-    
-  }
-  
-
-  .place_add{
-    margin-top: 10px;
-   
+}
 
 
-  }
+.place_add{
+  margin-top: 10px;
+ 
+}
 
-  .form_add{
-    display: flex;
-    justify-content: center;
+.form_add{
+  display: flex;
+  justify-content: center;
 
-  }
+}

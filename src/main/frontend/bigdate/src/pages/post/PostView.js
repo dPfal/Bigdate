@@ -247,11 +247,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
          <div className='line'>코스 설명
         </div>
-        <div style={{marginLeft:'40px',fontSize:'12px'}}>{data.courseInfo}</div>
+        <div style={{marginLeft:'40px',marginTop:'20px',fontSize:'15px',fontWeight:'initial'}}>{data.courseInfo}</div>
 
 
 
-        <div className='line'>코스 상세보기
+        <div className='line' style={{marginTop:'50px'}}>코스 상세보기
         </div>
        {/**map함수로 코스에 해당하는 장소 넣기 */}
        <div style={{ display: 'flex', flexDirection: 'column' }}>
@@ -267,7 +267,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                       <div><GeoAltFill style={{color:'#3163C9',fontSize:'20px'}}/> {course.placeDTO.addressName} <StarFill style={{color:'orange',marginBottom:'5px'}}/>
                        {course.avgScore}</div>
                     
-                      <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px'}}>{course.reviewInfo}</div>
+                      <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px',fontWeight:'500'}}>{course.reviewInfo}</div>
                       </div>
                     </div>
                     

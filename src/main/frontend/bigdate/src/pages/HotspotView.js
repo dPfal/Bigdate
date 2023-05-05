@@ -225,7 +225,7 @@ function HotspotView() {
     <div className="overlay-container">
 <div>
 <div className='toCenter' style={{fontSize:'25px',fontWeight:'bold'}}><Clock style={{marginRight:'10px'}}/>{moment().format('YYYY-MM-DD HH:mm')}</div>
-  <div className='hotspot_container'>
+  <div className='toCenter' >
          <div className='hotspot_title'>{hotspotName}의 실시간 정보</div>
   </div>      
   
@@ -246,9 +246,9 @@ function HotspotView() {
          <div  className="row-2"> 
             <div>
             <div >교통</div>
-            <div style={{width:"300px",backgroundColor:"#f5f5f5",marginTop:"2%",height:"120px",paddingTop:"1px"}}>
-            <div className='row-2_content'> 도로 소통 단계 <span style={{fontWeight:"bold"}}> {traffic_level} </span> </div>
-            <div className='row-2_content'>평균 주행 속도는 <span style={{fontWeight:"bold"}}> {traffic_speed} </span> km/h 입니다.</div>
+            <div style={{width:"300px",backgroundColor:"#f5f5f5",marginTop:"2%",height:"120px",paddingTop:"20px",}}>
+            <div className='row-2_content'> 도로 소통 단계  <span style={{fontWeight:"bold",marginLeft:'10px'}}> {traffic_level} </span> </div>
+            <div className='row-2_content'>평균 주행 속도는 <span style={{fontWeight:"bold",marginLeft:'10px'}}> {traffic_speed} </span> km/h 입니다.</div>
             </div>
             
             </div>
