@@ -16,4 +16,6 @@ public interface ScrapRepository extends JpaRepository<Scrap, ScrapId> {
     Optional<List<Scrap>> findByScrapIdId(long id);
 
     int deleteAllByScrapIdCourseId(Long courseId);
+
+
 }

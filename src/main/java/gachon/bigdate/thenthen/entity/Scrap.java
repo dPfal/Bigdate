@@ -17,4 +17,8 @@ public class Scrap {
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="course_id", insertable = false, updatable = false)
     private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", insertable = false, updatable = false)
+    private User user;
 }

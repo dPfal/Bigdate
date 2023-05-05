@@ -31,7 +31,7 @@ public class AdminController {
         return ResponseEntity.ok().body(this.adminService.getAdminMain());
     }
 
-    @DeleteMapping("/{id}") // 현재 empty 계정만 삭제 가능
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserByAdmin(@PathVariable("id") Long id) {
         String message = adminService.deleteUser(id);
         return ResponseEntity.ok().body(message);
