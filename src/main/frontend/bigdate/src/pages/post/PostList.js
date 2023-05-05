@@ -139,7 +139,7 @@ const handleSortOptionChange = (e) => {
           
         </div>
       </div>
-      <div  className="pagination-container">
+      <div  style={{marginTop:'30px'}}>
             <Pagination 
               activePage={pageNumber}
               itemsCountPerPage={15}
