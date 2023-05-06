@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { getPostByNo } from '../post/PostList';
 import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
 import { ADDRESS } from '../../Adress';
 import moment from 'moment';

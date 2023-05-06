@@ -20,5 +20,6 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
     Double calculateAvg(Long placeId);
 
     Place findByPlaceId(Long placeId);
+    Page<Place> findByPlaceId(Pageable pageable);
     Page<Place> findAll(Pageable pageable);
 }

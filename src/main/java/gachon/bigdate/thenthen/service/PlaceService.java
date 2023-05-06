@@ -80,4 +80,13 @@ public class PlaceService {
         }
         return new PageImpl<>(placeDTOArrayList, pageable, this.placeRepository.count());
     }
+
+    public PageImpl<PlaceDTO> getPlaceListByPlaceId(Pageable pageable, Long placeId){
+        Page<Place> placePage = this.placeRepository.findByPlaceId(pageable);
+        ArrayList<PlaceDTO> placeDTOArrayList = new ArrayList<>();
+        for (Place place : placePage.getContent()){
+            placeDTOArrayList.add(new PlaceDTO(place));
+        }
+        return new PageImpl<>(placeDTOArrayList, pageable, placePage.get().count());
+    }
 }

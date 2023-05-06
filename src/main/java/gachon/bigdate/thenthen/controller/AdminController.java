@@ -41,4 +41,10 @@ public class AdminController {
         pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
         return ResponseEntity.ok().body(this.placeService.getPlaceList(pageable));
     }
+
+    @GetMapping("/places/{placeId}")
+    public ResponseEntity<?> getPlaceListByPlaceId(Pageable pageable,@PathVariable(required = false) long placeId){
+        pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
+        return ResponseEntity.ok().body(this.placeService.getPlaceListByPlaceId(pageable,placeId));
+    }
 }
