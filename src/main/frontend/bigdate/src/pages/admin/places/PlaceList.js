@@ -5,6 +5,7 @@ import { ADDRESS } from '../../../Adress';
 import CommonTableRow from '../../../components/table/CommonTableRow';
 import CommonTableColumn from '../../../components/table/CommonTableColumn';
 import Pagination from "react-js-pagination";
+import { useHistory } from 'react-router-dom';
 
 const placeList=[ 
   {hotspotId: 0, hotspotName: '강남 MICE 관광특구'},
@@ -60,6 +61,7 @@ const placeList=[
  
 ]
 function PlaceList() {
+    const history=useHistory();
     const [ dataList, setDataList ] = useState([]);
     const [hotspotList,setHotspotList]=useState([]);
     const [pageNumber, setPageNumber] = useState(1); 
@@ -98,7 +100,7 @@ const handlePageChange = (page) => {
         const newSortOption = e.target.value;
         setSortOption(newSortOption);
         
-        axios.get(`${ADDRESS}/courses?page=${pageNumber-1}&sort=${newSortOption}`)
+        axios.get(`${ADDRESS}/admin/places/${newSortOption}`)
           .then(response => {
             console.log(response.data);
             setDataList(response.data.content);
@@ -158,6 +160,7 @@ const handlePageChange = (page) => {
         <>
             <div className='select_container'>
             <select value={sortOption} onChange={ handleSortOptionChange}>
+            <option value="">전체</option>
             {hotspotList.map((option) => (
                 <option key={option.hotspotId} value={option.hotspotId}>
                 {option.hotspotName}
@@ -175,7 +178,9 @@ const handlePageChange = (page) => {
                   
                     <CommonTableRow key={index}>
                       <CommonTableColumn>{ item.placeId }</CommonTableColumn>
+                      <span onClick={() => history.push(`/ad/place/${item.placeId}`)}>
                       <CommonTableColumn>{item.placeName} </CommonTableColumn>
+                      </span>
                       <CommonTableColumn>{placeName}</CommonTableColumn>
                       <CommonTableColumn>{item.reviewCount}</CommonTableColumn>
                       <CommonTableColumn>{item.placeMood}</CommonTableColumn>
@@ -190,7 +195,8 @@ const handlePageChange = (page) => {
 
       </div>   
         </div>
-        <div  style={{marginTop:'30px'}}>
+              {!sortOption && (
+          <div style={{marginTop:'30px'}}>
             <Pagination 
               activePage={pageNumber}
               itemsCountPerPage={15}
@@ -204,9 +210,9 @@ const handlePageChange = (page) => {
               innerClass="pagination"
               prevPageLinkClassName="page-link prev"
               nextPageLinkClassName="page-link next"
-            
             />
-            </div>  
+          </div>
+        )} 
         </div>
 
      
