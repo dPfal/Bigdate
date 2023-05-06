@@ -99,7 +99,11 @@ const handlePageChange = (page) => {
     const handleSortOptionChange = (e) => {
         const newSortOption = e.target.value;
         setSortOption(newSortOption);
-        
+        if (newSortOption === '') {
+          // 전체를 선택한 경우 서버에서 전체 데이터를 가져옴
+          fetchDataList();
+        }
+        setPageNumber(1)
         axios.get(`${ADDRESS}/admin/places/${newSortOption}`)
           .then(response => {
             console.log(response.data);
