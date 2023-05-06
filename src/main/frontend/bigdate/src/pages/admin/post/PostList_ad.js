@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-
 import axios from 'axios';
-import Pagination from 'react-bootstrap/Pagination';
-import { HandThumbsUp,Heart, HeartFill, } from 'react-bootstrap-icons';
-
+import Pagination from "react-js-pagination";
 import moment from 'moment';
 import { ADDRESS } from '../../../Adress';
 import CommonTableRow from '../../../components/table/CommonTableRow';
@@ -18,16 +15,20 @@ import CommonTable from '../../../components/table/CommonTable';
 const PostList_ad = props => {
   const history=useHistory();
   const [dataList, setDataList] = useState([]);
-  const [pageNumber, setPageNumber] = useState(0); 
-  const [sortOption, setSortOption] = useState(""); // 라디오 버튼의 선택된 옵션 상태 관리
+  const [pageNumber, setPageNumber] = useState(1); 
+  const [sortOption, setSortOption] = useState(""); 
   
 
-// 라디오 버튼의 옵션 변경 핸들러
+//페이지 이동
+const handlePageChange = (page) => {
+  setPageNumber(page);
+};
+
 const handleSortOptionChange = (e) => {
   const newSortOption = e.target.value;
   setSortOption(newSortOption);
   
-  axios.get(`${ADDRESS}/courses?page=${pageNumber}&sort=${newSortOption}`)
+  axios.get(`${ADDRESS}/courses?page=${pageNumber-1}&sort=${newSortOption}`)
     .then(response => {
       console.log(response.data);
       setDataList(response.data.content);
@@ -37,46 +38,11 @@ const handleSortOptionChange = (e) => {
     });
 };
 
-
-  const handlePageChange = (page) => {
-    setPageNumber(page);
-  };
-
-  const getPostByNo = course_id => {
-    const array = dataList.filter(x => x.course_id == course_id);
-    if (array.length == 1) {
-      return array[0];
-    }
-    return null;
-  }
-
-  let items = [];
-  const totalPages = 10; // 예시로 총 10 페이지가 있다고 가정합니다.
-  const startPage = Math.max(1, pageNumber - 2);
-  const endPage = Math.min(totalPages, pageNumber + 2);
-  for (let number = startPage; number <= endPage; number++) {
-    items.push(
-      <Pagination.Item
-        key={number}
-        active={number === pageNumber + 1}
-        onClick={() => setPageNumber(number - 1)}
-      >
-        {number}
-      </Pagination.Item>
-    );
-  }
-    
-    const paginationBasic = (
-      <div>
-        <Pagination size="sm">{items}</Pagination>
-      </div>
-  );
-
  
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
-    axios.get(`${ADDRESS}/courses?page=${pageNumber}`)
+    axios.get(`${ADDRESS}/courses?page=${pageNumber-1}`)
       .then(response => {
         console.log(response.data);
         setDataList(response.data.content);
@@ -95,7 +61,7 @@ const handleSortOptionChange = (e) => {
             커뮤니티 관리
           </div>
          
-            {/* 라디오 버튼들 */}
+         
          
             <div className='select_container'>
               <select value={sortOption} onChange={handleSortOptionChange}>
@@ -117,6 +83,7 @@ const handleSortOptionChange = (e) => {
                   '좋아요 수',
                   '찜 수',
                   '작성일',
+                  '관리'
                 ]}
               >
                 {dataList
@@ -126,16 +93,16 @@ const handleSortOptionChange = (e) => {
                           <CommonTableColumn>{item.courseId}</CommonTableColumn>
                           <CommonTableColumn>
                           <span onClick={() => history.push(`/postViewAd/${item.courseId}`)}>
-                            {item.courseTitle}
+                            {item.courseTitle} ({item.commentCount})
                           </span>
                           </CommonTableColumn>
                           <CommonTableColumn>{item.userId}</CommonTableColumn>
                           <CommonTableColumn>
-                          <HandThumbsUp style={{color:'#1E90FF',marginRight: '5px'}} />
+                         
                             {item.likeCount}
                           </CommonTableColumn>
                           <CommonTableColumn>
-                          <HeartFill style={{color: 'red' , marginRight: '5px'}} /> 
+                         
                             {item.scrapCount}
                           </CommonTableColumn>
                           <CommonTableColumn>
@@ -148,11 +115,28 @@ const handleSortOptionChange = (e) => {
                   : ''}
               </CommonTable>
             </>
-            <div className='pagination' >{paginationBasic}</div>
+           
           </div>
           
         </div>
       </div>
+      <div  style={{marginTop:'30px'}}>
+            <Pagination 
+              activePage={pageNumber}
+              itemsCountPerPage={15}
+              totalItemsCount={450}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              itemClass="page-item"
+              linkClass="page-link"
+              innerClass="pagination"
+              prevPageLinkClassName="page-link prev"
+              nextPageLinkClassName="page-link next"
+            
+            />
+            </div>  
     </div>
   );
 };

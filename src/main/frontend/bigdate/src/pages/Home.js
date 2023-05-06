@@ -7,6 +7,7 @@ import { ADDRESS } from '../Adress';
 
 
 
+
 function Home() {
  
 
@@ -71,9 +72,10 @@ function Home() {
 
     <div className='recommand_category'>
       
-      <div>#실시간 혼잡도 top5</div>  
+      <div className='rank'>#실시간 혼잡도 top5</div>  
         
       <div className='card-container'>
+        
       {topFiveCongest.map((topFiveCongest) => (
         <span key={topFiveCongest.hotspot_id}>
              
@@ -89,7 +91,11 @@ function Home() {
                   backgroundColor: topFiveCongest.congestionLevel === 4 ? 'red' :
                     topFiveCongest.congestionLevel === 3 ? 'orange' :
                       topFiveCongest.congestionLevel === 2 ? 'yellow' :
-                        topFiveCongest.congestionLevel === 1 ? 'green' : 'white'
+                        topFiveCongest.congestionLevel === 1 ? 'green' : 'white',
+
+                  width:'100px',
+                  border:'1PX solid white',
+                  borderRadius:'5px'
                 }}>
                   {topFiveCongest.congestionLevel === 4 ? '혼잡' :
                     topFiveCongest.congestionLevel === 3 ? '약간 붐빔' :
@@ -105,7 +111,7 @@ function Home() {
           ))}
       </div>
 
-      <div>#실시간 한적한 곳 top5</div>  
+      <div className='rank'>#실시간 한적한 곳 top5</div>  
         
         <div className='card-container'>
         {lowFiveCongest.map((lowFiveCongest) => (
@@ -123,8 +129,12 @@ function Home() {
                       backgroundColor: lowFiveCongest.congestionLevel === 4 ? 'red' :
                         lowFiveCongest.congestionLevel === 3 ? 'orange' :
                         lowFiveCongest.congestionLevel === 2 ? 'yellow' :
-                            lowFiveCongest.congestionLevel === 1 ? 'green' : 'white'
-                    }}>
+                        lowFiveCongest.congestionLevel === 1 ? 'green' : 'white',
+                            width:'100px',
+                            border:'1PX solid white',
+                            borderRadius:'5px'
+                          }}>
+   
                       {lowFiveCongest.congestionLevel === 4 ? '혼잡' :
                         lowFiveCongest.congestionLevel === 3 ? '약간 붐빔' :
                           lowFiveCongest.congestionLevel === 2 ? '보통' :
@@ -140,7 +150,7 @@ function Home() {
         </div>
         
 
-        <div>#실시간 미세먼지 맑은 곳 top5</div>  
+        <div className='rank'>#실시간 미세먼지 맑은 곳 top5</div>  
         
         <div className='card-container'>
         {lowFiveDust.map((lowFiveDust) => (
@@ -166,7 +176,7 @@ function Home() {
         </div>
 
 
-        <div>#실시간 하늘 상태 맑은 곳 top5</div>  
+        <div className='rank'>#실시간 하늘 상태 맑은 곳 top5</div>  
         
         <div className='card-container'>
         {lowFiveSky.map((lowFiveSky) => (
@@ -191,7 +201,7 @@ function Home() {
             ))}
         </div>
 
-        <div>#실시간 교통 상태 좋은 곳 top5</div>  
+        <div className='rank'><div>#실시간 교통 상태 좋은 곳 top5</div></div>  
         
         <div className='card-container'>
         {lowFiveTraffic.map((lowFiveTraffic) => (

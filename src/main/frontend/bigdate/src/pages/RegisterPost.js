@@ -3,11 +3,12 @@ import "./RegisterPost.css";
 import { PlusSquare,DashSquare, ConeStriped} from 'react-bootstrap-icons';
 import PlaceForm from '../components/form/PlaceForm';
 import axios from 'axios';
-import { ADDRESS } from '../Adress';
+
 import { useHistory } from 'react-router-dom';
+import { ADDRESS } from '../Adress';
 
 
-function RegistPost() {
+function RegisterPost() {
   const [inputVal, setInputVal] = useState(''); // 입력창의 값을 상태로 관리
   const [showTextArea, setShowTextArea] = useState(false);
   const [info, setInfo] = useState('');
@@ -65,28 +66,49 @@ function RegistPost() {
   
   
 
-  const handleRegister = (event) => {
-    if(components.length<1){
-      alert('2개 이상 입력하세요')
+  const handleRegister = async (event) => {
+    event.preventDefault();
+
+    if(courseTitle===''){
+      alert('제목을 입력하세요.');
       return;
     }
 
-    setTotalData({
-      courseTitle: courseTitle,
-      reviewList: components,
-      courseInfo: info,
+    if(info===''){
+      alert('코스 설명을 입력하세요.');
+      return;
+    }
 
-    
-    });
-
-    event.preventDefault();
-    sendDataToServer(totalData);
+   const hasEmpty = components.some(component => component.expense === '' || component.avgScore === ''||component.reviewInfo===''||component.placeId==='');
+    if (hasEmpty) {
+      alert('모든 값을 입력 후 확인 버튼을 누르세요.');
+      return;
+    }
+  
+    if (components.length < 2) {
+      alert('2개 이상 입력하세요.');
+      return;
+    }
+  
+    try {
+      const token = localStorage.getItem('token');
+      const data = {
+        courseTitle: courseTitle,
+        reviewList: components,
+        courseInfo: info,
+      };
+  
+      await setTotalData(data);
+      await sendDataToServer(data, token);
+      history.push('/post');
+    } catch (error) {
+      console.error(error);
+    }
   };
-
-
-  const sendDataToServer = async (data) => {
-    const token = localStorage.getItem('token');
-    console.log(data);
+  
+ 
+  
+  const sendDataToServer = async (data, token) => {
     try {
       const response = await axios.post(
         `${ADDRESS}/users/courses`,
@@ -99,11 +121,11 @@ function RegistPost() {
         },
       );
       console.log(response.data);
-      history.push('/post');
     } catch (error) {
       console.error(error);
     }
   };
+  
   
 
 
@@ -113,13 +135,7 @@ function RegistPost() {
       
     <div className="overlay-container">
 
-    <div style={{
-      fontWeight:"bold",
-      fontSize:"large",
-      marginRight:"40px",
-      marginLeft:"40px",
-      borderBottom: '1px solid gray'
-      }}>코스 등록
+    <div className='line'>코스 등록
     </div>
 
       <div style={{margin:"20px 40px"}}> 
@@ -147,7 +163,7 @@ function RegistPost() {
       </div>    
 
 
-      <div style={{fontWeight:"bold",fontSize:"large",marginLeft:"40px",marginRight:"40px",borderBottom: '1px solid gray'}}>코스 설명</div>
+      <div className='line'>코스 설명</div>
       <div  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}  >
       <textarea
             className='input'
@@ -183,4 +199,4 @@ function RegistPost() {
 };
 
 
-export default RegistPost
+export default RegisterPost

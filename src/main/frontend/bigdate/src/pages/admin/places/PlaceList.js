@@ -4,7 +4,7 @@ import ListTable from '../../../components/table/admin/ListTable';
 import { ADDRESS } from '../../../Adress';
 import CommonTableRow from '../../../components/table/CommonTableRow';
 import CommonTableColumn from '../../../components/table/CommonTableColumn';
-import Pagination from 'react-bootstrap/Pagination';
+import Pagination from "react-js-pagination";
 
 const placeList=[ 
   {hotspotId: 0, hotspotName: '강남 MICE 관광특구'},
@@ -62,34 +62,18 @@ const placeList=[
 function PlaceList() {
     const [ dataList, setDataList ] = useState([]);
     const [hotspotList,setHotspotList]=useState([]);
-    const [pageNumber, setPageNumber] = useState(0); 
+    const [pageNumber, setPageNumber] = useState(1); 
     const token = localStorage.getItem('token');
     const [sortOption, setSortOption] = useState(""); 
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   
   
-    let items = [];
-    const totalPages = 10; // 예시로 총 10 페이지가 있다고 가정합니다.
-    const startPage = Math.max(1, pageNumber - 2);
-    const endPage = Math.min(totalPages, pageNumber + 2);
-    for (let number = startPage; number <= endPage; number++) {
-      items.push(
-        <Pagination.Item
-          key={number}
-          active={number === pageNumber + 1}
-          onClick={() => setPageNumber(number - 1)}
-        >
-          {number}
-        </Pagination.Item>
-      );
-    }
-      
-      const paginationBasic = (
-        <div>
-          <Pagination size="sm">{items}</Pagination>
-        </div>
-    );
+   //페이지 이동
+const handlePageChange = (page) => {
+  setPageNumber(page);
+};
+
     useEffect(() => {
         axios.get(`${ADDRESS}/hotspots`)
           .then(response => {
@@ -114,7 +98,7 @@ function PlaceList() {
         const newSortOption = e.target.value;
         setSortOption(newSortOption);
         
-        axios.get(`${ADDRESS}/courses?page=${pageNumber}&sort=${newSortOption}`)
+        axios.get(`${ADDRESS}/courses?page=${pageNumber-1}&sort=${newSortOption}`)
           .then(response => {
             console.log(response.data);
             setDataList(response.data.content);
@@ -127,7 +111,7 @@ function PlaceList() {
       //서버에 코스 목록 조회 요청하기
       const fetchDataList = () => {
         const id = localStorage.getItem('id');
-        axios.get(`${ADDRESS}/admin/places?page=${pageNumber}`)
+        axios.get(`${ADDRESS}/admin/places?page=${pageNumber-1}`)
           .then(response => {
             console.log(response.data);
             setDataList(response.data.content);
@@ -204,8 +188,25 @@ function PlaceList() {
         </div>
         
 
-      </div>    {paginationBasic}
+      </div>   
         </div>
+        <div  style={{marginTop:'30px'}}>
+            <Pagination 
+              activePage={pageNumber}
+              itemsCountPerPage={15}
+              totalItemsCount={450}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              itemClass="page-item"
+              linkClass="page-link"
+              innerClass="pagination"
+              prevPageLinkClassName="page-link prev"
+              nextPageLinkClassName="page-link next"
+            
+            />
+            </div>  
         </div>
 
      
