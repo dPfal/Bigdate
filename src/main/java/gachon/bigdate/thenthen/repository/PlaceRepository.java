@@ -1,6 +1,8 @@
 package gachon.bigdate.thenthen.repository;
 
 import gachon.bigdate.thenthen.entity.Place;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,6 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
     Double calculateAvg(Long placeId);
 
     Place findByPlaceId(Long placeId);
+    Page<Place> findByHotspotId(Pageable pageable,int hotspotId);
+    Page<Place> findAll(Pageable pageable);
 }

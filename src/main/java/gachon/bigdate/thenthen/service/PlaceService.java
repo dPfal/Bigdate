@@ -9,6 +9,9 @@ import gachon.bigdate.thenthen.entity.Course;
 import gachon.bigdate.thenthen.entity.Place;
 import gachon.bigdate.thenthen.entity.Review;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,5 +70,23 @@ public class PlaceService {
         } else {
             return null;
         }
+    }
+
+    public PageImpl<PlaceDTO> getPlaceList(Pageable pageable){
+        Page<Place> placePage = this.placeRepository.findAll(pageable);
+        ArrayList<PlaceDTO> placeDTOArrayList = new ArrayList<>();
+        for (Place place : placePage.getContent()){
+            placeDTOArrayList.add(new PlaceDTO(place));
+        }
+        return new PageImpl<>(placeDTOArrayList, pageable, this.placeRepository.count());
+    }
+
+    public PageImpl<PlaceDTO> getPlaceListByPlaceId(Pageable pageable, int hotspotId){
+        Page<Place> placePage = this.placeRepository.findByHotspotId(pageable, hotspotId);
+        ArrayList<PlaceDTO> placeDTOArrayList = new ArrayList<>();
+        for (Place place : placePage.getContent()){
+            placeDTOArrayList.add(new PlaceDTO(place));
+        }
+        return new PageImpl<>(placeDTOArrayList, pageable, placePage.get().count());
     }
 }
