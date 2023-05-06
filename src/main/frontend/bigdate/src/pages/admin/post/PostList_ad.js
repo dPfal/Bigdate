@@ -38,7 +38,28 @@ const handleSortOptionChange = (e) => {
     });
 };
 
- 
+const handleDelete = async (courseId) => {
+  const token = localStorage.getItem('token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        
+  try {
+    const response = await axios.delete(`${ADDRESS}/users/courses/${courseId}`);
+    console.log(response);
+    
+    // 목록을 다시 불러오기
+    axios.get(`${ADDRESS}/courses?page=${pageNumber-1}`)
+      .then(response => {
+        console.log(response.data);
+        setDataList(response.data.content);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
@@ -108,7 +129,7 @@ const handleSortOptionChange = (e) => {
                           <CommonTableColumn>
                             {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
                           </CommonTableColumn>
-                          <div ><button className='delBtn' style={{width:'50px'}}>삭제</button></div>  
+                          <div ><button className='delBtn' style={{width:'50px'}} onClick={() => handleDelete(item.courseId)}>삭제</button></div>  
                         </CommonTableRow>
                       );
                     })
