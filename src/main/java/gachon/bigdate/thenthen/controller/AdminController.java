@@ -42,9 +42,9 @@ public class AdminController {
         return ResponseEntity.ok().body(this.placeService.getPlaceList(pageable));
     }
 
-    @GetMapping("/places/{placeId}")
-    public ResponseEntity<?> getPlaceListByPlaceId(Pageable pageable,@PathVariable(required = false) long placeId){
+    @GetMapping("/places/{hotspotId}")
+    public ResponseEntity<?> getPlaceListByPlaceId(Pageable pageable,@PathVariable(required = false) int hotspotId){
         pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
-        return ResponseEntity.ok().body(this.placeService.getPlaceListByPlaceId(pageable,placeId));
+        return ResponseEntity.ok().body(this.placeService.getPlaceListByPlaceId(pageable, hotspotId));
     }
 }
