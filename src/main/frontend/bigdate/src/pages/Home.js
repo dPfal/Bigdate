@@ -4,6 +4,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ADDRESS } from '../Adress';
+import { Cloud, SunFill } from 'react-bootstrap-icons';
 
 
 
@@ -87,11 +88,11 @@ function Home() {
                  
                  <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{topFiveCongest.hotspotName}
                  <span style={{
-                  color:topFiveCongest.congestionLevel === 2 ? 'black' :'white',
-                  backgroundColor: topFiveCongest.congestionLevel === 4 ? 'red' :
+                  color:'white',
+                  backgroundColor: topFiveCongest.congestionLevel === 4 ? 'orangered' :
                     topFiveCongest.congestionLevel === 3 ? 'orange' :
-                      topFiveCongest.congestionLevel === 2 ? 'yellow' :
-                        topFiveCongest.congestionLevel === 1 ? 'green' : 'white',
+                      topFiveCongest.congestionLevel === 2 ? 'gold' :
+                        topFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
 
                   width:'100px',
                   border:'1PX solid white',
@@ -125,11 +126,12 @@ function Home() {
                    
                    <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveCongest.hotspotName}
                    <span style={{
-                      color:lowFiveCongest.congestionLevel === 2 ? 'black' :'white',
-                      backgroundColor: lowFiveCongest.congestionLevel === 4 ? 'red' :
+                      color :'white',
+                      backgroundColor: 
+                        lowFiveCongest.congestionLevel === 4 ? 'orangered' :
                         lowFiveCongest.congestionLevel === 3 ? 'orange' :
-                        lowFiveCongest.congestionLevel === 2 ? 'yellow' :
-                        lowFiveCongest.congestionLevel === 1 ? 'green' : 'white',
+                        lowFiveCongest.congestionLevel === 2 ? 'gold' :
+                        lowFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
                             width:'100px',
                             border:'1PX solid white',
                             borderRadius:'5px'
@@ -163,9 +165,22 @@ function Home() {
                   <Card.Body>
                    
                    <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveDust.hotspotName}
-                   <span>
-                     
+                   <span style={{
+                    color : 'white',
+                    backgroundColor: lowFiveDust.pm10 >= 151 ? 'orangered' :
+                      81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? 'orange' :
+                      31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? 'gold' :
+                      0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? 'limegreen' : 'white',
+                    width: '100px',
+                    border: '1px solid white',
+                    borderRadius: '5px'
+                  }}>
+                    {lowFiveDust.pm10 >= 151 ? '매우나쁨' :
+                      81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? '나쁨' :
+                      31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? '보통' :
+                      0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? '좋음' : ''}
                   </span>
+
                   </Card.Title>
      
                   </Card.Body>
@@ -186,12 +201,29 @@ function Home() {
                  <Link to={{pathname:`/hotspots/${lowFiveSky.hotspotId}`,state: { hotspotName: lowFiveSky.hotspotName,hotspotId:lowFiveSky.hotspotId}}}>
                   <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${lowFiveSky.hotspotName}.jpg`} />
                   </Link>
-                  <Card.Body>
+                  <Card.Body >
                    
                    <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveSky.hotspotName}
-                   <span>
-                     
-                  </span>
+
+                    <span style={{
+                      color:'white',
+                      backgroundColor: 
+                        lowFiveSky.skyStatus === 3 ? 'gray' :
+                        lowFiveSky.skyStatus === 2 ? 'skyBlue' :
+                        lowFiveSky.skyStatus === 1 ? 'limegreen' : 'white',
+                        width:'100px',
+                        border:'1PX solid white',
+                        borderRadius:'5px'
+                    }}>
+                      
+                      {
+                        lowFiveSky.skyStatus === 3 ? '구름 많음' :
+                        lowFiveSky.skyStatus === 2 ? '구름 조금' :
+                        lowFiveSky.skyStatus === 1 ? '맑음' : ''
+                      }
+                    </span>
+
+                   
                   </Card.Title>
      
                   </Card.Body>
@@ -214,8 +246,20 @@ function Home() {
                   <Card.Body>
                    
                    <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveTraffic.hotspotName}
-                   <span>
-                     
+                   <span style={{
+                    color:'white',
+                    backgroundColor: 
+                      lowFiveTraffic.roadTrafficSpd &&lowFiveTraffic.roadTrafficSpd < 15 ? 'orangered' :
+                      15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? 'orange' :
+                      25 <= lowFiveTraffic.roadTrafficSpd ? 'llimegreen' : '',
+                    width: '100px',
+                    border: '1px solid white',
+                    borderRadius: '5px'
+                  }}>
+                    {lowFiveTraffic.roadTrafficSpd =='정보없음'? '정보없음' :
+                      lowFiveTraffic.roadTrafficSpd &&lowFiveTraffic.roadTrafficSpd < 15 ? '정체' :
+                      15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? '서행' :
+                      25 <= lowFiveTraffic.roadTrafficSpd? '원할' : ''}
                   </span>
                   </Card.Title>
      
