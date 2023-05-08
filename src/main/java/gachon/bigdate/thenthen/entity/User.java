@@ -55,7 +55,6 @@ public class User{
             return new ArrayList<>(); //null 방지
          }
     }
-    @Transient
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> commentList;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
