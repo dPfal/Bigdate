@@ -34,7 +34,7 @@ public class UserService {
 //        return userRepository.save(userId);
 //    }
 
-    @Transactional
+
     public String deleteUser(Long id) {
         if (userRepository.existsById(id)) {
             // 3. Delete user
