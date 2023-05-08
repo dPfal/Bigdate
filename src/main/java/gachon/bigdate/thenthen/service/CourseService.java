@@ -61,13 +61,17 @@ public class CourseService {
         return new PageImpl<>(courseDTOList, pageable, courseList.getTotalElements());
     }
 
-    public CourseDTO getCourseByCourseId(long courseId){
-        Course course = this.courseRepository.findByCourseId(courseId);
-        System.out.println(course);
 
-        return new CourseDTO(course,course.getReviewList(),
+    public CourseDTO getCourseByCourseId(long... courseIdAndId){
+        Course course = this.courseRepository.findByCourseId(courseIdAndId[0]);
+        CourseDTO courseDTO = new CourseDTO(course,course.getReviewList(),
                 course.getCommentList(), course.getUser().getUserId(),
                 course.getLikeCount(),course.getScrapCount());
+        if(courseIdAndId.length==2) { //회원일 경우
+            courseDTO.setLiked(this.likeRepository.countByLikeIdCourseIdAndLikeIdId(courseIdAndId[0],courseIdAndId[1]) == 0 ? false : true);
+            courseDTO.setScraped(this.scrapRepository.countByScrapIdCourseIdAndScrapIdId(courseIdAndId[0],courseIdAndId[1]) == 0 ? false : true);
+        }
+        return courseDTO;
     }
     @Transactional
     public String toggleLike(long courseId, long id){

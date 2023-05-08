@@ -132,6 +132,8 @@ const Navbar2=() =>{
                               
               </Nav.Link>
 
+              <Nav.Link href='/signUp'>회원가입</Nav.Link>
+
             </Nav>
           </Navbar.Collapse>
         </Container>
@@ -145,8 +147,8 @@ const Navbar2=() =>{
             backgroundColor: 'rgba(0, 0, 0, 0.5)', //모달창 제외한 화면 어둡게
           },
         content: {
-          width: '30%', // 모달 내용의 가로 크기
-          height: '55%', // 모달 내용의 세로 크기
+          width: '300px', // 모달 내용의 가로 크기
+          height: '400px', // 모달 내용의 세로 크기
           margin: 'auto', // 모달 내용을 가운데로 정렬하기 위한 margin
           borderRadius:'20px' //모달창 테두리 
 

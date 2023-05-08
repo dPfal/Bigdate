@@ -30,7 +30,7 @@ public class PlaceDTO {
     private String imageUrl;
     private ArrayList<CourseDTO> courseList;
     private ArrayList<ReviewDTO> reviewList;
-
+    private int reviewCount;
     public PlaceDTO(Long placeId, String placeName) {
         this.placeId = placeId;
         this.placeName = placeName;
@@ -48,6 +48,7 @@ public class PlaceDTO {
         this.categoryGroupCode = place.getCategoryGroupCode();
         this.categoryName = place.getCategoryName();
         this.hotpotId = place.getHotspotId();
+        this.reviewCount= place.getReviewList().size();
     }
     public PlaceDTO (Place place, double score, ArrayList<CourseDTO> courseList, ArrayList<ReviewDTO> reviewList) {
         this.placeId = place.getPlaceId();

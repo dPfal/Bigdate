@@ -78,7 +78,6 @@ export default function LineChart() {
   const labels = log.map((item)=>item.date).reverse();
     
   const data = useMemo(function () {
-    
     return {
       datasets: [
         {
@@ -110,10 +109,9 @@ export default function LineChart() {
       <Line data={data} options={options} />
     </div>
 
-    <div >
-    
+    <div  style={{paddingBottom:'20px'}}>
         <>
-        <MycourseTable headersName={['일자','가입','탈퇴', '글','댓글']}>
+        <MycourseTable headersName={['일자','가입','탈퇴', '글','댓글']} >
           {log.map((item) => (
             <CommonTableRow>
               <CommonTableColumn>{item.date}</CommonTableColumn>

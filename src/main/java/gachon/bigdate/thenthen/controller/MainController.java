@@ -43,13 +43,20 @@ public class MainController {
     }
     @GetMapping("/courses")
     public ResponseEntity<Page<CourseDTO>> getCourseList(Pageable pageable){
-        pageable = PageRequest.of(pageable.getPageNumber(),15, pageable.getSort().descending());
+        if(!pageable.getSort().isSorted()) pageable = PageRequest.of(pageable.getPageNumber(),15,Sort.by(Sort.Direction.DESC, "courseId"));
+        else pageable = PageRequest.of(pageable.getPageNumber(),15, pageable.getSort().descending());
         return ResponseEntity.ok().body(this.courseService.getCourseList(pageable));
     }
 
     @GetMapping("/courses/{courseId}")
-    public ResponseEntity<CourseDTO> getCourseByCourseId(@PathVariable("courseId") long courseId){
-        return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId));
+    public ResponseEntity<CourseDTO> getCourseByCourseId(@PathVariable("courseId") long courseId,
+                                                         @RequestParam(required = false) Long id){
+        if(id != null){
+            return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId,id));
+        }
+        else{
+            return ResponseEntity.ok().body(this.courseService.getCourseByCourseId(courseId));
+        }
     }
 
 }

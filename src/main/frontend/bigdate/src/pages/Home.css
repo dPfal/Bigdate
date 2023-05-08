@@ -5,11 +5,12 @@
 
 
 .recommand_category{
-    margin-top: 40%;
-    margin-left: 5%;
-    font-weight: 600;
+    margin-top: 41%;
+    font-size: 1rem;
+    font-weight: 700;
     position: absolute;
     color: #1E90FF;
+    width: 100%;
    
 }
 
@@ -28,9 +29,11 @@
     color: #1E90FF;
     border-radius: 5em;
     margin: 5px;
-    font-size: large;
+    font-size: 1rem;
     background-color: white;
     padding: 0.5%;
+    width: fit-content;
+    height: fit-content;
 }
 
 .card-container{
@@ -48,3 +51,6 @@
     
 }
 
+.rank{
+    padding-left: 30px;
+}

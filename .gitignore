@@ -37,4 +37,6 @@ out/
 .vscode/
 
 **/application.properties
-package.json
+**/Adress.js
+*/Address.js
+
