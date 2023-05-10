@@ -22,21 +22,37 @@ import UserList from './pages/admin/UserList';
 import PostMain_ad from './pages/admin/post/PostMain_ad';
 import PostView_ad from './pages/admin/post/PostView_ad';
 import PlaceList from './pages/admin/places/PlaceList';
+import PlaceView_ad from './pages/admin/places/PlaceView_ad';
+
 
 
 
 
 
 const App = () => {
-
-
-  const [isAdminPage, setIsAdminPage] = useState(window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/users')|| window.location.pathname.startsWith('/posts')|| window.location.pathname.startsWith('/postViewAd')|| window.location.pathname.startsWith('/places'));
-
+  const [isAdminPage, setIsAdminPage] = useState(
+    window.location.pathname.startsWith('/admin') ||
+      window.location.pathname.startsWith('/users') ||
+      window.location.pathname.startsWith('/posts') ||
+      window.location.pathname.startsWith('/postViewAd') ||
+      window.location.pathname.startsWith('/places') ||
+      window.location.pathname.startsWith('/ad')
+  );
+  
   useEffect(() => {
-    const handleLocationChange = () => setIsAdminPage(window.location.pathname.startsWith('/admin') || window.location.pathname.startsWith('/users')|| window.location.pathname.startsWith('/posts')|| window.location.pathname.startsWith('/postViewAd')|| window.location.pathname.startsWith('/places'));
-    window.addEventListener('popstate', handleLocationChange);
-    return () => window.removeEventListener('popstate', handleLocationChange);
-  }, []);
+    const handleLocationChange = () => {
+      setIsAdminPage(
+        window.location.pathname.startsWith('/admin') ||
+          window.location.pathname.startsWith('/users') ||
+          window.location.pathname.startsWith('/posts') ||
+          window.location.pathname.startsWith('/postViewAd') ||
+          window.location.pathname.startsWith('/places') ||
+          window.location.pathname.startsWith('/ad')
+      );
+    };
+  
+  }, [window.location.pathname]);
+  
 
   return (
     <BrowserRouter>
@@ -57,6 +73,7 @@ const App = () => {
         <Route path="/posts" component={PostMain_ad}/>
         <Route path="/postViewAd/:course_id" component={PostView_ad}/>
         <Route path="/places" component={PlaceList}/>
+        <Route path="/ad/place/:id" component={PlaceView_ad}/>
 
       </>
     </BrowserRouter>

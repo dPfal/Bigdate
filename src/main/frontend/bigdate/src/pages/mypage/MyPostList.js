@@ -64,6 +64,14 @@ function MyPostList() {
       }, [pageNumber]);
 
 
+      function handleDeleteConfirm(courseId) {
+        const result = window.confirm(`${courseId}번 글을 삭제하시겠습니까?`);
+        if (result === true) {
+         handleDelete(courseId);
+        }
+        else{ return;}
+      }
+
      const handleDelete = async (courseId) => {
       const token = localStorage.getItem('token');
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -100,14 +108,7 @@ function MyPostList() {
         <div className='background-container' id='mypage_background'>
         <div className='overlay-container'>
 
-        <div style={{
-          fontWeight:"bold",
-          fontSize:"large",
-          marginRight:"40px",
-          marginLeft:"40px",
-          borderBottom: '1px solid gray',
-          height:'50px',
-          }}>내 코스 목록
+        <div className='line'>내 코스 목록
         </div>
 
         <div >
@@ -137,7 +138,7 @@ function MyPostList() {
                       <CommonTableColumn>{moment(item.postedDate).format('YYYY-MM-DD')}</CommonTableColumn>
                       <div style={{display:'flex'}}>
                       <div><button className='reBtn'>수정</button></div>
-                      <div ><button className='delBtn' onClick={() => handleDelete(item.courseId)} style={{marginLeft:'5px'}}>삭제</button></div>        
+                      <div ><button className='delBtn' onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px'}}>삭제</button></div>        
                       </div>        
                     </CommonTableRow>
                   )

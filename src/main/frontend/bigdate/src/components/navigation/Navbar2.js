@@ -39,6 +39,14 @@ const Navbar2=() =>{
     setModalIsOpen(false);
   };
 
+  //로그아웃 확인
+  function handleLogoutConfirm() {
+    const result = window.confirm(`로그아웃 하시겠습니까?`);
+    if (result === true) {
+     handleLogout();
+    }
+    else{ return;}
+  }
 
 
   {/**로그아웃 시 */}
@@ -125,7 +133,7 @@ const Navbar2=() =>{
                   
                 }}>
                    {isLoggedIn ? (
-                    <button onClick={handleLogout}>로그아웃</button>
+                    <button onClick={handleLogoutConfirm}>로그아웃</button>
                   ) : (
                     <button>로그인</button>
                   )}
@@ -145,8 +153,8 @@ const Navbar2=() =>{
             backgroundColor: 'rgba(0, 0, 0, 0.5)', //모달창 제외한 화면 어둡게
           },
         content: {
-          width: '30%', // 모달 내용의 가로 크기
-          height: '55%', // 모달 내용의 세로 크기
+          width: '300px', // 모달 내용의 가로 크기
+          height: '400px', // 모달 내용의 세로 크기
           margin: 'auto', // 모달 내용을 가운데로 정렬하기 위한 margin
           borderRadius:'20px' //모달창 테두리 
 
