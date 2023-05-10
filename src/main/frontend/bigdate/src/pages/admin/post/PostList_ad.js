@@ -54,9 +54,11 @@ const handleDelete = async (courseId) => {
       })
       .catch(error => {
         console.log(error);
+       
       });
   } catch (error) {
     console.error(error);
+    alert('관리자 기능입니다.')
   }
 };
 
@@ -139,7 +141,7 @@ function handleDeleteConfirm(courseId) {
                           <CommonTableColumn>
                             {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
                           </CommonTableColumn>
-                          <div ><button className='delBtn' style={{width:'50px'}} onClick={() =>  handleDeleteConfirm(item.courseId)}>삭제</button></div>  
+                         <button className='delBtn' style={{width:'50px',marginTop:'10px'}} onClick={() =>  handleDeleteConfirm(item.courseId)}>삭제</button>
                         </CommonTableRow>
                       );
                     })

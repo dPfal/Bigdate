@@ -42,16 +42,24 @@ const handlePageChange = (page) => {
       useEffect(() => {
         fetchDataList();
       }, [pageNumber]);
-
+      
+      //회원 탈퇴 확인
+      function handleDeleteConfirm(id) {
+        const result = window.confirm(`Id [${id}] 유저를 탈퇴시키시겠습니까?`);
+        if (result === true) {
+         handleDelete(id);
+        }
+        else{ return;}
+      }
 
     //회원 탈퇴
-     const handleDelete = async (userId) => {
+     const handleDelete = async (id) => {
       const token = localStorage.getItem('token');
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             
       try {
-        //const response = await axios.delete(`${ADDRESS}/users/courses/${courseId}`);
-       // console.log(response);
+        const response = await axios.delete(`${ADDRESS}/users/${id}`);
+        console.log(response.data.message);
         
         // 목록을 다시 불러오기 위해 1초 대기 후에 실행
         setTimeout(() => {
@@ -86,7 +94,7 @@ const handlePageChange = (page) => {
                       <CommonTableColumn>{item.userName} </CommonTableColumn>
                       <CommonTableColumn>{ item.userId }</CommonTableColumn>
                       <CommonTableColumn>{item.userMood}</CommonTableColumn>
-                      <div><button className='delBtn'>탈퇴</button></div>
+                      <div><button className='delBtn' style={{marginTop:'10px'}} onClick={() =>  handleDeleteConfirm(item.id)}>탈퇴</button></div>
                     </CommonTableRow>
                   )
                 }) : ''
