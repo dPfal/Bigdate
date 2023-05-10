@@ -39,7 +39,14 @@ const Navbar_ad=() =>{
       setModalIsOpen(false);
     };
   
-  
+    //로그아웃 확인
+    function handleLogoutConfirm() {
+      const result = window.confirm(`로그아웃 하시겠습니까?`);
+      if (result === true) {
+       handleLogout();
+      }
+      else{ return;}
+    }
   
     {/**로그아웃 시 */}
     const handleLogout = () => {
@@ -118,21 +125,22 @@ const Navbar_ad=() =>{
               <Nav.Link href='/places'>장소 관리</Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link onClick={() => {
-                handleLogout()
-                  if (isLoggedIn) {
-                    handleModalClose();
-                  } else {
-                    handleModalOpen();
-                  }
-                }}>
-                   {isLoggedIn ? (
-                    <button>로그아웃</button>
-                  ) : (
-                    <button>로그인</button>
-                  )}
-                              
-              </Nav.Link>
+            <Nav.Link onClick={() => {
+               
+               if (isLoggedIn) {
+                 handleModalClose();
+               } else {
+                 handleModalOpen();
+               }
+               
+             }}>
+                {isLoggedIn ? (
+                 <button onClick={handleLogoutConfirm}>로그아웃</button>
+               ) : (
+                 <button>로그인</button>
+               )}
+                           
+           </Nav.Link>
 
             </Nav>
           </Navbar.Collapse>

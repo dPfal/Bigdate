@@ -8,6 +8,9 @@ import axios from 'axios';
 import { ADDRESS } from '../../Adress';
 
 
+
+
+
 function Mypage() {
   
   const [data,setData]=useState({});
@@ -15,7 +18,7 @@ function Mypage() {
   const id = localStorage.getItem('id');
   useEffect(() => {
    
-  
+
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
     axios.get(`${ADDRESS}/users/${id}`)
@@ -42,8 +45,36 @@ function Mypage() {
     return null;
   }
 
+  //회원 탈퇴 확인
+  function handleDeleteConfirm(id) {
+    const result = window.confirm(`정말 탈퇴하시겠습니까?`);
+    if (result === true) {
+     handleDelete(id);
 
-  
+    }
+    else{ return;}
+  }
+
+  //회원 탈퇴
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          
+    try {
+      const response = await axios.delete(`${ADDRESS}/users/${id}`);
+      console.log(response.data.message);
+      if(response.data.message=='사용자 삭제 완료!'){
+      alert(response.data.message);
+      localStorage.clear();
+      window.location.pathname = '/'}
+      else{
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+    
 
   return (
     <div>
@@ -64,14 +95,7 @@ function Mypage() {
       <div className='background-container' id='mypage_background'>
        <div className='overlay-container'>
 
-       <div style={{
-        fontWeight:"bold",
-        fontSize:"large",
-        marginRight:"40px",
-        marginLeft:"40px",
-        height:'50px',
-        borderBottom: '1px solid gray'
-        }}>내 정보
+       <div className='line'>내 정보
       </div>
       <div style={{display:'flex'}}>
       <PersonCircle fontSize={100} style={{margin:'60px 50px'}}color='gray'/>
@@ -82,9 +106,7 @@ function Mypage() {
       </div>
       </div>
       <div style={{margin:"50px 50px"}}>
-       <button className='delBtn'> 
-       회원탈퇴
-       </button>
+      <button className='delBtn' onClick={() =>  handleDeleteConfirm(data.id)}>회원탈퇴</button>
       </div>
 
     </div>    

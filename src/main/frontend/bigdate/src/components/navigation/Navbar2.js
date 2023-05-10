@@ -39,6 +39,14 @@ const Navbar2=() =>{
     setModalIsOpen(false);
   };
 
+  //로그아웃 확인
+  function handleLogoutConfirm() {
+    const result = window.confirm(`로그아웃 하시겠습니까?`);
+    if (result === true) {
+     handleLogout();
+    }
+    else{ return;}
+  }
 
 
   {/**로그아웃 시 */}
@@ -125,14 +133,12 @@ const Navbar2=() =>{
                   
                 }}>
                    {isLoggedIn ? (
-                    <button onClick={handleLogout}>로그아웃</button>
+                    <button onClick={handleLogoutConfirm}>로그아웃</button>
                   ) : (
                     <button>로그인</button>
                   )}
                               
               </Nav.Link>
-
-              <Nav.Link href='/signUp'>회원가입</Nav.Link>
 
             </Nav>
           </Navbar.Collapse>

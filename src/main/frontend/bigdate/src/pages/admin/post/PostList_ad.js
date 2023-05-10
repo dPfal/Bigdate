@@ -60,6 +60,15 @@ const handleDelete = async (courseId) => {
   }
 };
 
+function handleDeleteConfirm(courseId) {
+  const result = window.confirm(`${courseId}번 글을 삭제하시겠습니까?`);
+  if (result === true) {
+   handleDelete(courseId);
+  }
+  else{ return;}
+}
+
+
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
@@ -75,6 +84,7 @@ const handleDelete = async (courseId) => {
   
   
   return (
+    
     <div>
       <div className='background-container'style={{height:'700px'}} >
         <div className='overlay-container'>
@@ -129,7 +139,7 @@ const handleDelete = async (courseId) => {
                           <CommonTableColumn>
                             {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
                           </CommonTableColumn>
-                          <div ><button className='delBtn' style={{width:'50px'}} onClick={() => handleDelete(item.courseId)}>삭제</button></div>  
+                          <div ><button className='delBtn' style={{width:'50px'}} onClick={() =>  handleDeleteConfirm(item.courseId)}>삭제</button></div>  
                         </CommonTableRow>
                       );
                     })
