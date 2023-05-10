@@ -36,15 +36,20 @@ public class AdminController {
         return ResponseEntity.ok().body(this.adminService.getAdminMain());
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUserByAdmin(@PathVariable("id") Long id) {
-        String message = adminService.deleteUser(id);
-        return ResponseEntity.ok().body(message);
+    @GetMapping("/places")
+    public ResponseEntity<?> getPlaceList(Pageable pageable){
+        pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
+        return ResponseEntity.ok().body(this.placeService.getPlaceList(pageable));
     }
 
     @GetMapping("/places/{hotspotId}")
-    public ResponseEntity<?> getPlaceListByPlaceId(Pageable pageable, @PathVariable(required = false) int hotspotId){
+    public ResponseEntity<?> getPlaceListByPlaceId(Pageable pageable,@PathVariable(required = false) int hotspotId){
         pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
         return ResponseEntity.ok().body(this.placeService.getPlaceListByPlaceId(pageable, hotspotId));
     }
+
+    @GetMapping("/places")
+    public ResponseEntity<?> getPlaceList(Pageable pageable){
+        pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
+        return ResponseEntity.ok().body(this.placeService.getPlaceList(pageable));
 }
