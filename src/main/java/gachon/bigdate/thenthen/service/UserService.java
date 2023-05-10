@@ -1,13 +1,14 @@
 package gachon.bigdate.thenthen.service;
 
 import gachon.bigdate.thenthen.DTO.UserDTO;
-import gachon.bigdate.thenthen.repository.UserRepository;
+import gachon.bigdate.thenthen.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @Service
@@ -36,10 +37,11 @@ public class UserService {
 
     public String deleteUser(Long id) {
         if (userRepository.existsById(id)) {
+            // 3. Delete user
             userRepository.deleteById(id);
-            return "{\"message\":\"삭제 완료!\"}";
+            return "{\"message\":\"사용자 삭제 완료!\"}";
         } else {
-            return "{\"message\":\"삭제 실패!\"}";
+            return "{\"message\":\"사용자 삭제 실패!\"}";
         }
     }
 }

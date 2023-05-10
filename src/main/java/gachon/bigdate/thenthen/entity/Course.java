@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+
 @Table(name ="courses_tb")
 public class Course {
     @Id
@@ -30,6 +30,7 @@ public class Course {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name ="posted_date")
     private LocalDateTime postedDate;
+
 
     @Column(name ="course_name")
     private String courseName;
@@ -83,5 +84,28 @@ public class Course {
         this.commentCount = commentList.size();
         this.likeCount = likeList.size();
         this.scrapCount = scrapList.size();
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "courseId=" + courseId +
+                ", id=" + id +
+                ", postedDate=" + postedDate +
+                ", courseName='" + courseName + '\'' +
+                ", courseInfo='" + courseInfo + '\'' +
+                ", user=" + user +
+                ", place=" + place +
+                ", commentList=" + commentList +
+                ", comment=" + comment +
+                ", reviewList=" + reviewList +
+                ", likeList=" + likeList +
+                ", like=" + like +
+                ", scrapList=" + scrapList +
+                ", scrap=" + scrap +
+                ", scrapCount=" + scrapCount +
+                ", commentCount=" + commentCount +
+                ", likeCount=" + likeCount +
+                '}';
     }
 }

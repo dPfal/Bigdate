@@ -12,4 +12,5 @@ import java.time.LocalDateTime;
 public interface CommentRepository extends JpaRepository<Comment, CommentId> {
     int countByCommentIdCourseId(long courseId);
     int countByCommentIdCommentDateBetween(LocalDateTime startDateTime,LocalDateTime endDateTime);
+
 }
