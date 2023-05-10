@@ -48,8 +48,5 @@ public class AdminController {
         return ResponseEntity.ok().body(this.placeService.getPlaceListByPlaceId(pageable, hotspotId));
     }
 
-    @GetMapping("/places")
-    public ResponseEntity<?> getPlaceList(Pageable pageable){
-        pageable = PageRequest.of(pageable.getPageNumber(), 20, Sort.by(Sort.Direction.ASC, "placeId"));
-        return ResponseEntity.ok().body(this.placeService.getPlaceList(pageable));
+
 }
