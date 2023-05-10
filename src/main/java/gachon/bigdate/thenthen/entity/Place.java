@@ -12,6 +12,7 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
+// akwsmsep
 @Table(name ="places_tb")
 public class Place {
     @Id
