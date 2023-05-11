@@ -36,16 +36,6 @@ public class User{
     @Column(name ="user_mood")
     private String userMood;
 
-//    public static User toupdateUser(UserDTO userDTO) {
-//        User userEntity = new UserEntity();
-//        User.setUserId(userDTO.getuserId());
-//        User.setUserPassword(userDTO.getuserPassword());
-//        User.setUserName(userDTO.getuserName());
-//        User.setUserRole(userDTO.getuserRole());
-//        User.setUserMood(userDTO.getuserMood());
-//        return UserEntity;
-//    }
-
     /* *Role이 여러개일 경우*/
     public List<String> getRoleList(){
         if(this.userRole.length()>0){
@@ -62,9 +52,5 @@ public class User{
     private List<Like> likeList;
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Scrap> scrapList;
-
-//    @OneToMany(mappedBy = "reviewId", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Review> reviewList;
-
 
 }

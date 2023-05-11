@@ -48,5 +48,10 @@ public class AdminController {
         return ResponseEntity.ok().body(this.placeService.getPlaceListByPlaceId(pageable, hotspotId));
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(Long id) {
+        return ResponseEntity.ok().body(this.adminService.deleteUser(id));
+    }
+
 
 }
