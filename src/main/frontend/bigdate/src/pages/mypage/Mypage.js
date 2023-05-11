@@ -6,6 +6,9 @@ import { PersonCircle } from 'react-bootstrap-icons';
 import './Mypage.css'
 import axios from 'axios';
 import { ADDRESS } from '../../Adress';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -16,6 +19,25 @@ function Mypage() {
   const [data,setData]=useState({});
   const token = localStorage.getItem('token');
   const id = localStorage.getItem('id');
+
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const [showModal, setShowModal] = useState(false);
+  const [userMood,setuserMood] = useState('');
+  const history = useHistory();
+
+  
+  const handleMoodChange = (event) => {
+    setuserMood(event.target.value);
+  };
+
+
+  const handleShow = () => {
+    setShow(true);
+  }
+
+
+
   useEffect(() => {
    
 
@@ -26,6 +48,7 @@ function Mypage() {
         // 서버로부터 받은 데이터 처리
         console.log(response.data);
         setData(response.data);
+        setuserMood(response.data.userMood);
 
       })
       .catch(error => {
@@ -102,18 +125,58 @@ function Mypage() {
      <div style={{margin:"40px 20px"}}>
       <div  style={{marginBottom: "10px"}}> 이름 : {data.userName}</div>
       <div  style={{marginBottom: "10px"}}> 아이디 : {data.userId}</div>
-      <div  style={{marginBottom: "10px"}}> 내 취향 : {data.userMood} <button className='reBtn'>수정</button></div>
+      <div style={{display:'flex'}}>
+      <div > 취향 : {data.userMood}</div>
+      <button  className='reBtn' onClick={handleShow}style={{marginLeft: "10px",height:'20px'}} >수정</button></div></div>
+              <Modal show={show} onHide={handleClose}>
+               <Modal.Header closeButton>
+                 <Modal.Title>내 취향 변경하기</Modal.Title>
+                   </Modal.Header>
+                    <Modal.Body className='toCenter' style={{textAlign:'center'}}>
+                                                                
+                      <div>
+                        <input type='radio' id='hip' name='mood' value='힙한' onChange={handleMoodChange} style={{display:'none'}} />
+                        <label htmlFor='hip'  className={userMood === '힙한' ? 'userMood selected' : 'mood'}>힙한</label>
+                      </div>
+                        
+                      <div>
+                      <input type='radio' id='healing' name='mood' value='힐링' onChange={handleMoodChange} style={{display:'none'}} />
+                      <label htmlFor='healing' className={userMood === '힐링' ? 'userMood selected' : 'mood'}>힐링</label>
+                      </div>
+                      
+                      <div>
+                      <input type='radio' id='retro' name='mood' value='레트로' onChange={handleMoodChange}  style={{display:'none'}} />
+                      <label htmlFor='retro' className={userMood === '레트로' ? 'userMood selected' : 'mood'}>레트로</label>
+                      </div>
+                      
+                      <div>
+                      <input type='radio' id='romantic' name='mood' value='로맨틱한' onChange={handleMoodChange} style={{display:'none'}} />
+                      <label htmlFor='romantic' className={userMood=== '로맨틱한' ? 'userMood selected' : 'mood'}>로맨틱한</label>
+                      </div>
+                      
+                      <div>
+                      <input type='radio' id='active' name='mood' value='활동적인' onChange={handleMoodChange} style={{display:'none'}} />
+                      <label htmlFor='active' className={userMood=== '활동적인' ? 'userMood selected' : 'mood'}>활동적인</label>
+                      </div>
+
+                  </Modal.Body>
+
+                <Modal.Footer>
+                  <button onClick={handleClose}>확인</button>
+                </Modal.Footer>
+              </Modal>
       </div>
+     
+
+      
       </div>
-      <div style={{margin:"50px 50px"}}>
+      <div style={{margin:"50px 50px",fontSize:'13px'}}>
       <button className='delBtn' onClick={() =>  handleDeleteConfirm(data.id)}>회원탈퇴</button>
       </div>
-
+      </div>
+      </div>
     </div>    
-      </div>
-      </div>
-
-    </div>
+    
     
   )
 }
