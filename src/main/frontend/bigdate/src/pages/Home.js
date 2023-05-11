@@ -93,7 +93,8 @@ function Home() {
                     topFiveCongest.congestionLevel === 3 ? 'orange' :
                       topFiveCongest.congestionLevel === 2 ? 'gold' :
                         topFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
-
+                  padding: '2%',
+                  fontSize: '11px',
                   width:'100px',
                   border:'1PX solid white',
                   borderRadius:'5px'
