@@ -56,13 +56,14 @@ public class Place {
     @Column(name="image_url")
     private String imageUrl;
 
-    @OneToMany(mappedBy = "reviewId.placeId",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reviewId.place",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-
+    @Transient
     private List<Review> reviewList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "courseId",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "place",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
+    @Transient
     private List<Course> courseList = new ArrayList<>();
 
 }

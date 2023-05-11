@@ -5,9 +5,12 @@ import gachon.bigdate.thenthen.entity.ReviewId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
 public interface ReviewRepository extends JpaRepository<Review, ReviewId> {
-    List<Review> findByReviewIdCourseId(long courseId);
+    List<Review> findByReviewIdCourseCourseId(long courseId);
+    @Transactional
+    int deleteAllByReviewIdCourseCourseId(Long courseId);
 }

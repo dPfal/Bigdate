@@ -23,6 +23,7 @@ public class CourseService {
     private final ScrapRepository scrapRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final PlaceRepository placeRepository;
     @Transactional
     public CourseDTO createCourse(CourseDTO courseDTO){
         Course createdCourse = this.courseRepository.save(Course.builder()
@@ -37,7 +38,7 @@ public class CourseService {
             Review review = Review.builder()
                     .isDel(0)
                     .reviewInfo(reviewDTO.getReviewInfo())
-                    .reviewId(ReviewId.builder().courseId(createdCourse.getCourseId()).placeId(reviewDTO.getPlaceId()).placeSequence(reviewDTO.getPlaceSequence()).build())
+                    .reviewId(ReviewId.builder().course(createdCourse).place(this.placeRepository.findByPlaceId(reviewDTO.getPlaceId())).placeSequence(reviewDTO.getPlaceSequence()).build())
                     .avgScore(reviewDTO.getAvgScore())
                     .expense(reviewDTO.getExpense())
                     .build();
@@ -68,8 +69,8 @@ public class CourseService {
                 course.getCommentList(), course.getUser().getUserId(),
                 course.getLikeCount(),course.getScrapCount());
         if(courseIdAndId.length==2) { //회원일 경우
-            courseDTO.setLiked(this.likeRepository.countByLikeIdCourseIdAndLikeIdId(courseIdAndId[0],courseIdAndId[1]) == 0 ? false : true);
-            courseDTO.setScraped(this.scrapRepository.countByScrapIdCourseIdAndScrapIdId(courseIdAndId[0],courseIdAndId[1]) == 0 ? false : true);
+            courseDTO.setLiked(this.likeRepository.countByLikeIdCourseIdAndLikeIdId(courseIdAndId[0], courseIdAndId[1]) != 0);
+            courseDTO.setScraped(this.scrapRepository.countByScrapIdCourseIdAndScrapIdId(courseIdAndId[0], courseIdAndId[1]) != 0);
         }
         return courseDTO;
     }
@@ -156,17 +157,21 @@ public class CourseService {
     }
 
     public CourseDTO updateCourse(CourseDTO courseDTO){
+        System.out.println(courseDTO.getCourseId());
+        System.out.println(this.reviewRepository.findByReviewIdCourseCourseId(courseDTO.getCourseId()));
+        System.out.println("delete : "+this.reviewRepository.deleteAllByReviewIdCourseCourseId(courseDTO.getCourseId()));
+
         Course course = this.courseRepository.findByCourseId(courseDTO.getCourseId());
+        course.setCourseInfo(courseDTO.getCourseInfo());
+        course.setCourseName(courseDTO.getCourseTitle());
+        this.courseRepository.save(course);
         List<Review> reviewList = new ArrayList<>();
         for(ReviewDTO reviewDTO : courseDTO.getReviewList()){
             reviewList.add(Review.builder().reviewId(ReviewId.builder().placeSequence(reviewDTO.getPlaceSequence())
-                    .placeId(reviewDTO.getPlaceId()).courseId(courseDTO.getCourseId()).build()).expense(reviewDTO.getExpense())
+                            .place(this.placeRepository.findByPlaceId(reviewDTO.getPlaceId())).course(course).build()).expense(reviewDTO.getExpense())
                     .avgScore(reviewDTO.getAvgScore()).reviewInfo(reviewDTO.getReviewInfo()).isDel(0).build());
         }
-        course.setCourseInfo(courseDTO.getCourseInfo());
-        course.setCourseName(courseDTO.getCourseTitle());
-        course.setReviewList(reviewList);
-        this.courseRepository.save(course);
+        this.reviewRepository.saveAll(reviewList);
         return courseDTO;
     }
 }

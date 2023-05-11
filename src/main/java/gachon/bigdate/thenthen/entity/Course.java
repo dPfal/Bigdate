@@ -55,7 +55,7 @@ public class Course {
     @Formula("(select count(*) from comments_tb cm where cm.course_id = course_id)")
     private int comment;
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "reviewId.course", cascade = CascadeType.ALL)
     @OrderBy("reviewId.placeSequence ASC")
     private List<Review> reviewList = new ArrayList<>();
 

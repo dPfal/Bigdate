@@ -24,24 +24,24 @@ public class ReviewDTO {
         this.placeSequence = review.getReviewId().getPlaceSequence();
         this.avgScore = review.getAvgScore();
         this.expense = review.getExpense();
-        this.placeId = review.getReviewId().getPlaceId();
+        this.placeId = review.getReviewId().getPlace().getPlaceId();
         this.reviewInfo = review.getReviewInfo();
         this.isDel = review.getIsDel();
         this.postedDate=postedDate;
-        this.userId=review.getCourse().getUser().getUserId();
+        this.userId=review.getReviewId().getCourse().getUser().getUserId();
     }
 
     public ReviewDTO(Review review){
         this.placeSequence = review.getReviewId().getPlaceSequence();
         this.avgScore = review.getAvgScore();
         this.expense = review.getExpense();
-        this.placeId = review.getReviewId().getPlaceId();
+        this.placeId = review.getReviewId().getPlace().getPlaceId();
         this.reviewInfo = review.getReviewInfo();
         this.isDel = review.getIsDel();
-        if(review.getPlace()!=null){
-            this.placeDTO = new PlaceDTO(review.getPlace());
+        if(review.getReviewId().getPlace()!=null){
+            this.placeDTO = new PlaceDTO(review.getReviewId().getPlace());
         }
-        this.userId=review.getCourse().getUser().getUserId();
+        this.userId=review.getReviewId().getCourse().getUser().getUserId();
     }
 }
 

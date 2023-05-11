@@ -14,12 +14,15 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 public class ReviewId implements Serializable {
-    @Column(name = "course_id")
-    private Long courseId;
-
-    @Column(name = "place_id")
-    private Long placeId;
 
     @Column(name = "place_sequence")
     private int placeSequence;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_id")
+    private Course course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "place_id")
+    private Place place;
 }
