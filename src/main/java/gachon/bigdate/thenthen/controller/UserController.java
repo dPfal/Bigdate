@@ -95,4 +95,11 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(this.userService.deleteUser(id));
     }
+
+    @PutMapping("/courses/{courseId}")
+    public ResponseEntity<?> updateCourse(@RequestBody CourseDTO courseDTO,@PathVariable("courseId") long courseId, Authentication authentication){
+        courseDTO.setCourseId(courseId);
+        courseDTO.setId(Long.valueOf(authentication.getName()));
+        return ResponseEntity.ok().body(this.courseService.updateCourse(courseDTO));
+    }
 }

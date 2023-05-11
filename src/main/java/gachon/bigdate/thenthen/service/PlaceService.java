@@ -40,7 +40,7 @@ public class PlaceService {
 
        if(place.getReviewList().size()>0){
            for(Review review : place.getReviewList()){
-               ReviewDTO reviewDTO = new ReviewDTO(review,courseRepository.findByCourseId(review.getReviewId().getCourseId()).getPostedDate());
+               ReviewDTO reviewDTO = new ReviewDTO(review,courseRepository.findByCourseId(review.getReviewId().getCourse().getCourseId()).getPostedDate());
                reviewDTOs.add(reviewDTO);
            }
        }
@@ -50,7 +50,7 @@ public class PlaceService {
         if(reviewList.isPresent()){
             List<Course> courseList = new ArrayList<>();
             for(Review review : reviewList.get()){
-                courseList.add(courseRepository.findByCourseId(review.getCourse().getCourseId()));
+                courseList.add(courseRepository.findByCourseId(review.getReviewId().getCourse().getCourseId()));
             }
             if(courseList!=null){
                 for (Course course : courseList) {

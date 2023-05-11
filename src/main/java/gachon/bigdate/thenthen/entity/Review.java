@@ -1,6 +1,7 @@
 package gachon.bigdate.thenthen.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import gachon.bigdate.thenthen.DTO.ReviewDTO;
 import gachon.bigdate.thenthen.entity.ReviewId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,15 +32,6 @@ public class Review {
 
     @Column(name ="is_del")
     private int isDel;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id",insertable = false,updatable = false)
-    private Course course;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "place_id",insertable = false,updatable = false)
-    @JsonIgnore
-    private Place place;
-
-
 
 
 }

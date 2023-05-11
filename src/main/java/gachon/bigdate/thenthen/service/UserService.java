@@ -3,13 +3,7 @@ package gachon.bigdate.thenthen.service;
 import gachon.bigdate.thenthen.DTO.UserDTO;
 import gachon.bigdate.thenthen.repository.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.*;
-import javax.transaction.Transactional;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
