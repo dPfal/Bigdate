@@ -134,6 +134,8 @@ function Home() {
                         lowFiveCongest.congestionLevel === 2 ? 'gold' :
                         lowFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
                             width:'100px',
+                       padding: '2%',
+                       fontSize: '11px',
                             border:'1PX solid white',
                             borderRadius:'5px'
                           }}>
@@ -173,6 +175,8 @@ function Home() {
                       31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? 'gold' :
                       0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? 'limegreen' : 'white',
                     width: '100px',
+                       padding: '2%',
+                       fontSize: '11px',
                     border: '1px solid white',
                     borderRadius: '5px'
                   }}>
@@ -213,6 +217,8 @@ function Home() {
                         lowFiveSky.skyStatus === 2 ? 'skyBlue' :
                         lowFiveSky.skyStatus === 1 ? 'limegreen' : 'white',
                         width:'100px',
+                        padding: '2%',
+                        fontSize: '11px',
                         border:'1PX solid white',
                         borderRadius:'5px'
                     }}>
@@ -254,6 +260,8 @@ function Home() {
                       15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? 'orange' :
                       25 <= lowFiveTraffic.roadTrafficSpd ? 'llimegreen' : '',
                     width: '100px',
+                       padding: '2%',
+                       fontSize: '11px',
                     border: '1px solid white',
                     borderRadius: '5px'
                   }}>
