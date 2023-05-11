@@ -154,4 +154,19 @@ public class CourseService {
        }
 
     }
+
+    public CourseDTO updateCourse(CourseDTO courseDTO){
+        Course course = this.courseRepository.findByCourseId(courseDTO.getCourseId());
+        List<Review> reviewList = new ArrayList<>();
+        for(ReviewDTO reviewDTO : courseDTO.getReviewList()){
+            reviewList.add(Review.builder().reviewId(ReviewId.builder().placeSequence(reviewDTO.getPlaceSequence())
+                    .placeId(reviewDTO.getPlaceId()).courseId(courseDTO.getCourseId()).build()).expense(reviewDTO.getExpense())
+                    .avgScore(reviewDTO.getAvgScore()).reviewInfo(reviewDTO.getReviewInfo()).isDel(0).build());
+        }
+        course.setCourseInfo(courseDTO.getCourseInfo());
+        course.setCourseName(courseDTO.getCourseTitle());
+        course.setReviewList(reviewList);
+        this.courseRepository.save(course);
+        return courseDTO;
+    }
 }

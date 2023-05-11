@@ -16,7 +16,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Setter
 @Table(name ="courses_tb")
 public class Course {
     @Id

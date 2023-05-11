@@ -61,5 +61,20 @@ public class CourseDTO {
         this.scraped=false;
     }
 
+    public CourseDTO(Course course){
+        this(course, course.getUser().getUserId(), course.getLikeCount(), course.getScrapCount(), course.getCommentCount());
+        ArrayList<CommentDTO> commentDTOList = new ArrayList<>();
+        for (Comment comment : course.getCommentList()) {
+            commentDTOList.add(new CommentDTO(comment,comment.getUser()));
+        }
+        this.commentList = commentDTOList;
+        ArrayList<ReviewDTO> reviewDTOList = new ArrayList<>();
+        for (Review review : course.getReviewList()) {
+            reviewDTOList.add(new ReviewDTO(review));
+        }
+        this.reviewList = reviewDTOList;
+
+    }
+
 
 }

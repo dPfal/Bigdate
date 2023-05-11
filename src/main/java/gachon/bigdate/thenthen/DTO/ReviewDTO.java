@@ -38,7 +38,9 @@ public class ReviewDTO {
         this.placeId = review.getReviewId().getPlaceId();
         this.reviewInfo = review.getReviewInfo();
         this.isDel = review.getIsDel();
-        this.placeDTO = new PlaceDTO(review.getPlace());
+        if(review.getPlace()!=null){
+            this.placeDTO = new PlaceDTO(review.getPlace());
+        }
         this.userId=review.getCourse().getUser().getUserId();
     }
 }
