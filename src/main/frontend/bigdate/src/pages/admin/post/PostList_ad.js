@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import Pagination from "react-js-pagination";
 import moment from 'moment';
@@ -15,28 +15,58 @@ import CommonTable from '../../../components/table/CommonTable';
 const PostList_ad = props => {
   const history=useHistory();
   const [dataList, setDataList] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1); 
-  const [sortOption, setSortOption] = useState(""); 
+  const location = useLocation();
+
+  
+  const [pageNumber, setPageNumber] = useState(location.state?.pageNumber || 1);
+  const [sortOption, setSortOption] = useState(location.state?.sortOption || 'courseId');
   
 
-//페이지 이동
-const handlePageChange = (page) => {
-  setPageNumber(page);
-};
 
-const handleSortOptionChange = (e) => {
-  const newSortOption = e.target.value;
-  setSortOption(newSortOption);
+
+  const handlePageChange = (pageNumber) => {
+    setPageNumber(pageNumber);
+  }
   
-  axios.get(`${ADDRESS}/courses?page=${pageNumber-1}&sort=${newSortOption}`)
-    .then(response => {
-      console.log(response.data);
-      setDataList(response.data.content);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-};
+  const handleSortOptionChange = (e) => {
+    const newSortOption = e.target.value;
+    setSortOption(newSortOption);
+  }
+
+ 
+
+  //서버에 코스 목록 조회 요청하기
+  useEffect(() => {
+    const handlePopState = (event) => {
+      const { state } = event;
+      if (state) {
+        setPageNumber(state.pageNumber);
+        setSortOption(state.sortOption);
+      }
+    };
+  
+    window.addEventListener('popstate', handlePopState);
+  
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
+  
+  useEffect(() => {
+    axios.get(`${ADDRESS}/courses?page=${pageNumber-1}&sort=${sortOption}`)
+      .then(response => {
+        console.log(response.data);
+        setDataList(response.data.content);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    
+    // 이전 페이지에서 선택한 정보를 저장합니다.
+    const state = { pageNumber, sortOption };
+    history.replace({ state });
+  }, [pageNumber, sortOption]);
+
 
 const handleDelete = async (courseId) => {
   const token = localStorage.getItem('token');
@@ -69,20 +99,6 @@ function handleDeleteConfirm(courseId) {
   }
   else{ return;}
 }
-
-
-
-  //서버에 코스 목록 조회 요청하기
-  useEffect(() => {
-    axios.get(`${ADDRESS}/courses?page=${pageNumber-1}`)
-      .then(response => {
-        console.log(response.data);
-        setDataList(response.data.content);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, [pageNumber]);
   
   
   return (
@@ -125,7 +141,10 @@ function handleDeleteConfirm(courseId) {
                         <CommonTableRow key={index}>
                           <CommonTableColumn>{item.courseId}</CommonTableColumn>
                           <CommonTableColumn>
-                          <span onClick={() => history.push(`/postViewAd/${item.courseId}`)}>
+                          <span onClick={() =>history.push({
+                              pathname: `/postViewAd/${item.courseId}`,
+                              state: { pageNumber, sortOption }
+                            })}>
                             {item.courseTitle} ({item.commentCount})
                           </span>
                           </CommonTableColumn>
