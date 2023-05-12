@@ -232,7 +232,7 @@ function HotspotView() {
          <div className='row-1'> 
             <img src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${hotspotName}.jpg`} width="25%"/>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div className='row-1_content'>실시간 혼잡도는 <span
+                <div className='row-1_content'>실시간 혼잡도는<span
                 style={{
                   fontWeight:"bold",
                   marginLeft:'10px',
@@ -244,7 +244,7 @@ function HotspotView() {
                       ? "limegreen"
                       : congest === "보통"
                       ? "gold"
-                      : congest === "약간붐빔"
+                      : congest === "약간 붐빔"
                       ? "orange"
                       : congest === "혼잡"
                       ? "red"
