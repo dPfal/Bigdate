@@ -268,6 +268,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                        {course.avgScore}</div>
                     
                       <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px',fontWeight:'500'}}>{course.reviewInfo}</div>
+                      <div style={{float:'right'}}>지출 금액 : {course.expense}원</div>
                       </div>
                     </div>
                     
@@ -350,7 +351,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
               />
             </div>
             <div>
-              <button type="submit" className='postComment'>
+              <button type="submit" className='postComment' style={{marginLeft:'700px'}}>
                 등록
               </button>
             </div>

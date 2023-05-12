@@ -75,14 +75,7 @@ function MyPostList() {
     <div className='background-container' id='mypage_background'>
      <div className='overlay-container'>
 
-     <div style={{
-      fontWeight:"bold",
-      fontSize:"large",
-      marginRight:"40px",
-      marginLeft:"40px",
-      height:'50px',
-      borderBottom: '1px solid gray'
-      }}>내 찜 목록
+     <div className='line'>내 찜 목록
     </div>
     
     <div >
@@ -110,7 +103,7 @@ function MyPostList() {
                             {item.scrapCount}
                           </CommonTableColumn>
                   <CommonTableColumn>{moment(item.postedDate).format('YYYY-MM-DD')}</CommonTableColumn>
-                  <div><button className='delBtn'>삭제</button></div>
+                  <div><button className='delBtn'style={{marginTop:'10px'}} >삭제</button></div>
                 </CommonTableRow>
               )
             }) : ''
