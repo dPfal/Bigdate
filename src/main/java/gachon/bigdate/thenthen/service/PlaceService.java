@@ -36,11 +36,12 @@ public class PlaceService {
     public PlaceDTO getPlaceByPlaceId(Long placeId){
        Place place = this.placeRepository.findByPlaceId(placeId);
        ArrayList<ReviewDTO> reviewDTOs = new ArrayList<>();
+        System.out.println(place.getReviewList());
         ArrayList<CourseDTO> courseDTOArrayList = new ArrayList<>();
-
        if(place.getReviewList().size()>0){
            for(Review review : place.getReviewList()){
-               ReviewDTO reviewDTO = new ReviewDTO(review,courseRepository.findByCourseId(review.getReviewId().getCourse().getCourseId()).getPostedDate());
+               ReviewDTO reviewDTO = new ReviewDTO(review
+                       ,courseRepository.findByCourseId(review.getReviewId().getCourse().getCourseId()).getPostedDate());
                reviewDTOs.add(reviewDTO);
            }
        }
