@@ -28,42 +28,59 @@ function RegisterPost() {
   
   });
 
-  // 컴포넌트 삭제
-  const handleDelete = () => {
-    setNumComponents(numComponents -1);
-    
+
+ //컴포넌트 추가하는 함수 
+ const handleAddComponent = () => {
+  const newComponent = {
+    placeName: '',
+    expense: '',
+    reviewInfo: '',
+    avgScore: '1',
+    placeId: '',
+    order: components.length > 0 ? components[components.length - 1].order + 1 : 1,
   };
-  
-  //컴포넌트 추가
-  function handleAddComponent() {
-    setNumComponents(numComponents + 1);
+  setComponents([...components, newComponent]);
+};
+
+
+// 컴포넌트 삭제
+const handleDelete = () => {
+  if (components.length === 0) {
+    return; // 배열이 비어있으면 아무 작업도 수행하지 않음
   }
+  setComponents(prevComponents => prevComponents.slice(0, -1));
+}
+
 
   
-  const aa = (newReview, key) => {
-    // components 배열에서 key와 일치하는 요소를 찾습니다.
-    const existingComponentIndex = components.findIndex(component => component.order === key);
-  
-    if (existingComponentIndex !== -1) {
-      // key 값이 이미 존재하는 경우 해당 컴포넌트의 데이터를 업데이트합니다.
-      const updatedComponent = {
-        ...components[existingComponentIndex],
-        ...newReview,
-      };
-      const updatedComponents = [...components];
-      updatedComponents[existingComponentIndex] = updatedComponent;
-  
-      setComponents(updatedComponents);
-    } else {
-      // key 값이 존재하지 않는 경우 새로운 컴포넌트를 배열에 추가합니다.
-      const newComponent = {
-        ...newReview,
-        order: key,
-      };
-      const newComponents = [...components, newComponent];
-      setComponents(newComponents);
-    }
-  };
+const aa = (newReview, key) => {
+  const existingComponentIndex = components.findIndex((component) => component.order === key);
+
+  if (existingComponentIndex !== -1) {
+    const updatedComponent = {
+      ...components[existingComponentIndex],
+      ...newReview,
+    };
+
+    setComponents((prevState) => {
+      const updatedComponents = prevState.map((component) =>
+        component.order === key ? updatedComponent : component
+      );
+      return updatedComponents;
+    });
+  } else {
+    const newComponent = {
+      ...newReview,
+      order: key,
+    };
+    setComponents((prevState) => {
+      const updatedComponents = [...prevState];
+      updatedComponents[key - 1] = newComponent;
+      return updatedComponents;
+    });
+  }
+};
+
   
   
 
@@ -151,16 +168,16 @@ function RegisterPost() {
       </div>
      
      
-      {/* 배열에 있는 PlaceForm 컴포넌트들을 렌더링 */}
-      {[...Array(numComponents)].map((value, index) => (
-        <PlaceForm key={index} order={index + 1} onSubmit={aa} />
+      
+      {[...components].map((component, index) => (
+        <PlaceForm key={index} order={index+1} onSubmit={aa} />
       ))}
 
 
 
       <div className='form_add'>
          {/**입력 폼 삭제 */}
-        <button onClick={handleDelete} style={{backgroundColor:"white"}}>
+        <button onClick={() => handleDelete()} style={{backgroundColor:"white"}}>
           <DashSquare style={{fontSize:'30px',color:"#1E90FF",marginTop:"50px"}}/> 
         </button>
          {/**입력 폼 추가 */}

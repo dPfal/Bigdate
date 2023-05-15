@@ -275,8 +275,8 @@ function HotspotView() {
                   fontWeight: "bold",
                   marginLeft: "10px",
                   backgroundColor:
-                    traffic_level === "원할"
-                      ? "green"
+                    traffic_level === "원활"
+                      ? "limegreen"
                       : traffic_level === "서행"
                       ? "orange"
                       : traffic_level === "정체"
@@ -298,8 +298,8 @@ function HotspotView() {
                   fontWeight:"bold",
                   marginLeft:'10px',
                   color:
-                    traffic_level === "원할"
-                      ? "green"
+                    traffic_level === "원활"
+                      ? "limegreen"
                       : traffic_level === "서행"
                       ? "orange"
                       : traffic_level === "정체"
