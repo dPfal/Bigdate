@@ -58,12 +58,10 @@ public class Place {
 
     @OneToMany(mappedBy = "reviewId.place",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore
-    @Transient
     private List<Review> reviewList = new ArrayList<>();
 
     @OneToMany(mappedBy = "place",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JsonIgnore
-    @Transient
     private List<Course> courseList = new ArrayList<>();
 
 }
