@@ -168,7 +168,7 @@ const PlaceView_ad = (props) => {
 
 
 
-        <div className='line'>"{place.placeName}" 을 포함한 추천 코스 </div>
+      <div className='line'>"{place.placeName}" 을 포함한 추천 코스 </div>
         <div style={{flexDirection: 'column'}} className='toCenter'>
           {place.courseList && place.courseList.length > 0 ? (
             place.courseList.map((course, index) => (
@@ -178,12 +178,12 @@ const PlaceView_ad = (props) => {
                   <div>{course.userId}</div>
                 </div>
                 <div style={{marginfTop:'15px',color:'gray'}}>
-                  총 지출 비용   {course.totalExpense} 원
+                  총 지출 비용  {course.reviewList.reduce((total, review) => total + review.expense, 0)} 원
                 </div>
                 <div  style={{display:'flex',justifyContent:'space-between'}}>
                   <div style={{display:'flex', marginTop:'10px'}}>
-                    <div style={{marginLeft:'5px'}}><HandThumbsUp/>{course.likeCount}</div>
-                    <div style={{marginLeft:'20px'}}><HeartFill style={{color:'red'}}/>{course.scrapCount}</div>
+                    <div style={{marginLeft:'5px'}}><HandThumbsUp style={{marginRight:'5px'}}/>{course.likeCount}</div>
+                    <div style={{marginLeft:'20px'}}><HeartFill style={{color:'red',marginRight:'5px'}}/>{course.scrapCount}</div>
                   </div>
                   <div style={{ marginTop:'10px'}}> {moment(course.postedDate).format('YYYY-MM-DD HH:mm')}</div>
                 </div>
@@ -199,11 +199,11 @@ const PlaceView_ad = (props) => {
 
 
 
-        <div className='line'>리뷰</div>
+        <div className='line' style={{marginTop:'30px'}}>리뷰</div>
           {place.reviewList && place.reviewList.length > 0 ? (
             place.reviewList.map((review) => (
               <div className='toCenter'>
-                <div>
+                 <div style={{marginBottom:'10px'}}>
                   <div style={{display:'flex',marginLeft:'80px',marginTop:'10px'}}>
                     <div> {moment(review.postedDate).format('YYYY-MM-DD HH:mm')}</div>
                     <div style={{marginLeft:'10px'}}> 
@@ -218,7 +218,7 @@ const PlaceView_ad = (props) => {
                       <div><PersonCircle style={{fontSize:'50px',color:'dimgray'}}/></div>
                       <div style={{textAlign:'center'}}>{review.userId}</div>
                     </div>
-                    <div className='reviewBox'>
+                    <div className='reviewBox' style={{fontWeight:'normal'}}>
                       {review.reviewInfo}
                     </div>
                   </div>
