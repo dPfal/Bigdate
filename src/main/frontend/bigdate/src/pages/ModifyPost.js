@@ -4,12 +4,15 @@ import { PlusSquare,DashSquare, ConeStriped} from 'react-bootstrap-icons';
 import PlaceForm from '../components/form/PlaceForm';
 import axios from 'axios';
 
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { ADDRESS } from '../Adress';
 
 
 
-function RegisterPost() {
+function ModifyPost() {
+  const location = useLocation();
+  const courseId = new URLSearchParams(location.search).get('courseId');
+  
   const [inputVal, setInputVal] = useState(''); // 입력창의 값을 상태로 관리
   const [showTextArea, setShowTextArea] = useState(false);
   const [info, setInfo] = useState('');
@@ -19,7 +22,38 @@ function RegisterPost() {
   const [components,setComponents] = useState([]);
   const [placeforms,setPlaceforms] = useState([]);
   const history=useHistory();
+  const [courseInfo,setCourseInfo]=useState({});
+  const [review,setReview]=useState([]);
 
+
+  useEffect(() => {
+    const url =  `${ADDRESS}/courses/${courseId}`;
+    axios.get(url)
+      .then(response => {
+       
+        console.log(response.data);
+
+        setReview(response.data.reviewList);
+
+        setCourseTitle(response.data.courseTitle);
+        setInfo(response.data.courseInfo);
+        
+        const Components = response.data.reviewList.map((review, index) => ({
+          placeId:review.placeDTO.placeId,
+          placeName: review.placeDTO.placeName,
+          avgScore: review.avgScore,
+          reviewInfo: review.reviewInfo,
+          expense: review.expense,
+          placeSequence: index + 1,
+        }));
+        setComponents(Components);
+       console.log(components)
+       
+    
+      })
+  }, [courseId]);
+
+ 
 
   const [totalData, setTotalData] = useState({
     courseTitle: '',
@@ -28,46 +62,57 @@ function RegisterPost() {
   
   });
 
-  // 컴포넌트 삭제
+  // 마지막 컴포넌트를 삭제하는 함수
   const handleDelete = () => {
-    setNumComponents(numComponents -1);
+    setComponents(prevComponents => prevComponents.slice(0, -1));
+  };
     
+ //컴포넌트 추가하는 함수 
+ const handleAddComponent = () => {
+  const newComponent = {
+    placeName: '',
+    expense: '',
+    reviewInfo: '',
+    avgScore: '1',
+    placeId: '',
+    order: components.length > 0 ? components[components.length - 1].order + 1 : 1,
   };
+  setComponents([...components, newComponent]);
+};
+
   
-  //컴포넌트 추가
-  function handleAddComponent() {
-    setNumComponents(numComponents + 1);
+const aa = (newReview, key) => {
+  const existingComponentIndex = components.findIndex((component) => component.order === key);
+
+  if (existingComponentIndex !== -1) {
+    const updatedComponent = {
+      ...components[existingComponentIndex],
+      ...newReview,
+    };
+
+    setComponents((prevState) => {
+      const updatedComponents = prevState.map((component) =>
+        component.order === key ? updatedComponent : component
+      );
+      return updatedComponents;
+    });
+  } else {
+    const newComponent = {
+      ...newReview,
+      order: key,
+    };
+    setComponents((prevState) => {
+      const updatedComponents = [...prevState];
+      updatedComponents[key - 1] = newComponent;
+      return updatedComponents;
+    });
   }
+};
 
-  
-  const aa = (newReview, key) => {
-    // components 배열에서 key와 일치하는 요소를 찾습니다.
-    const existingComponentIndex = components.findIndex(component => component.order === key);
-  
-    if (existingComponentIndex !== -1) {
-      // key 값이 이미 존재하는 경우 해당 컴포넌트의 데이터를 업데이트합니다.
-      const updatedComponent = {
-        ...components[existingComponentIndex],
-        ...newReview,
-      };
-      const updatedComponents = [...components];
-      updatedComponents[existingComponentIndex] = updatedComponent;
-  
-      setComponents(updatedComponents);
-    } else {
-      // key 값이 존재하지 않는 경우 새로운 컴포넌트를 배열에 추가합니다.
-      const newComponent = {
-        ...newReview,
-        order: key,
-      };
-      const newComponents = [...components, newComponent];
-      setComponents(newComponents);
-    }
-  };
-  
+  console.log(components)
   
 
-  const handleRegister = async (event) => {
+  const handleModify = async (event) => {
     event.preventDefault();
 
     if(courseTitle===''){
@@ -75,7 +120,7 @@ function RegisterPost() {
       return;
     }
 
-
+  
     if(info===''){
       alert('코스 설명을 입력하세요.');
       return;
@@ -91,7 +136,7 @@ function RegisterPost() {
       alert('2개 이상 입력하세요.');
       return;
     }
-    const isConfirmed = window.confirm('등록하시겠습니까??');
+    const isConfirmed = window.confirm('수정하시겠습니까??');
     if (isConfirmed) {
       try {
         const token = localStorage.getItem('token');
@@ -103,7 +148,7 @@ function RegisterPost() {
         console.log(data);
         await setTotalData(data);
         await sendDataToServer(data, token);
-        history.push('/post');
+        history.push('/courses');
       } catch (error) {
         console.error(error);
       }
@@ -112,13 +157,13 @@ function RegisterPost() {
     }
    
   };
-    
+  
  
   
   const sendDataToServer = async (data, token) => {
     try {
-      const response = await axios.post(
-        `${ADDRESS}/users/courses`,
+      const response = await axios.put(
+        `${ADDRESS}/users/courses/${courseId}`,
         data,
         {
           headers: {
@@ -127,6 +172,7 @@ function RegisterPost() {
           },
         },
       );
+     
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -142,8 +188,7 @@ function RegisterPost() {
       
     <div className="overlay-container">
 
-    <div className='line'>코스 등록
-    </div>
+    <div className='line'>코스 수정</div>
 
       <div style={{margin:"20px 40px"}}> 
         제목<input type="text" value={courseTitle} onChange={(e) => setCourseTitle(e.target.value)}
@@ -152,15 +197,17 @@ function RegisterPost() {
      
      
       {/* 배열에 있는 PlaceForm 컴포넌트들을 렌더링 */}
-      {[...Array(numComponents)].map((value, index) => (
-        <PlaceForm key={index} order={index + 1} onSubmit={aa} />
+      {[...components].map((component, index) => (
+        <PlaceForm key={index} order={index+1} onSubmit={aa}
+        placeId={component.placeId} expense={component.expense} placeName={component.placeName}
+        reviewInfo={component.reviewInfo} avgScore={component.avgScore}/>
+        
       ))}
-
 
 
       <div className='form_add'>
          {/**입력 폼 삭제 */}
-        <button onClick={handleDelete} style={{backgroundColor:"white"}}>
+        <button onClick={() => handleDelete()} style={{backgroundColor:"white"}}>
           <DashSquare style={{fontSize:'30px',color:"#1E90FF",marginTop:"50px"}}/> 
         </button>
          {/**입력 폼 추가 */}
@@ -184,7 +231,7 @@ function RegisterPost() {
       </div>
        <div className='form_add'>
         <button 
-          onClick={handleRegister}
+          onClick={handleModify}
           style={{color:"white",
           backgroundColor:"#1E90FF",
           borderRadius:"10px",
@@ -194,7 +241,7 @@ function RegisterPost() {
           marginTop:"20px",
           marginBottom:'10px'
         }}>
-            등록
+            수정
         </button>
       </div>  
       
@@ -206,4 +253,4 @@ function RegisterPost() {
 };
 
 
-export default RegisterPost
+export default ModifyPost

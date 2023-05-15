@@ -4,9 +4,8 @@ import './PostView.css';
 import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
 import { ADDRESS } from '../../Adress';
 import moment from 'moment';
+import { useHistory } from 'react-router-dom';
 const { kakao } = window;
-
-
 
 const PostView = ({ history, location, match }) => {
   const [ data, setData ] = useState({});
@@ -19,6 +18,8 @@ const PostView = ({ history, location, match }) => {
 
   const { course_id } = match.params;
 
+
+  const pageNumber = sessionStorage.getItem('pageNumber');
 /**코스 상세 정보 조회 axio get  course id로*/
 /**코스 댓글 조회 axio get */
 
@@ -182,12 +183,13 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       console.error(error);
     }
   };
-
+ 
   return (
     <>
      
 
       <div className="post-view-wrapper">
+
         {
           data ? (
             <>
@@ -268,6 +270,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                        {course.avgScore}</div>
                     
                       <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px',fontWeight:'500'}}>{course.reviewInfo}</div>
+                      <div style={{float:'right'}}>지출 금액 : {course.expense}원</div>
                       </div>
                     </div>
                     
@@ -300,7 +303,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
         <div className='line'>댓글</div>
        <div>
-      {/**댓글 리스트 */}          
+      {/**댓글 리스트 */} 
        <div>
        {commentArray && commentArray.length > 0 ? (
           commentArray.map((comment) => {
@@ -349,11 +352,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                 style={{ marginLeft: '10px', width: '600px' }}
               />
             </div>
-            <div>
-              <button type="submit" className='postComment'>
+            
+              <button type="submit" className='postComment' style={{marginLeft:'700px'}}>
                 등록
               </button>
-            </div>
+            
           </form>
         
               </div>

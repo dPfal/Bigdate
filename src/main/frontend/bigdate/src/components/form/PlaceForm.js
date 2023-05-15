@@ -5,20 +5,24 @@ import axios from 'axios';
 import { ADDRESS } from '../../Adress';
 
 
+
 // PlaceForm 컴포넌트 정의
 const PlaceForm = (props) => {
   const [reviews, setReviews] = useState([]);
-  const [placeName,setPlaceName] = useState('');
-  const [avg_score,setAvg_Score] = useState('1');
-  const [review_info,setReview_Info] = useState('');
-  const [expense,setExpense] = useState(0);
-  const [placeId,setPlaceId] = useState([]);
+  const [placeName,setPlaceName] = useState(props.placeName??'');
+  const [avg_score,setAvg_Score] = useState(props.avgScore??'1');
+  const [review_info,setReview_Info] = useState(props.reviewInfo??'');
+  const [expense,setExpense] = useState(props.expense??0);
+  const [placeId,setPlaceId] = useState(props.placeId??'');
 
   const [suggestions, setSuggestions] = useState([]); // 검색어 리스트를 저장하는 상태
 
 
+
+
  const handleAddReview =()=> {
     const newReview = {
+      placeName:placeName,
       placeId: placeId,
       avgScore: avg_score,
       reviewInfo: review_info,
@@ -74,22 +78,22 @@ const PlaceForm = (props) => {
                   placeholder={placeName} // 상태 값으로 placeholder에 값을 설정
                 />
                    {placeName && suggestions.length > 0 && (
-  <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>
-    {suggestions.map((suggestion,index) => (
-      <li
-        style={{listStyleType: 'none'}}
-        key={`${suggestion.placeId}-${index}`}
-        onClick={() => {
-          setPlaceName(suggestion.placeName);
-          setPlaceId(suggestion.placeId);
-          setSuggestions([]);
-        }}
-      >
-        {suggestion.placeName}
-      </li>
-    ))}
-  </ul>
-)}
+                      <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                        {suggestions.map((suggestion,index) => (
+                          <li
+                            style={{listStyleType: 'none'}}
+                            key={`${suggestion.placeId}-${index}`}
+                            onClick={() => {
+                              setPlaceName(suggestion.placeName);
+                              setPlaceId(suggestion.placeId);
+                              setSuggestions([]);
+                            }}
+                          >
+                            {suggestion.placeName}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
 
 
                 </div>

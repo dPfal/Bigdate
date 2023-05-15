@@ -220,7 +220,7 @@ function HotspotView() {
     };
 
   return (
-    <div className="background-container">
+    <div className="background-container" style={{backgroundColor:'#f5f5f5'}}>
       
     <div className="overlay-container">
 <div>
@@ -232,23 +232,85 @@ function HotspotView() {
          <div className='row-1'> 
             <img src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${hotspotName}.jpg`} width="25%"/>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div className='row-1_content'>실시간 혼잡도는<span style={{fontWeight:"bold"}}> {congest} </span>입니다.</div>
+                <div className='row-1_content'>실시간 혼잡도는<span
+                style={{
+                  fontWeight:"bold",
+                  marginLeft:'10px',
+                  color:'white',
+                  padding: "4px",
+                  borderRadius: "5px",
+                  backgroundColor:
+                        congest === "여유"
+                      ? "limegreen"
+                      : congest === "보통"
+                      ? "gold"
+                      : congest === "약간 붐빔"
+                      ? "orange"
+                      : congest === "혼잡"
+                      ? "red"
+                      : '',
+                }}
+              >
+                {congest} 
+              </span>&nbsp; 입니다.</div>
                 <div>날씨/환경</div>
                 <div className='row-1_content'><ThermometerHalf style={{color:"red",fontSize:"25px"}}/> {temp} ℃</div>
                 <div className='row-1_content'>체감온도  {sensible_temp} ℃</div>
                 <div style={{display: 'flex', flexDirection: 'row'}}>
-                <div className='row-1_content2'><Wind style={{color:"gray",fontSize:"25px"}}/><br/>미세먼지<br/>{pm10}㎍/m³</div>
-                <div className='row-1_content2'><Cloudy style={{color:"skyblue",fontSize:"25px"}}/><br/>하늘상태<br/>{sky}</div>
-                <div className='row-1_content2'><Sun style={{color:"orange",fontSize:"25px"}}/><br/>자외선지수<br/>{uv_level}</div>
+                <div className='row-1_content2'><Wind style={{color:"gray",fontSize:"25px"}}/><br/>미세먼지<br/><div className='weather'>{pm10}㎍/m³</div></div>
+                <div className='row-1_content2'><Cloudy style={{color:"skyblue",fontSize:"25px"}}/><br/>하늘상태<br/><div className='weather'>{sky}</div></div>
+                <div className='row-1_content2'><Sun style={{color:"orange",fontSize:"25px"}}/><br/>자외선지수<br/><div className='weather'>{uv_level}</div></div>
                 </div>
             </div>
          </div>
          <div  className="row-2"> 
             <div>
             <div >교통</div>
-            <div style={{width:"300px",backgroundColor:"#f5f5f5",marginTop:"2%",height:"120px",paddingTop:"20px",}}>
-            <div className='row-2_content'> 도로 소통 단계  <span style={{fontWeight:"bold",marginLeft:'10px'}}> {traffic_level} </span> </div>
-            <div className='row-2_content'>평균 주행 속도는 <span style={{fontWeight:"bold",marginLeft:'10px'}}> {traffic_speed} </span> km/h 입니다.</div>
+            <div style={{width:"300px",backgroundColor:"white",marginTop:"2%",height:"120px",paddingTop:"15px",}}>
+            <div className='row-2_content'>
+              <div style={{paddingTop:'4px'}}>도로 소통 단계</div> 
+              <span
+                style={{
+                  height:'25px',
+                  fontWeight: "bold",
+                  marginLeft: "10px",
+                  backgroundColor:
+                    traffic_level === "원할"
+                      ? "green"
+                      : traffic_level === "서행"
+                      ? "orange"
+                      : traffic_level === "정체"
+                      ? "red"
+                      : '',
+                  color: "white",
+                  padding: "4px",
+                  borderRadius: "5px",
+                }}
+              >
+                {traffic_level}
+              </span>
+            </div>
+
+            <div className='row-2_content'>
+              평균 주행 속도는
+              <span
+                style={{
+                  fontWeight:"bold",
+                  marginLeft:'10px',
+                  color:
+                    traffic_level === "원할"
+                      ? "green"
+                      : traffic_level === "서행"
+                      ? "orange"
+                      : traffic_level === "정체"
+                      ? "red"
+                      : '',
+                }}
+              >
+                {traffic_speed} km/h&nbsp; 
+              </span>
+              입니다.
+            </div>
             </div>
             
             </div>
@@ -256,7 +318,7 @@ function HotspotView() {
             <div>
             <div style={{marginLeft:"5%"}}>그때그때 소식</div>
             <div style={{width:"450px", marginLeft:"5%",}}>
-            <div className='row-1_content' id='row-2_content'>{traffic_msg}</div>
+            <div className='row-1_content' id='row-2_content' >{traffic_msg}</div>
             <div className='row-1_content' id='row-2_content'>{air_msg}</div>
             <div className='row-1_content' id='row-2_content'>{rainper}</div>
             </div>

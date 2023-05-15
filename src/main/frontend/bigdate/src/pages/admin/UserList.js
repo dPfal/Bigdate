@@ -58,7 +58,7 @@ const handlePageChange = (page) => {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
             
       try {
-        const response = await axios.delete(`${ADDRESS}/users/${id}`);
+        const response = await axios.delete(`${ADDRESS}/admin/${id}`);
         console.log(response.data.message);
         
         // 목록을 다시 불러오기 위해 1초 대기 후에 실행

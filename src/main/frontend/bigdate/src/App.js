@@ -23,6 +23,7 @@ import PostMain_ad from './pages/admin/post/PostMain_ad';
 import PostView_ad from './pages/admin/post/PostView_ad';
 import PlaceList from './pages/admin/places/PlaceList';
 import PlaceView_ad from './pages/admin/places/PlaceView_ad';
+import ModifyPost from './pages/ModifyPost';
 
 
 
@@ -68,6 +69,7 @@ const App = () => {
         <Route path="/user/course/write" component={RegisterPost}/>
         <Route path="/place/:id" component={PlaceView}/>
         <Route path="/signup" component={Signup}/>
+        <Route path="/modify" component={ModifyPost}/>
         <Route path="/admin" component={Home_ad}/>
         <Route path="/users" component={UserList}/>
         <Route path="/posts" component={PostMain_ad}/>

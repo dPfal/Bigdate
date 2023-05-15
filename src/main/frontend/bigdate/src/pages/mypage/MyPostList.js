@@ -88,6 +88,11 @@ function MyPostList() {
         console.error(error);
       }
     };
+
+    //코스 수정 페이지 이동
+    function handleModify(courseId) {
+      history.push(`/modify?courseId=${courseId}`);
+    }
   
       return (
         <div>
@@ -137,8 +142,8 @@ function MyPostList() {
                           </CommonTableColumn>
                       <CommonTableColumn>{moment(item.postedDate).format('YYYY-MM-DD')}</CommonTableColumn>
                       <div style={{display:'flex'}}>
-                      <div><button className='reBtn'>수정</button></div>
-                      <div ><button className='delBtn' onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px'}}>삭제</button></div>        
+                      <div><button className='reBtn' style={{marginTop:'10px'}}  onClick={() => handleModify(item.courseId)}>수정</button></div>
+                      <div ><button className='delBtn'  onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px',marginTop:'10px'}}>삭제</button></div>        
                       </div>        
                     </CommonTableRow>
                   )
