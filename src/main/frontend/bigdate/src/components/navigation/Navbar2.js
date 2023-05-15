@@ -16,7 +16,7 @@ const Navbar2=() =>{
   const [userId,setUserId] = useState('');
   const [password,setPassword] = useState('');
   const history = useHistory();
-
+  const token = localStorage.getItem('token');
   {/**모달 띄우기 상태 */}
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -105,6 +105,16 @@ const Navbar2=() =>{
       }
     };
   
+    
+
+    const handleNavClick = () => {
+      if (!token) {
+        // 토큰이 없는 경우 로그인 페이지로 이동
+        alert('로그인이 필요한 서비스입니다.');
+      } else {
+        history.push('/mypage'); // 마이페이지로 이동
+      }
+    };
 
 
   return (
@@ -121,7 +131,7 @@ const Navbar2=() =>{
               <Nav.Link href='/post'>커뮤니티</Nav.Link>
             </Nav>
             <Nav>
-              <Nav.Link href='/mypage'>마이페이지</Nav.Link>
+            <Nav.Link onClick={handleNavClick}>마이페이지</Nav.Link>
              
               <Nav.Link onClick={() => {
                

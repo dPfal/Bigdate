@@ -39,35 +39,24 @@ function Mypage() {
 
 
   useEffect(() => {
-   
-
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios.get(`${ADDRESS}/users/${id}`)
       .then(response => {
         // 서버로부터 받은 데이터 처리
         console.log(response.data);
         setData(response.data);
         setuserMood(response.data.userMood);
-
       })
       .catch(error => {
         // 에러 처리
         console.error(error);
       });
-      
-  }, []);
-  
+  }, [token, id]);
   
 
-
-  if (!token) {
-    // 토큰이 없는 경우 로그인 페이지로 이동
-    alert('로그인이 필요한 서비스 입니다.')
-
-    return null;
-  }
-
+  
+  
   //회원 탈퇴 확인
   function handleDeleteConfirm(id) {
     const result = window.confirm(`정말 탈퇴하시겠습니까?`);
@@ -121,13 +110,15 @@ function Mypage() {
        <div className='line'>내 정보
       </div>
       <div style={{display:'flex'}}>
-      <PersonCircle fontSize={100} style={{margin:'60px 50px'}}color='gray'/>
-     <div style={{margin:"40px 20px"}}>
-      <div  style={{marginBottom: "10px"}}> 이름 : {data.userName}</div>
-      <div  style={{marginBottom: "10px"}}> 아이디 : {data.userId}</div>
+      <PersonCircle fontSize={80} style={{margin:'60px 50px'}}color='gray'/>
+     <div style={{margin:"55px 20px",fontSize:'14px'}}>
+      <div  style={{marginBottom: "10px"}}> 이름 : <span style={{fontWeight:'normal'}}>{data.userName}</span></div>
+      <div  style={{marginBottom: "10px"}}> 아이디 : <span style={{fontWeight:'normal'}}>{data.userId}</span></div>
       <div style={{display:'flex'}}>
-      <div > 취향 : {data.userMood}</div>
-      <button  className='reBtn' onClick={handleShow}style={{marginLeft: "10px",height:'20px'}} >수정</button></div></div>
+      <span style={{ fontWeight: 'bold' }}>취향: </span>
+      <span style={{ fontWeight: 'normal',marginLeft:'10px',marginRight:'10px' }}>{data.userMood}</span>
+    
+      <button  className='reBtn' onClick={handleShow} >수정</button></div></div>
               <Modal show={show} onHide={handleClose}>
                <Modal.Header closeButton>
                  <Modal.Title>내 취향 변경하기</Modal.Title>
@@ -166,10 +157,9 @@ function Mypage() {
                 </Modal.Footer>
               </Modal>
       </div>
-     
-
       
       </div>
+      <div className='line'></div>
       <div style={{margin:"50px 50px",fontSize:'13px'}}>
       <button className='delBtn' onClick={() =>  handleDeleteConfirm(data.id)}>회원탈퇴</button>
       </div>
