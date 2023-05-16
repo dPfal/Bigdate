@@ -16,11 +16,17 @@ const PlaceForm = (props) => {
   const [placeId,setPlaceId] = useState(props.placeId??'');
 
   const [suggestions, setSuggestions] = useState([]); // 검색어 리스트를 저장하는 상태
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(-1);
 
 
 
 
  const handleAddReview =()=> {
+  if (isNaN(expense)) {
+    // 숫자가 아닌 경우 경고창을 
+    alert("금액은 숫자로 입력해주세요.");
+    return;
+  }
     const newReview = {
       placeName:placeName,
       placeId: placeId,
@@ -47,6 +53,7 @@ const PlaceForm = (props) => {
         params: { searchData: value }, // 쿼리스트링으로 검색어를 전달
         headers: { Authorization: `Bearer ${token}` },
       });
+     
       console.log(response);
       const data = response.data;
       const placeSuggestions = data.map((place) => ({
@@ -55,10 +62,36 @@ const PlaceForm = (props) => {
       })); // 데이터에서 placeName과 placeId를 추출하여 객체로 생성
   
       setSuggestions(placeSuggestions);
+      
     } catch (error) {
       console.error(error);
     }
   };
+
+
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setSelectedSuggestionIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : suggestions.length - 1
+      );
+    } else if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setSelectedSuggestionIndex((prevIndex) =>
+        prevIndex < suggestions.length - 1 ? prevIndex + 1 : 0
+      );
+    } else if (event.key === "Enter") {
+      event.preventDefault();
+      if (selectedSuggestionIndex !== -1) {
+        const selectedSuggestion = suggestions[selectedSuggestionIndex];
+        setPlaceName(selectedSuggestion.placeName);
+        setPlaceId(selectedSuggestion.placeId);
+        setSuggestions([]);
+      }
+    }
+  };
+  
+
 
   return (
     <div>
@@ -74,27 +107,32 @@ const PlaceForm = (props) => {
                   id="myInput"
                   name="myInput"
                   value={placeName}
+                  onKeyDown={handleKeyDown}
                   onChange={handleInputChange} // 입력창의 값이 변경될 때마다 상태 값 업데이트
                   placeholder={placeName} // 상태 값으로 placeholder에 값을 설정
                 />
-                   {placeName && suggestions.length > 0 && (
-                      <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>
-                        {suggestions.map((suggestion,index) => (
-                          <li
-                            style={{listStyleType: 'none'}}
-                            key={`${suggestion.placeId}-${index}`}
-                            onClick={() => {
-                              setPlaceName(suggestion.placeName);
-                              setPlaceId(suggestion.placeId);
-                              setSuggestions([]);
-                            }}
-                          >
-                            {suggestion.placeName}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
+                  {placeName && suggestions.length > 0 && (
+                    <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                      {suggestions.map((suggestion, index) => (
+                        <li
+                          style={{
+                            listStyleType: 'none',
+                            background: selectedSuggestionIndex === index ? '#1e90ff' : 'transparent',
+                          }}
+                          key={`${suggestion.placeId}-${index}`}
+                          onClick={() => {
+                            setPlaceName(suggestion.placeName);
+                            setPlaceId(suggestion.placeId);
+                            setSuggestions([]);
+                          }}
+                          onMouseEnter={() => setSelectedSuggestionIndex(index)} // 마우스가 요소 위에 올라갔을 때 인덱스 값을 업데이트
+                          onMouseLeave={() => setSelectedSuggestionIndex(-1)} // 마우스가 요소를 벗어났을 때 인덱스 값을 초기화
+                        >
+                          {suggestion.placeName}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
 
                 </div>
              </div>
