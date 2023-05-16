@@ -1,14 +1,18 @@
 package gachon.bigdate.thenthen.service;
 
 import gachon.bigdate.thenthen.DTO.UserDTO;
+import gachon.bigdate.thenthen.entity.UserLog;
 import gachon.bigdate.thenthen.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserLogRepository userLogRepository;
     public UserDTO getUserInfo(Long id){
        return new UserDTO(userRepository.findById(id).get());
     }
@@ -33,6 +37,9 @@ public class UserService {
         if (userRepository.existsById(id)) {
             // 3. Delete user
             userRepository.deleteById(id);
+            UserLog userLog = userLogRepository.findById(id).get();
+            userLog.setWithDrawDate(LocalDateTime.now());
+            userLogRepository.save(userLog);
             return "{\"message\":\"사용자 삭제 완료!\"}";
         } else {
             return "{\"message\":\"사용자 삭제 실패!\"}";
