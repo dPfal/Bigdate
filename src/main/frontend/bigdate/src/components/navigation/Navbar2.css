@@ -1,16 +1,19 @@
+@import url('https://webfontworld.github.io/SCoreDream/SCoreDream.css');
 .navbar{
 background-color: white;
-width: 100%;
-
+width:auto;
 }
 #content{
 margin-left:20px ;
 margin-right:20px ;
-font-size: small;
+font-size:1rem;
+
 }
 #logo{
     color: #1E90FF;
     font-weight: bold;
+    font-size: 1.7rem;
+    font-family: 'SCoreDream';
 }
 
 

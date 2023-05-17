@@ -5,7 +5,6 @@ import { BrowserRouter, Routes, Route, Switch } from 'react-router-dom';
 
 import Home from './pages/Home';
 
-
 import PostMain from './pages/post/PostMain';
 import PostView from './pages/post/PostView';
 import HotspotView from './pages/HotspotView';

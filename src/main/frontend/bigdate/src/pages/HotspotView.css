@@ -2,16 +2,17 @@
 
 .hotspot_title{
     border-style: solid;
+    background-color: white;
     border-color: #1E90FF;
     color: #1E90FF;
     border-radius: 20px;
-    width: 60%;
+    width: max-content;
     height: 40px;
     margin-top: 10px;
     text-align: center;
     justify-content: center;
     display: center;
-    padding-top: 5px;
+    padding:6px;
      font-weight: bold;
      font-size: medium;
     

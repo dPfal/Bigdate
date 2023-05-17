@@ -20,7 +20,6 @@ const PlaceForm = (props) => {
 
 
 
-
  const handleAddReview =()=> {
   if (isNaN(expense)) {
     // 숫자가 아닌 경우 경고창을 
@@ -99,10 +98,11 @@ const PlaceForm = (props) => {
           <div style={{ textAlign: 'center', display: 'flex' }}>
             <div className='placeNum'>{props.order}</div>
                 <div className='place_add' style={{ marginBottom:'10px',marginLeft:'10px'}}>
-                  장소 검색
+            <div style={{ display: 'flex' }}><div style={{ marginTop:'18px' }}>장소 검색</div> 
+              <div>
                   <input
                   className='input'
-                  style={{ marginLeft: '5px',width:'200px',height:'25px' }}
+                  style={{ marginLeft: '10px', width:'300px',height:'25px' }}
                   type="text"
                   id="myInput"
                   name="myInput"
@@ -110,14 +110,15 @@ const PlaceForm = (props) => {
                   onKeyDown={handleKeyDown}
                   onChange={handleInputChange} // 입력창의 값이 변경될 때마다 상태 값 업데이트
                   placeholder={placeName} // 상태 값으로 placeholder에 값을 설정
-                />
+              />
                   {placeName && suggestions.length > 0 && (
-                    <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+                    <ul style={{ position:'absolute',maxHeight: '200px', overflowY: 'scroll' ,width:'300px',textAlign:'left',paddingLeft:'20px',margin:'0px'}}>
                       {suggestions.map((suggestion, index) => (
                         <li
                           style={{
                             listStyleType: 'none',
-                            background: selectedSuggestionIndex === index ? '#1e90ff' : 'transparent',
+                            background: selectedSuggestionIndex === index ? '#1e90ff' : 'white',
+                            padding:'5px'
                           }}
                           key={`${suggestion.placeId}-${index}`}
                           onClick={() => {
@@ -132,13 +133,15 @@ const PlaceForm = (props) => {
                         </li>
                       ))}
                     </ul>
+                   
                   )}
-
+              </div>
+              </div>
                 </div>
              </div>
        </div>
+      <div style={{ paddingLeft: '50px', paddingRight: '50px' }}>
        <div>
-       <div style={{marginLeft:"40px"}}>
               평점   <select
                         style={{marginTop:"15px",width:"70px"}}
                         value={avg_score}
@@ -153,33 +156,44 @@ const PlaceForm = (props) => {
                 </select>
               </div>
 
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center',marginTop:"15px"}} >
+              <div style={{width:'100%', display: 'flex',marginTop:"15px"}} >
               <textarea
                 rows={3}
-                cols={90}
+                cols={120}
                 value={review_info}
                 onChange={(e) => setReview_Info(e.target.value)}
                 placeholder="리뷰를 입력하세요"
               />
               </div>
-            <div style={{marginRight:"90px",display: "flex", justifyContent: "flex-end"}}>
+            <div style={{display: "flex", justifyContent: "flex-end"}}>
               <div style={{marginTop:"15px"}}>
-                총 지출 금액 :
+                총 지출 금액 : 
               <input
                 type="number"
                 value={expense}
                 onChange={(e) => setExpense(e.target.value)}
                 placeholder="금액을 입력하세요"
+                style={{marginLeft:'10px'}}
               /> 원
             </div>
+            
             </div>
-       
+        <div style={{fontSize:'12px', marginTop: '20px', marginBottom: '20px',height:'20px',textAlign:'right' }}>
+          <button onClick={handleAddReview} style={{
+            color: "white",
+            backgroundColor: "#1E90FF",
+            borderRadius: "10px",
+            fontSize: "small",
+            width: "80px",
+            height: "30px",
+            marginBottom: '10px' }}>
+            확인
+          </button></div>
+        
        </div>
-       <div style={{marginLeft:'650px', marginTop:'10px'}}>
-      <button onClick={handleAddReview} >
-        확인
-      </button>
-      </div>
+     
+     
+    
      
   </div>
   );
