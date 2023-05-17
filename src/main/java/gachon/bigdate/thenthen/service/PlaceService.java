@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,5 +90,16 @@ public class PlaceService {
             placeDTOArrayList.add(new PlaceDTO(place));
         }
         return new PageImpl<>(placeDTOArrayList, pageable, placePage.get().count());
+    }
+
+    public ResponseEntity<?> updatePlaceMood(long placeId,String placeMood) {
+        if(placeRepository.existsByPlaceId(placeId)){
+            Place place = placeRepository.findByPlaceId(placeId);
+            place.setPlaceMood(placeMood);
+            placeRepository.save(place);
+            return ResponseEntity.ok(new PlaceDTO(place));
+        }else{
+            return ResponseEntity.badRequest().body("분위기 수정 실패");
+        }
     }
 }

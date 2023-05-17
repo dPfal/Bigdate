@@ -54,4 +54,9 @@ public class AdminController {
     }
 
 
+    @PatchMapping("/places/{placeId}")
+    public ResponseEntity<?> updatePlaceMood (@PathVariable("placeId") long id,@RequestParam String placeMood){
+        return this.placeService.updatePlaceMood(id,placeMood);
+    }
+
 }
