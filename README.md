@@ -1,6 +1,6 @@
 # Bigdate
 서울시 실시간 데이터 기반 데이트 지역 추천 서비스
-
+http://ceprj.gachon.ac.kr:60003
 ![image](https://user-images.githubusercontent.com/100793454/235451382-a0886af2-70b9-4898-ba6c-e2b9d8326beb.png)
 
 ## 팀원
