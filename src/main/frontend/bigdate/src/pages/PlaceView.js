@@ -197,7 +197,7 @@ const PlaceView = (props) => {
                       <div style={{textAlign:'center'}}>{review.userId}</div>
                     </div>
                     <div className='reviewBox' style={{fontWeight:'normal'}}>
-                      {review.reviewInfo}
+                    {review.isDel === 1 ?<span className='toCenter' style={{paddingTop:'10px'}}>관리자에 의해 숨김 처리된 후기 입니다.</span> : review.reviewInfo}
                     </div>
                   </div>
 

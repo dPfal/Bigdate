@@ -18,6 +18,11 @@ const PlaceView_ad = (props) => {
   const [sortOption, setSortOption] = useState(""); 
   const[place,setPlace]=useState('');
 
+  const [reviews, setReviews] = useState(place.reviewList); 
+  const [isDeleted, setIsDeleted] = useState(false); 
+  const [update,setUpdate]=useState({});
+
+
   useEffect(() => {
     axios.get(`${ADDRESS}/places/${placeId}`)
     .then(response => {
@@ -55,14 +60,14 @@ const PlaceView_ad = (props) => {
     .catch(error => {
       console.log(error);
     });
-  }, [placeId]);
+  }, [placeId,isDeleted]);
   
 
  
  //해당 코스 상세 뷰로 이동
   const handleClick = (courseid) => {
     // 이동할 페이지의 URL을 설정합니다.
-    const url = `/postView/${courseid}`;
+    const url = `/postViewAd/${courseid}`;
 
     // 페이지 이동을 수행합니다.
     window.location.href=url;
@@ -76,11 +81,65 @@ const PlaceView_ad = (props) => {
   };
 
 
+  const handleUpdatePlaceMood = async ( placeMood) => {
+    const token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+    try {
+      const response = await axios.patch(`${ADDRESS}/admin/places/${placeId}?placeMood=${placeMood}`);
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
- //const totalExpense = place.courseList.reviewList.reduce((acc, review) => acc + review.expense, 0);
- 
+  function handleDeleteConfirm(placeSequence,placeId,courseId) {
+    const result = window.confirm(`후기 숨김 처리 하시겠습니까?`);
+    if (result === true) {
+      handleDelete(placeSequence, placeId, courseId)
+        .then(() => setIsDeleted(true))
+        .catch(error => console.log(error));
+    } else {
+      return;
+    }
+  }
 
+  const handleDelete = async (placeSequence, placeId, courseId) => {
+    const token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+    const requestData = {
+      courseId: courseId,
+      reviewList: [
+        {
+          placeSequence: placeSequence,
+          placeId: placeId
+        }
+      ]
+    };
+    console.log(requestData);
+  
+    try {
+      // 숨기기
+      const response = await axios.patch(`${ADDRESS}/admin/reviews`, requestData);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  };
+
+  useEffect(() => {
+    if (isDeleted) {
+      // isDeleted 상태가 변경되었을 때 실행되는 부분
+      if (update) {
+        // 서버 요청이 정상적으로 처리되었을 때
+        setIsDeleted(false); // isDeleted 상태를 다시 false로 업데이트하여 UI 갱신
+      }
+    }
+  }, [isDeleted]);
    // 로딩이 완료되면 데이터를 화면에 렌더링
+   
    return (
     <div className="background-container">
       
@@ -100,7 +159,7 @@ const PlaceView_ad = (props) => {
                 <option value='힐링' selected={sortOption === '힐링'}>힐링</option>
                 </select>
 
-                <button className='reBtn'style={{marginLeft:'1%'}}>수정</button>
+                <button className='reBtn'style={{marginLeft:'1%'}} onClick={()=>handleUpdatePlaceMood(sortOption)}>수정</button>
             </div>
 
 
@@ -200,38 +259,44 @@ const PlaceView_ad = (props) => {
 
 
         <div className='line' style={{marginTop:'30px'}}>리뷰</div>
-          {place.reviewList && place.reviewList.length > 0 ? (
-            place.reviewList.map((review) => (
-              <div className='toCenter'>
-                 <div style={{marginBottom:'10px'}}>
-                  <div style={{display:'flex',marginLeft:'80px',marginTop:'10px'}}>
-                    <div> {moment(review.postedDate).format('YYYY-MM-DD HH:mm')}</div>
-                    <div style={{marginLeft:'10px'}}> 
-                      {Array(review.avgScore).fill(<StarFill style={{color:'gold'}}/>)}
-                      {Array(5 - review.avgScore).fill(<Star style={{color:'lightgray'}}/>)}
-                    </div>
-                    <button className='delBtn' style={{marginLeft:'1%'}}>삭제</button>
+        {place.reviewList && place.reviewList.length > 0 ? (
+          place.reviewList.map((review,index) => (
+            <div className='toCenter'>
+              <div style={{marginBottom:'10px'}}>
+                <div style={{display:'flex',marginLeft:'80px',marginTop:'10px'}}>
+                  <div>{moment(review.postedDate).format('YYYY-MM-DD HH:mm')}</div>
+                  <div style={{marginLeft:'10px'}}> 
+                    {Array(review.avgScore).fill(<StarFill style={{color:'gold'}}/>)}
+                    {Array(5 - review.avgScore).fill(<Star style={{color:'lightgray'}}/>)}
                   </div>
+                  <button className='delBtn' style={{marginLeft:'1%'}}
+                    onClick={()=>handleDeleteConfirm(review.placeSequence,review.placeId,place.courseList[index].courseId)}>{review.isDel === 1 ? '숨김 취소' : '숨기기'}</button>
+                </div>
 
-                  <div style={{display:'flex'}}>
-                    <div>
-                      <div><PersonCircle style={{fontSize:'50px',color:'dimgray'}}/></div>
-                      <div style={{textAlign:'center'}}>{review.userId}</div>
-                    </div>
-                    <div className='reviewBox' style={{fontWeight:'normal'}}>
-                      {review.reviewInfo}
-                    </div>
+                <div style={{display:'flex'}}>
+                  <div>
+                    <div><PersonCircle style={{fontSize:'50px',color:'dimgray'}}/></div>
+                    <div style={{textAlign:'center'}}>{review.userId}</div>
                   </div>
-
-                  <div style={{float:'right'}}>
-                    비용 : {review.expense}원
+                  <div className='reviewBox' style={{fontWeight:'normal'}}>
+                    {review.isDel === 1 ?<span className='toCenter' style={{paddingTop:'10px'}}>관리자에 의해 숨김 처리된 후기 입니다.</span> : review.reviewInfo}
                   </div>
                 </div>
+
+                <div style={{float:'right'}}>
+                  비용 : {review.expense}원
+                </div>
               </div>
-            ))
-          ) : (
-            <div className='toCenter' style={{marginTop:'30px',paddingBottom:'30px'}}>아직 작성된 리뷰가 없습니다</div>
-          )}
+            </div>
+          ))
+        ) : isDeleted ? (
+          <div className='toCenter' style={{ marginTop: '30px', paddingBottom: '30px' }}>
+            아직 작성된 리뷰가 없습니다
+          </div>
+        ) : (
+          <div className='toCenter' style={{marginTop:'30px',paddingBottom:'30px'}}>아직 작성된 리뷰가 없습니다</div>
+        )}
+
 
 
 
