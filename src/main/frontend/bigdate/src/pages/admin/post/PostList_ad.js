@@ -7,7 +7,7 @@ import { ADDRESS } from '../../../Adress';
 import CommonTableRow from '../../../components/table/CommonTableRow';
 import CommonTableColumn from '../../../components/table/CommonTableColumn';
 import CommonTable from '../../../components/table/CommonTable';
-
+import { Pencil } from 'react-bootstrap-icons';
 
 
 
@@ -99,20 +99,28 @@ function handleDeleteConfirm(courseId) {
   }
   else{ return;}
 }
-  
+
+const handleButtonClick = () => {
+  //로그인 안 한 사용자일 경우 글쓰기 x
+  if (!localStorage.getItem('token')) {
+    alert('로그인이 필요한 서비스입니다.');
+    return;
+  }
+ 
+  window.location.pathname = '/course/write/admin';
+};
   
   return (
     
     <div>
-      <div className='background-container'style={{height:'700px'}} >
+       <div className='background-container'style={{height:'770px'}} >
         <div className='overlay-container'>
-          <div className='line'>
+        <div className='line' style={{marginBottom:'10px'}} >
             커뮤니티 관리
           </div>
-         
-         
-         
-            <div className='select_container'>
+           
+         <div style={{display:'flex',justifyContent:'space-between'}}>
+            <div className='select_container' style={{marginLeft:'40px'}}>
               <select value={sortOption} onChange={handleSortOptionChange}>
                 <option value="courseId">최신 순</option>
                 <option value="like">좋아요 순</option>
@@ -120,6 +128,15 @@ function handleDeleteConfirm(courseId) {
                 <option value="comment">댓글 많은 순</option>
               </select>
             </div>
+
+          <div className='head_container'>
+            <div style={{marginRight:'40px'}}>
+                <button onClick={handleButtonClick} style={{marginTop:'10px'}}>
+                <Pencil fontSize={10} /> 글쓰기
+                </button>
+            </div> 
+          </div>   
+       </div>
 
 
           <div>

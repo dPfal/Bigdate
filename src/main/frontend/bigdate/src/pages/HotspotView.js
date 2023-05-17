@@ -246,7 +246,7 @@ function HotspotView() {
                       ? "gold"
                       : congest === "약간 붐빔"
                       ? "orange"
-                      : congest === "혼잡"
+                      : congest === "붐빔"
                       ? "red"
                       : '',
                 }}
