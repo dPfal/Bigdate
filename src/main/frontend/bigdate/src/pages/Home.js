@@ -73,12 +73,11 @@ function Home() {
     
 
     <div className='recommand_category'>
-        <div className='rank'># 실시간 혼잡도 Top5</div>
-        
+      <div className='rank'># 실시간 혼잡도 Top5</div>
       <div className='card-container'>
-          <div style={{ display: "flex", flexWrap: 'wrap', justifyContent: 'space-between'}}>
+          <div style={{ display: "flex", justifyContent: 'space-between' }}>
       {topFiveCongest.map((topFiveCongest) => (
-        <span key={topFiveCongest.hotspot_id} style={{ width: '18%',height:'100%' }}>
+        <span key={topFiveCongest.hotspot_id} style={{ width: '16rem',height:'100%' }}>
              
           <Card>
                <Link to={{pathname:`/hotspots/${topFiveCongest.hotspotId}`,state: { hotspotName: topFiveCongest.hotspotName,hotspotId:topFiveCongest.hotspotId }}}>
@@ -124,12 +123,12 @@ function Home() {
       ))}</div>
       </div>
 
-      <div className='rank'># 실시간 한적한 곳 top5</div>  
+        <div className='rank'># 실시간 한적한 곳 Top5</div>  
         
         <div className='card-container'>
-          <div style={{ display: "flex", flexWrap: 'wrap', justifyContent: 'space-between'}}>
+          <div style={{ display: "flex", justifyContent: 'space-between'}}>
         {lowFiveCongest.map((lowFiveCongest) => (
-          <span key={lowFiveCongest.hotspotId} style={{ width: '18%', height: '100%' }}>
+          <span key={lowFiveCongest.hotspotId} style={{ width: '16rem', height: '100%' }}>
                
               <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveCongest.hotspotId}`,state: { hotspotName: lowFiveCongest.hotspotName,hotspotId:lowFiveCongest.hotspotId}}}>
@@ -177,13 +176,12 @@ function Home() {
         </div>
         
 
-        <div className='rank'># 실시간 미세먼지 없는 곳 top5</div>  
+        <div className='rank'># 실시간 미세먼지 없는 곳 Top5</div>  
         
         <div className='card-container'>
           <div style={{ display: "flex", justifyContent: 'space-between' }}>
         {lowFiveDust.map((lowFiveDust) => (
-          <span key={lowFiveDust.hotspotId} style={{ width: '18%', height: '100%' }}>
-               
+          <span key={lowFiveDust.hotspotId} style={{ width: '16rem', height: '100%' }}>
               <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveDust.hotspotId}`,state: { hotspotName: lowFiveDust.hotspotName,hotspotId:lowFiveDust.hotspotId}}}>
                   <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${lowFiveDust.hotspotName}.jpg`} />
@@ -229,12 +227,12 @@ function Home() {
         </div>
 
 
-        <div className='rank'># 실시간 하늘 상태 맑은 곳 top5</div>  
+        <div className='rank'># 실시간 하늘 상태 맑은 곳 Top5</div>  
         
         <div className='card-container'>
           <div style={{ display: "flex", justifyContent: 'space-between' }}>
         {lowFiveSky.map((lowFiveSky) => (
-          <span key={lowFiveSky.hotspotId} style={{ width: '18%', height: '100%' }}>
+          <span key={lowFiveSky.hotspotId} style={{ width: '16rem', height: '100%' }}>
                
               <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveSky.hotspotId}`,state: { hotspotName: lowFiveSky.hotspotName,hotspotId:lowFiveSky.hotspotId}}}>
@@ -281,12 +279,12 @@ function Home() {
             </div>
         </div>
 
-        <div className='rank'><div># 실시간 교통 상태 좋은 곳 top5</div></div>  
+        <div className='rank'><div># 실시간 교통 상태 좋은 곳 Top5</div></div>  
         
         <div className='card-container'>
           <div style={{ display: "flex", justifyContent: 'space-between'}}>
         {lowFiveTraffic.map((lowFiveTraffic) => (
-          <span key={lowFiveTraffic.hotspotId} style={{ width: '18%', height: '100%' }}>
+          <span key={lowFiveTraffic.hotspotId} style={{ width: '16rem', height: '100%' }}>
                
              <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveTraffic.hotspotId}`,state: { hotspotName: lowFiveTraffic.hotspotName,hotspotId:lowFiveTraffic.hotspotId}}}>
