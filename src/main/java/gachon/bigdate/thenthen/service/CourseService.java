@@ -189,4 +189,17 @@ public class CourseService {
       reviewRepository.save(review);
       return ResponseEntity.ok().body(new ReviewDTO(review));
     }
+
+    public ResponseEntity<?> deleteComment(CommentDTO commentDTO){
+       Comment comment = commentRepository.findByCommentId(CommentId.builder().commentDate(commentDTO.getCommentDate())
+               .courseId(commentDTO.getCourseId()).id(commentDTO.getId()).build());
+       if(comment != null ){
+           commentRepository.delete(comment);
+           return ResponseEntity.ok().body("댓글 삭제 완료");
+       }else{
+           return ResponseEntity.badRequest().body("오류가 발생했습니다. 잠시후 다시 시도해주세요. ");
+       }
+
+
+    }
 }

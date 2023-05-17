@@ -65,4 +65,13 @@ public class AdminController {
         return this.courseService.blindReviewToggle(courseDTO);
     }
 
+    @DeleteMapping("/courses/{courseId}")
+    public ResponseEntity<?> deleteCourse(@PathVariable("courseId") long courseId){
+        return ResponseEntity.ok().body(this.courseService.deleteCourse(courseId));
+    }
+
+    @DeleteMapping("/comments")
+    public ResponseEntity<?> deleteComment(@RequestBody CommentDTO commentDTO){
+        return this.courseService.deleteComment(commentDTO);
+    }
 }
