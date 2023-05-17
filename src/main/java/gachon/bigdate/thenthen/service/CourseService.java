@@ -7,6 +7,7 @@ import gachon.bigdate.thenthen.repository.*;
 import gachon.bigdate.thenthen.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -173,5 +174,32 @@ public class CourseService {
         }
         this.reviewRepository.saveAll(reviewList);
         return courseDTO;
+    }
+
+    public ResponseEntity<?> blindReviewToggle(CourseDTO courseDTO){
+      ReviewId reviewId = ReviewId.builder().course(this.courseRepository.findByCourseId(courseDTO.getCourseId())).place(placeRepository.findByPlaceId(courseDTO.getReviewList().get(0).getPlaceId()))
+              .placeSequence(courseDTO.getReviewList().get(0).getPlaceSequence()).build();
+      Review review = reviewRepository.findByReviewId(reviewId);
+      if(review.getIsDel()==0){
+          review.setIsDel(1);
+      }
+      else{
+          review.setIsDel(0);
+      }
+      reviewRepository.save(review);
+      return ResponseEntity.ok().body(new ReviewDTO(review));
+    }
+
+    public ResponseEntity<?> deleteComment(CommentDTO commentDTO){
+       Comment comment = commentRepository.findByCommentId(CommentId.builder().commentDate(commentDTO.getCommentDate())
+               .courseId(commentDTO.getCourseId()).id(commentDTO.getId()).build());
+       if(comment != null ){
+           commentRepository.delete(comment);
+           return ResponseEntity.ok().body("댓글 삭제 완료");
+       }else{
+           return ResponseEntity.badRequest().body("오류가 발생했습니다. 잠시후 다시 시도해주세요. ");
+       }
+
+
     }
 }

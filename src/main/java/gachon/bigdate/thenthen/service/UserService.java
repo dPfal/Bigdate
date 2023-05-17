@@ -1,9 +1,11 @@
 package gachon.bigdate.thenthen.service;
 
 import gachon.bigdate.thenthen.DTO.UserDTO;
+import gachon.bigdate.thenthen.entity.User;
 import gachon.bigdate.thenthen.entity.UserLog;
 import gachon.bigdate.thenthen.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -45,5 +47,18 @@ public class UserService {
             return "{\"message\":\"사용자 삭제 실패!\"}";
         }
     }
+
+    public ResponseEntity<?> updateUserMood(long id,String userMood){
+        if (userRepository.existsById(id)) {
+            User user = userRepository.findById(id).get();
+            user.setUserMood(userMood);
+            userRepository.save(user);
+            return ResponseEntity.ok().body(new UserDTO(user));
+        }else{
+            return ResponseEntity.badRequest().body("id 조회에 실패했습니다.");
+        }
+    }
+
+
 }
 

@@ -13,4 +13,5 @@ public interface ReviewRepository extends JpaRepository<Review, ReviewId> {
     List<Review> findByReviewIdCourseCourseId(long courseId);
     @Transactional
     int deleteAllByReviewIdCourseCourseId(Long courseId);
+    Review findByReviewId(ReviewId reviewId);
 }

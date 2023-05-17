@@ -102,4 +102,10 @@ public class UserController {
         courseDTO.setId(Long.valueOf(authentication.getName()));
         return ResponseEntity.ok().body(this.courseService.updateCourse(courseDTO));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUserMood(@PathVariable("id") Long id,@RequestParam("userMood") String userMood) {
+        return this.userService.updateUserMood(id,userMood);
+    }
+
 }

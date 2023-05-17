@@ -22,4 +22,6 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
     Place findByPlaceId(Long placeId);
     Page<Place> findByHotspotId(Pageable pageable,int hotspotId);
     Page<Place> findAll(Pageable pageable);
+
+    boolean existsByPlaceId(long placeId);
 }
