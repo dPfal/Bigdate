@@ -107,4 +107,5 @@ public class UserController {
     public ResponseEntity<?> updateUserMood(@PathVariable("id") Long id,@RequestParam("userMood") String userMood) {
         return this.userService.updateUserMood(id,userMood);
     }
+
 }

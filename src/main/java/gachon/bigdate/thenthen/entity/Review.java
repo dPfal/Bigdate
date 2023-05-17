@@ -3,10 +3,7 @@ package gachon.bigdate.thenthen.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import gachon.bigdate.thenthen.DTO.ReviewDTO;
 import gachon.bigdate.thenthen.entity.ReviewId;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -17,6 +14,7 @@ import java.io.Serializable;
 @Entity(name ="reviews_tb")
 @NoArgsConstructor
 @Getter
+@Setter
 public class Review {
     @EmbeddedId
     private ReviewId reviewId;

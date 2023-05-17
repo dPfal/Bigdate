@@ -1,6 +1,7 @@
 package gachon.bigdate.thenthen.controller;
 
 import gachon.bigdate.thenthen.DTO.CommentDTO;
+import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.service.AdminService;
 import gachon.bigdate.thenthen.service.CourseService;
 import gachon.bigdate.thenthen.service.PlaceService;
@@ -49,9 +50,28 @@ public class AdminController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
         return ResponseEntity.ok().body(this.adminService.deleteUser(id));
     }
 
 
+    @PatchMapping("/places/{placeId}")
+    public ResponseEntity<?> updatePlaceMood (@PathVariable("placeId") long id,@RequestParam String placeMood){
+        return this.placeService.updatePlaceMood(id,placeMood);
+    }
+
+    @PatchMapping("/reviews")
+    public ResponseEntity<?> blindReviewToggle(@RequestBody CourseDTO courseDTO){
+        return this.courseService.blindReviewToggle(courseDTO);
+    }
+
+    @DeleteMapping("/courses/{courseId}")
+    public ResponseEntity<?> deleteCourse(@PathVariable("courseId") long courseId){
+        return ResponseEntity.ok().body(this.courseService.deleteCourse(courseId));
+    }
+
+    @DeleteMapping("/comments")
+    public ResponseEntity<?> deleteComment(@RequestBody CommentDTO commentDTO){
+        return this.courseService.deleteComment(commentDTO);
+    }
 }
