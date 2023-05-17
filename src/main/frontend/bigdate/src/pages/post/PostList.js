@@ -78,16 +78,14 @@ const PostList = props => {
 
   return (
     <div>
-      <div className='background-container'style={{height:'700px'}} >
+      <div className='background-container'style={{height:'770px'}} >
         <div className='overlay-container'>
-          <div className='line'
-          >
+        <div className='line' style={{marginBottom:'10px'}} >
             그때 코스
           </div>
-         
            
          <div style={{display:'flex',justifyContent:'space-between'}}>
-            <div className='select_container' style={{marginLeft:'10px'}}>
+            <div className='select_container' style={{marginLeft:'40px'}}>
               <select value={sortOption} onChange={handleSortOptionChange}>
                 <option value="courseId">최신 순</option>
                 <option value="like">좋아요 순</option>
@@ -97,8 +95,8 @@ const PostList = props => {
             </div>
 
           <div className='head_container'>
-            <div style={{marginRight:'30px'}}>
-                <button onClick={handleButtonClick} style={{margiLeft:'100px',marginTop:'10px'}}>
+            <div style={{marginRight:'40px'}}>
+                <button onClick={handleButtonClick} style={{marginTop:'10px'}}>
                 <Pencil fontSize={10} /> 글쓰기
                 </button>
             </div> 
@@ -154,7 +152,7 @@ const PostList = props => {
           
         </div>
       </div>
-      <div  style={{marginTop:'30px'}}>
+      <div  style={{marginTop:'20px'}}>
             <Pagination 
               activePage={pageNumber}
               itemsCountPerPage={15}

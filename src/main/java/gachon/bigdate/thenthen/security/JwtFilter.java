@@ -1,9 +1,11 @@
 package gachon.bigdate.thenthen.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import gachon.bigdate.thenthen.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,7 +17,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -30,21 +34,21 @@ public class JwtFilter extends OncePerRequestFilter {
         // doFilter : 다음 필터 또는 서블릿으로 요청을 전달하는 역할
         if (request.getRequestURI().startsWith("/api/admin") || request.getRequestURI().startsWith("/api/users")) {
             if (authorization != null && authorization.startsWith("Bearer ")) { //JWT가 있을 경우!
-                // header에서 token 추출!
+                // header에서 토큰 추출!
                 // ex. Bearer asdfasfd.asdagsasd.asdewe ~~
                 String token = authorization.split(" ")[1];
-                // Token expired check
+                // 토큰 만료 여부 확인
                 if (JwtUtil.isExpired(token, secretKey)) {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 만료되었습니다");
-                }else{
+                    sendJsonErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "JWT가 만료되었습니다");
+                } else {
                     if (request.getRequestURI().startsWith("/api/admin")
                             && JwtUtil.getUserRoleFromToken(token, secretKey).equals("USER")) {
                         log.warn("권한이 없습니다");
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "권한이 없습니다");
+                        sendJsonErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "권한이 없습니다");
                     }
-                    // Token에서 Id 꺼내기.
-                    Long Id = JwtUtil.getUserIdFromToken(token, secretKey);
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("" + Id, null, List.of(new SimpleGrantedAuthority(JwtUtil.getUserRoleFromToken(token, secretKey))));
+                    // 토큰에서 ID 추출
+                    Long id = JwtUtil.getUserIdFromToken(token, secretKey);
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken("" + id, null, Collections.singletonList(new SimpleGrantedAuthority(JwtUtil.getUserRoleFromToken(token, secretKey))));
 
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
@@ -52,14 +56,28 @@ public class JwtFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                 }
 
-            }else{
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT가 없습니다.");
+            } else {
+                sendJsonErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "JWT가 없습니다.");
             }
-        }else{
+        } else {
             filterChain.doFilter(request, response);
         }
-        //filterChain에 인증 도장을 찍어줌!
+        // 인증을 FilterChain에 등록
     }
 
+    private void sendJsonErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(status);
 
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("status", status);
+        errorResponse.put("message", message);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(errorResponse);
+
+        response.getWriter().write(json);
+        response.getWriter().flush();
+    }
 }

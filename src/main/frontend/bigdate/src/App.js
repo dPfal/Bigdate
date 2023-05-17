@@ -24,6 +24,7 @@ import PostView_ad from './pages/admin/post/PostView_ad';
 import PlaceList from './pages/admin/places/PlaceList';
 import PlaceView_ad from './pages/admin/places/PlaceView_ad';
 import ModifyPost from './pages/ModifyPost';
+import Register_ad from './pages/admin/post/Register_ad';
 
 
 
@@ -37,7 +38,8 @@ const App = () => {
       window.location.pathname.startsWith('/posts') ||
       window.location.pathname.startsWith('/postViewAd') ||
       window.location.pathname.startsWith('/places') ||
-      window.location.pathname.startsWith('/ad')
+      window.location.pathname.startsWith('/ad') ||
+      window.location.pathname.startsWith('/course/write')
   );
   
   useEffect(() => {
@@ -48,7 +50,8 @@ const App = () => {
           window.location.pathname.startsWith('/posts') ||
           window.location.pathname.startsWith('/postViewAd') ||
           window.location.pathname.startsWith('/places') ||
-          window.location.pathname.startsWith('/ad')
+          window.location.pathname.startsWith('/ad') ||
+          window.location.pathname.startsWith('/course/write')
       );
     };
   
@@ -76,6 +79,7 @@ const App = () => {
         <Route path="/postViewAd/:course_id" component={PostView_ad}/>
         <Route path="/places" component={PlaceList}/>
         <Route path="/ad/place/:id" component={PlaceView_ad}/>
+        <Route path='/course/write/admin' component={Register_ad}/>
 
       </>
     </BrowserRouter>

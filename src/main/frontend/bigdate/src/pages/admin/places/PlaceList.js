@@ -82,9 +82,6 @@ const handlePageChange = (page) => {
             // 서버로부터 받은 데이터 처리
             console.log(response.data);
             setHotspotList(response.data);
-      
-            // 상태 업데이트
-            
            
           })
           .catch(error => {
@@ -162,7 +159,7 @@ const handlePageChange = (page) => {
 
         <div >
         <>
-            <div className='select_container'>
+            <div className='select_container' style={{marginBottom:'10px'}}>
             <select value={sortOption} onChange={ handleSortOptionChange}>
             <option value="">전체</option>
             {hotspotList.map((option) => (
