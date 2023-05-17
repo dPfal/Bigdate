@@ -116,10 +116,10 @@ function MyPostList() {
         <div className='line'>내 코스 목록
         </div>
 
-        <div >
+        <div>
         <>
             
-            <MycourseTable headersName={['글번호','제목','작성자', '좋아요 수','찜 수', '작성일']}>
+            <MycourseTable headersName={['글번호','제목','작성자', '좋아요 수','찜 수', '작성일','관리']}>
                 
               { dataList ? dataList.map((item, index) => {
                   return (
@@ -132,19 +132,15 @@ function MyPostList() {
                           </span>
                       </CommonTableColumn>
                       <CommonTableColumn>{ item.userId }</CommonTableColumn>
-                      <CommonTableColumn>
-                          <HandThumbsUp style={{color:'#1E90FF',marginRight: '5px'}} />
-                            {item.likeCount}
-                          </CommonTableColumn>
-                          <CommonTableColumn>
-                          <HeartFill style={{color: 'red' , marginRight: '5px'}} /> 
-                            {item.scrapCount}
-                          </CommonTableColumn>
+                      <CommonTableColumn> {item.likeCount} </CommonTableColumn>
+                      <CommonTableColumn> {item.scrapCount}</CommonTableColumn>
                       <CommonTableColumn>{moment(item.postedDate).format('YYYY-MM-DD')}</CommonTableColumn>
-                      <div style={{display:'flex'}}>
-                      <div><button className='reBtn' style={{marginTop:'10px'}}  onClick={() => handleModify(item.courseId)}>수정</button></div>
-                      <div ><button className='delBtn'  onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px',marginTop:'10px'}}>삭제</button></div>        
-                      </div>        
+                      <CommonTableColumn> 
+                      <button className='reBtn' style={{marginTop:'10px',fontSize:'12px'}}  onClick={() => handleModify(item.courseId)}>수정</button>
+                      <button className='delBtn'  onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px',marginTop:'10px',fontSize:'12px'}}>삭제</button>
+                      </CommonTableColumn>
+
+                         
                     </CommonTableRow>
                   )
                 }) : ''

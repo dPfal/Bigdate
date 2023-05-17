@@ -86,25 +86,35 @@ function Home() {
                 </Link>
                 <Card.Body>
                  
-                 <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{topFiveCongest.hotspotName}
-                 <span style={{
-                  color:'white',
-                  backgroundColor: topFiveCongest.congestionLevel === 4 ? 'orangered' :
+                <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                  {topFiveCongest.hotspotName.length > 8 ? (
+                    <>
+                      {topFiveCongest.hotspotName.slice(0, 8)}...
+                    </>
+                  ) : topFiveCongest.hotspotName}
+                </span>
+                <span style={{
+                  color: 'white',
+                  backgroundColor:
+                    topFiveCongest.congestionLevel === 4 ? 'orangered' :
                     topFiveCongest.congestionLevel === 3 ? 'orange' :
-                      topFiveCongest.congestionLevel === 2 ? 'gold' :
-                        topFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
+                    topFiveCongest.congestionLevel === 2 ? 'gold' :
+                    topFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
+                  width: '100px',
                   padding: '2%',
                   fontSize: '11px',
-                  width:'100px',
-                  border:'1PX solid white',
-                  borderRadius:'5px'
+                  border: '1px solid white',
+                  borderRadius: '5px',
+                  marginLeft: '2px'
                 }}>
-                  {topFiveCongest.congestionLevel === 4 ? '혼잡' :
+                  {topFiveCongest.congestionLevel === 4 ? '붐빔' :
                     topFiveCongest.congestionLevel === 3 ? '약간 붐빔' :
-                      topFiveCongest.congestionLevel === 2 ? '보통' :
-                        topFiveCongest.congestionLevel === 1 ? '여유' : ''}
+                    topFiveCongest.congestionLevel === 2 ? '보통' :
+                    topFiveCongest.congestionLevel === 1 ? '여유' : ''}
                 </span>
-                </Card.Title>
+              </Card.Title>
+
    
                 </Card.Body>
               </Card>
@@ -125,27 +135,35 @@ function Home() {
                   </Link>
                   <Card.Body>
                    
-                   <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveCongest.hotspotName}
-                   <span style={{
-                      color :'white',
-                      backgroundColor: 
-                        lowFiveCongest.congestionLevel === 4 ? 'orangered' :
-                        lowFiveCongest.congestionLevel === 3 ? 'orange' :
-                        lowFiveCongest.congestionLevel === 2 ? 'gold' :
-                        lowFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
-                            width:'100px',
-                       padding: '2%',
-                       fontSize: '11px',
-                            border:'1PX solid white',
-                            borderRadius:'5px'
-                          }}>
-   
-                      {lowFiveCongest.congestionLevel === 4 ? '혼잡' :
-                        lowFiveCongest.congestionLevel === 3 ? '약간 붐빔' :
-                          lowFiveCongest.congestionLevel === 2 ? '보통' :
-                            lowFiveCongest.congestionLevel === 1 ? '여유' : ''}
-                    </span>
-                  </Card.Title>
+                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {lowFiveCongest.hotspotName.length > 10 ? (
+                      <>
+                        {lowFiveCongest.hotspotName.slice(0, 10)}...
+                      </>
+                    ) : lowFiveCongest.hotspotName}
+                  </span>
+                  <span style={{
+                    color: 'white',
+                    backgroundColor:
+                      lowFiveCongest.congestionLevel === 4 ? 'orangered' :
+                      lowFiveCongest.congestionLevel === 3 ? 'orange' :
+                      lowFiveCongest.congestionLevel === 2 ? 'gold' :
+                      lowFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
+                    width: '100px',
+                    padding: '2%',
+                    fontSize: '11px',
+                    border: '1px solid white',
+                    borderRadius: '5px',
+                    marginLeft: '2px'
+                  }}>
+                    {lowFiveCongest.congestionLevel === 4 ? '붐빔' :
+                      lowFiveCongest.congestionLevel === 3 ? '약간 붐빔' :
+                      lowFiveCongest.congestionLevel === 2 ? '보통' :
+                      lowFiveCongest.congestionLevel === 1 ? '여유' : ''}
+                  </span>
+                </Card.Title>
+
      
                   </Card.Body>
                 </Card>
@@ -167,26 +185,34 @@ function Home() {
                   </Link>
                   <Card.Body>
                    
-                   <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveDust.hotspotName}
-                   <span style={{
-                    color : 'white',
-                    backgroundColor: lowFiveDust.pm10 >= 151 ? 'orangered' :
+                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {lowFiveDust.hotspotName.length > 10 ? (
+                      <>
+                        {lowFiveDust.hotspotName.slice(0, 10)}...
+                      </>
+                    ) : lowFiveDust.hotspotName}
+                  </span>
+                  <span style={{
+                    color: 'white',
+                    backgroundColor:
+                      lowFiveDust.pm10 >= 151 ? 'orangered' :
                       81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? 'orange' :
                       31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? 'gold' :
                       0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? 'limegreen' : 'white',
                     width: '100px',
-                       padding: '2%',
-                       fontSize: '11px',
+                    padding: '2%',
+                    fontSize: '11px',
                     border: '1px solid white',
-                    borderRadius: '5px'
+                    borderRadius: '5px',
+                    marginLeft: '2px'
                   }}>
                     {lowFiveDust.pm10 >= 151 ? '매우나쁨' :
                       81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? '나쁨' :
                       31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? '보통' :
                       0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? '좋음' : ''}
                   </span>
-
-                  </Card.Title>
+                </Card.Title>
      
                   </Card.Body>
                 </Card>
@@ -208,30 +234,35 @@ function Home() {
                   </Link>
                   <Card.Body >
                    
-                   <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveSky.hotspotName}
-
-                    <span style={{
-                      color:'white',
-                      backgroundColor: 
-                        lowFiveSky.skyStatus === 3 ? 'gray' :
-                        lowFiveSky.skyStatus === 2 ? 'skyBlue' :
-                        lowFiveSky.skyStatus === 1 ? 'limegreen' : 'white',
-                        width:'100px',
+                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {lowFiveSky.hotspotName.length > 10 ? (
+                      <>
+                        {lowFiveSky.hotspotName.slice(0, 10)}...
+                      </>
+                    ) : lowFiveSky.hotspotName}
+                    <span style={{ marginLeft: '2px' }}>
+                      <span style={{
+                        color: 'white',
+                        backgroundColor: 
+                          lowFiveSky.skyStatus === 3 ? 'gray' :
+                          lowFiveSky.skyStatus === 2 ? 'skyBlue' :
+                          lowFiveSky.skyStatus === 1 ? 'limegreen' : 'white',
+                        width: '100px',
                         padding: '2%',
                         fontSize: '11px',
-                        border:'1PX solid white',
-                        borderRadius:'5px'
-                    }}>
-                      
-                      {
-                        lowFiveSky.skyStatus === 3 ? '구름 많음' :
-                        lowFiveSky.skyStatus === 2 ? '구름 조금' :
-                        lowFiveSky.skyStatus === 1 ? '맑음' : ''
-                      }
+                        border: '1px solid white',
+                        borderRadius: '5px',
+                      }}>
+                        {lowFiveSky.skyStatus === 3 ? '구름 많음' :
+                          lowFiveSky.skyStatus === 2 ? '구름 조금' :
+                          lowFiveSky.skyStatus === 1 ? '맑음' : ''}
+                      </span>
                     </span>
+                  </span>
 
-                   
                   </Card.Title>
+
      
                   </Card.Body>
                 </Card>
@@ -252,25 +283,34 @@ function Home() {
                   </Link>
                   <Card.Body>
                    
-                   <Card.Title style={{ fontWeight: 'bold' ,fontSize:'14px'}}>{lowFiveTraffic.hotspotName}
-                   <span style={{
-                    color:'white',
-                    backgroundColor: 
-                      lowFiveTraffic.roadTrafficSpd &&lowFiveTraffic.roadTrafficSpd < 15 ? 'orangered' :
-                      15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? 'orange' :
-                      25 <= lowFiveTraffic.roadTrafficSpd ? 'llimegreen' : '',
-                    width: '100px',
-                       padding: '2%',
-                       fontSize: '11px',
-                    border: '1px solid white',
-                    borderRadius: '5px'
-                  }}>
-                    {lowFiveTraffic.roadTrafficSpd =='정보없음'? '정보없음' :
-                      lowFiveTraffic.roadTrafficSpd &&lowFiveTraffic.roadTrafficSpd < 15 ? '정체' :
-                      15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? '서행' :
-                      25 <= lowFiveTraffic.roadTrafficSpd? '원할' : ''}
+                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                  <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                    {lowFiveTraffic.hotspotName.length > 10 ? (
+                      <>
+                        {lowFiveTraffic.hotspotName.slice(0, 10)}...
+                      </>
+                    ) : lowFiveTraffic.hotspotName}
                   </span>
-                  </Card.Title>
+                  <span style={{
+                    color: 'white',
+                    backgroundColor:
+                      lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 15 ? 'orangered' :
+                      15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? 'orange' :
+                      25 <= lowFiveTraffic.roadTrafficSpd ? 'limegreen' : '',
+                    width: '100px',
+                    padding: '2%',
+                    fontSize: '11px',
+                    border: '1px solid white',
+                    borderRadius: '5px',
+                    marginLeft: '2px'
+                  }}>
+                    {lowFiveTraffic.roadTrafficSpd === '정보 없음' ? '정보 없음' :
+                      lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 15 ? '정체' :
+                      15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? '서행' :
+                      25 <= lowFiveTraffic.roadTrafficSpd ? '원할' : ''}
+                  </span>
+                </Card.Title>
+
      
                   </Card.Body>
                 </Card>

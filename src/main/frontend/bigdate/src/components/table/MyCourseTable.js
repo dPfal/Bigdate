@@ -34,7 +34,7 @@ const MycourseTable = props => {
 
   return (
     <div>
-    <table className="common-table">
+    <table className="common-table"style={{width:'720px'}} >
 <thead>    
      <tr>
       
@@ -42,7 +42,7 @@ const MycourseTable = props => {
           {
             headersName.map((item, index) => {
               return (
-                <td className="common-table-header-column" key={index}>{ item }</td>
+                <td className="common-table-header-column" style={{backgroundColor:'#f5f5f5'}} key={index}>{ item }</td>
               )
             })
           }
