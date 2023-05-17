@@ -73,7 +73,7 @@ const handleDelete = async (courseId) => {
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         
   try {
-    const response = await axios.delete(`${ADDRESS}/users/courses/${courseId}`);
+    const response = await axios.delete(`${ADDRESS}/admin/courses/${courseId}`);
     console.log(response);
     
     // 목록을 다시 불러오기

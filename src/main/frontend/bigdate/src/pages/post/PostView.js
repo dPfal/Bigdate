@@ -269,7 +269,9 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                       <div><GeoAltFill style={{color:'#3163C9',fontSize:'20px'}}/> {course.placeDTO.addressName} <StarFill style={{color:'orange',marginBottom:'5px'}}/>
                        {course.avgScore}</div>
                     
-                      <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px',fontWeight:'500'}}>{course.reviewInfo}</div>
+                      <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px',fontWeight:'500'}}>
+                      {course.isDel === 1 ?<span className='toCenter' style={{paddingTop:'25px'}}>관리자에 의해 숨김 처리된 후기 입니다.</span> : course.reviewInfo}
+                      </div>
                       <div style={{float:'right'}}>지출 금액 : {course.expense}원</div>
                       </div>
                     </div>

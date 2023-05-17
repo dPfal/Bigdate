@@ -120,7 +120,8 @@ const Navbar2=() =>{
   return (
     <>
     
-      <Navbar collapseOnSelect className='navbar'>
+    
+      <Navbar collapseOnSelect className='navbar' style={{ justifyContent: 'center' }}>
         <Container id='content'>
           <Navbar.Brand href='/' id='logo'>
             그때 그때

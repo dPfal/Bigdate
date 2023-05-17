@@ -62,35 +62,35 @@ function Home() {
   <div>
     
       <div className='main_img'>
-        <img width="100%"  src="/images/main_img.png" alt="Example" />
+        <img src="/images/main_img.png" alt="Example" />
       </div>
       <div className='main_img_tag'>
         <span># 실시간 추천</span>
         <span># 데이트 코스</span>
-        <span># 편리한</span>
+        <span># 날씨</span>
+        <span># 분위기</span>
       </div>
     
 
     <div className='recommand_category'>
-      
-      <div className='rank'>#실시간 혼잡도 top5</div>  
+        <div className='rank'># 실시간 혼잡도 Top5</div>
         
       <div className='card-container'>
-        
+          <div style={{ display: "flex", flexWrap: 'wrap', justifyContent: 'space-between'}}>
       {topFiveCongest.map((topFiveCongest) => (
-        <span key={topFiveCongest.hotspot_id}>
+        <span key={topFiveCongest.hotspot_id} style={{ width: '18%',height:'100%' }}>
              
-              <Card style={{ width: '13.5rem',height:'12rem' }}>
+          <Card>
                <Link to={{pathname:`/hotspots/${topFiveCongest.hotspotId}`,state: { hotspotName: topFiveCongest.hotspotName,hotspotId:topFiveCongest.hotspotId }}}>
                 <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${topFiveCongest.hotspotName}.jpg`} />
                 </Link>
-                <Card.Body>
+                <Card.Body style={{padding:'10px'}}>
                  
-                <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
-                <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {topFiveCongest.hotspotName.length > 8 ? (
+              <Card.Title style={{ fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center'}}>
+                <span style={{ flex: 1, whiteSpace: 'nowrap',  textOverflow: 'ellipsis' ,float:'left',width:'70%'}}>
+                  {topFiveCongest.hotspotName.length > 12 ? (
                     <>
-                      {topFiveCongest.hotspotName.slice(0, 8)}...
+                      {topFiveCongest.hotspotName.slice(0, 12)}...
                     </>
                   ) : topFiveCongest.hotspotName}
                 </span>
@@ -101,12 +101,13 @@ function Home() {
                     topFiveCongest.congestionLevel === 3 ? 'orange' :
                     topFiveCongest.congestionLevel === 2 ? 'gold' :
                     topFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
-                  width: '100px',
                   padding: '2%',
-                  fontSize: '11px',
+                  fontSize: '14px',
                   border: '1px solid white',
+                  whiteSpace: 'nowrap',
                   borderRadius: '5px',
-                  marginLeft: '2px'
+                  marginLeft: '2px',
+                  float:'right'                
                 }}>
                   {topFiveCongest.congestionLevel === 4 ? '붐빔' :
                     topFiveCongest.congestionLevel === 3 ? '약간 붐빔' :
@@ -120,26 +121,27 @@ function Home() {
               </Card>
              
             </span>
-          ))}
+      ))}</div>
       </div>
 
-      <div className='rank'>#실시간 한적한 곳 top5</div>  
+      <div className='rank'># 실시간 한적한 곳 top5</div>  
         
         <div className='card-container'>
+          <div style={{ display: "flex", flexWrap: 'wrap', justifyContent: 'space-between'}}>
         {lowFiveCongest.map((lowFiveCongest) => (
-          <span key={lowFiveCongest.hotspotId}>
+          <span key={lowFiveCongest.hotspotId} style={{ width: '18%', height: '100%' }}>
                
-                <Card style={{ width: '13.5rem',height:'12rem' }}>
+              <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveCongest.hotspotId}`,state: { hotspotName: lowFiveCongest.hotspotName,hotspotId:lowFiveCongest.hotspotId}}}>
                   <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${lowFiveCongest.hotspotName}.jpg`} />
                   </Link>
-                  <Card.Body>
+              <Card.Body style={{ padding: '10px' }}>
                    
-                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                <Card.Title style={{ fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
                   <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {lowFiveCongest.hotspotName.length > 10 ? (
+                    {lowFiveCongest.hotspotName.length > 12 ? (
                       <>
-                        {lowFiveCongest.hotspotName.slice(0, 10)}...
+                        {lowFiveCongest.hotspotName.slice(0, 12)}...
                       </>
                     ) : lowFiveCongest.hotspotName}
                   </span>
@@ -150,12 +152,13 @@ function Home() {
                       lowFiveCongest.congestionLevel === 3 ? 'orange' :
                       lowFiveCongest.congestionLevel === 2 ? 'gold' :
                       lowFiveCongest.congestionLevel === 1 ? 'limegreen' : 'white',
-                    width: '100px',
                     padding: '2%',
-                    fontSize: '11px',
+                    fontSize: '14px',
                     border: '1px solid white',
+                    whiteSpace: 'nowrap',
                     borderRadius: '5px',
-                    marginLeft: '2px'
+                    marginLeft: '2px',
+                    float: 'right'     
                   }}>
                     {lowFiveCongest.congestionLevel === 4 ? '붐빔' :
                       lowFiveCongest.congestionLevel === 3 ? '약간 붐빔' :
@@ -170,26 +173,28 @@ function Home() {
                
               </span>
             ))}
+            </div>
         </div>
         
 
-        <div className='rank'>#실시간 미세먼지 맑은 곳 top5</div>  
+        <div className='rank'># 실시간 미세먼지 없는 곳 top5</div>  
         
         <div className='card-container'>
+          <div style={{ display: "flex", justifyContent: 'space-between' }}>
         {lowFiveDust.map((lowFiveDust) => (
-          <span key={lowFiveDust.hotspotId}>
+          <span key={lowFiveDust.hotspotId} style={{ width: '18%', height: '100%' }}>
                
-                <Card style={{ width: '13.5rem',height:'12rem' }}>
+              <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveDust.hotspotId}`,state: { hotspotName: lowFiveDust.hotspotName,hotspotId:lowFiveDust.hotspotId}}}>
                   <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${lowFiveDust.hotspotName}.jpg`} />
                   </Link>
-                  <Card.Body>
+              <Card.Body style={{ padding: '10px' }}>
                    
-                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                <Card.Title style={{ fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
                   <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {lowFiveDust.hotspotName.length > 10 ? (
+                    {lowFiveDust.hotspotName.length > 12 ? (
                       <>
-                        {lowFiveDust.hotspotName.slice(0, 10)}...
+                        {lowFiveDust.hotspotName.slice(0, 12)}...
                       </>
                     ) : lowFiveDust.hotspotName}
                   </span>
@@ -200,12 +205,13 @@ function Home() {
                       81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? 'orange' :
                       31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? 'gold' :
                       0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? 'limegreen' : 'white',
-                    width: '100px',
                     padding: '2%',
-                    fontSize: '11px',
+                    fontSize: '14px',
                     border: '1px solid white',
+                    whiteSpace: 'nowrap',
                     borderRadius: '5px',
-                    marginLeft: '2px'
+                    marginLeft: '2px',
+                    float: 'right'         
                   }}>
                     {lowFiveDust.pm10 >= 151 ? '매우나쁨' :
                       81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? '나쁨' :
@@ -219,47 +225,50 @@ function Home() {
                
               </span>
             ))}
+            </div>
         </div>
 
 
-        <div className='rank'>#실시간 하늘 상태 맑은 곳 top5</div>  
+        <div className='rank'># 실시간 하늘 상태 맑은 곳 top5</div>  
         
         <div className='card-container'>
+          <div style={{ display: "flex", justifyContent: 'space-between' }}>
         {lowFiveSky.map((lowFiveSky) => (
-          <span key={lowFiveSky.hotspotId}>
+          <span key={lowFiveSky.hotspotId} style={{ width: '18%', height: '100%' }}>
                
-                <Card style={{ width: '13.5rem',height:'12rem' }}>
+              <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveSky.hotspotId}`,state: { hotspotName: lowFiveSky.hotspotName,hotspotId:lowFiveSky.hotspotId}}}>
                   <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${lowFiveSky.hotspotName}.jpg`} />
                   </Link>
-                  <Card.Body >
+              <Card.Body style={{ padding: '10px' }}>
                    
-                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                <Card.Title style={{ fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
                   <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {lowFiveSky.hotspotName.length > 10 ? (
+                    {lowFiveSky.hotspotName.length > 12 ? (
                       <>
-                        {lowFiveSky.hotspotName.slice(0, 10)}...
+                        {lowFiveSky.hotspotName.slice(0, 12)}...
                       </>
                     ) : lowFiveSky.hotspotName}
-                    <span style={{ marginLeft: '2px' }}>
+                  </span>
                       <span style={{
                         color: 'white',
                         backgroundColor: 
                           lowFiveSky.skyStatus === 3 ? 'gray' :
                           lowFiveSky.skyStatus === 2 ? 'skyBlue' :
                           lowFiveSky.skyStatus === 1 ? 'limegreen' : 'white',
-                        width: '100px',
-                        padding: '2%',
-                        fontSize: '11px',
-                        border: '1px solid white',
-                        borderRadius: '5px',
+                    padding: '2%',
+                    fontSize: '14px',
+                    border: '1px solid white',
+                    whiteSpace: 'nowrap',
+                    borderRadius: '5px',
+                    marginLeft: '2px',
+                    float: 'right'     
                       }}>
                         {lowFiveSky.skyStatus === 3 ? '구름 많음' :
                           lowFiveSky.skyStatus === 2 ? '구름 조금' :
                           lowFiveSky.skyStatus === 1 ? '맑음' : ''}
-                      </span>
+                      
                     </span>
-                  </span>
 
                   </Card.Title>
 
@@ -269,25 +278,27 @@ function Home() {
                
               </span>
             ))}
+            </div>
         </div>
 
-        <div className='rank'><div>#실시간 교통 상태 좋은 곳 top5</div></div>  
+        <div className='rank'><div># 실시간 교통 상태 좋은 곳 top5</div></div>  
         
         <div className='card-container'>
+          <div style={{ display: "flex", justifyContent: 'space-between'}}>
         {lowFiveTraffic.map((lowFiveTraffic) => (
-          <span key={lowFiveTraffic.hotspotId}>
+          <span key={lowFiveTraffic.hotspotId} style={{ width: '18%', height: '100%' }}>
                
-                <Card style={{ width: '13.5rem',height:'12rem' }}>
+             <Card>
                  <Link to={{pathname:`/hotspots/${lowFiveTraffic.hotspotId}`,state: { hotspotName: lowFiveTraffic.hotspotName,hotspotId:lowFiveTraffic.hotspotId}}}>
                   <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${lowFiveTraffic.hotspotName}.jpg`} />
                   </Link>
-                  <Card.Body>
+              <Card.Body style={{ padding: '10px' }}>
                    
-                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px' }}>
+                <Card.Title style={{ fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
                   <span style={{ flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {lowFiveTraffic.hotspotName.length > 10 ? (
+                    {lowFiveTraffic.hotspotName.length > 12 ? (
                       <>
-                        {lowFiveTraffic.hotspotName.slice(0, 10)}...
+                        {lowFiveTraffic.hotspotName.slice(0, 12)}...
                       </>
                     ) : lowFiveTraffic.hotspotName}
                   </span>
@@ -297,12 +308,13 @@ function Home() {
                       lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 15 ? 'orangered' :
                       15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? 'orange' :
                       25 <= lowFiveTraffic.roadTrafficSpd ? 'limegreen' : '',
-                    width: '100px',
                     padding: '2%',
-                    fontSize: '11px',
+                    fontSize: '14px',
                     border: '1px solid white',
+                    whiteSpace: 'nowrap',
                     borderRadius: '5px',
-                    marginLeft: '2px'
+                    marginLeft: '2px',
+                    float: 'right'     
                   }}>
                     {lowFiveTraffic.roadTrafficSpd === '정보 없음' ? '정보 없음' :
                       lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 15 ? '정체' :
@@ -317,6 +329,7 @@ function Home() {
                
               </span>
             ))}
+            </div>
         </div>
 
        
