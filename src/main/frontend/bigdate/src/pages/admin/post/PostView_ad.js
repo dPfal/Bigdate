@@ -199,18 +199,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     console.log(commentDate)
-    const dateString = commentDate;
-    const utcDate = new Date(dateString.replace(' ', 'T'));
-    const offset = 9; // 한국 표준시의 오프셋은 +09:00
-    
-    const localDate = new Date(dateString.replace(' ', 'T') + ':00');
-const isoDate = localDate.toISOString();
-    console.log(isoDate); // 로컬 시간대로 변환된 ISO 8601 형식의 날짜 출력
 
     const requestData = {
       id: userId,
       courseId: courseId,
-      commentDate:isoDate
+      commentDate:commentDate
     };
   
     try {
@@ -218,6 +211,7 @@ const isoDate = localDate.toISOString();
       axios.delete(`${ADDRESS}/admin/comments`, { data: requestData })
         .then(response => {
           console.log(response.data);
+          window.location.reload(false);
         })
         .catch(error => {
           console.log(error);
@@ -360,7 +354,7 @@ const isoDate = localDate.toISOString();
             <div key={id}>
               <div style={{display:'flex'}}>
                 <div style={{paddingTop:'10px',marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
-                <div style={{paddingTop:'10px',marginLeft:'20px'}}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm')}</div>
+                <div style={{paddingTop:'10px',marginLeft:'20px'}}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm:ss')}</div>
                 <button className='delBtn' style={{width:'50px',marginTop:'10px',marginLeft:'15px'}} onClick={() =>  handleDeleteConfirm(comment.id, comment.courseId, comment.commentDate)}>삭제</button>
               </div>           
 

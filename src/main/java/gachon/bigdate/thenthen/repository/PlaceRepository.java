@@ -19,6 +19,7 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
     @Query(value = "select coalesce(truncate(sum(avg_score)/count(*), 1), 0.0) from mydatabase.reviews_tb where place_id = ?1",nativeQuery = true)
     Double calculateAvg(Long placeId);
 
+
     Place findByPlaceId(Long placeId);
     Page<Place> findByHotspotId(Pageable pageable,int hotspotId);
     Page<Place> findAll(Pageable pageable);
