@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
+import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill, Icon0SquareFill} from 'react-bootstrap-icons';
 
 import moment from 'moment';
 import { ADDRESS } from '../../../Adress';
+import { Link } from 'react-router-dom';
 const { kakao } = window;
 
 
@@ -183,6 +184,44 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
     }
   };
 
+
+
+
+  function handleDeleteConfirm(userId,courseId,commentDate) {
+    const result = window.confirm(`댓글을 삭제하시겠습니까?`);
+    if (result === true) {
+     handleDelete(userId,courseId,commentDate);
+    }
+    else{ return;}
+  }
+
+  const handleDelete = async (userId, courseId, commentDate) => {
+    const token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log(commentDate)
+
+    const requestData = {
+      id: userId,
+      courseId: courseId,
+      commentDate:commentDate
+    };
+  
+    try {
+      // 댓글 삭제 요청
+      axios.delete(`${ADDRESS}/admin/comments`, { data: requestData })
+        .then(response => {
+          console.log(response.data);
+          window.location.reload(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  
   return (
     <>
      
@@ -247,7 +286,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
          <div className='line'>코스 설명
         </div>
-        <div style={{marginLeft:'40px',fontSize:'12px'}}>{data.courseInfo}</div>
+        <div style={{marginLeft:'40px',fontSize:'12px',marginBottom:'50px'}}>{data.courseInfo}</div>
 
 
 
@@ -259,15 +298,21 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                   <div key={index} style={{marginTop:'30px',marginLeft:'40px'}}>
                     <div style={{display:'flex',marginBottom:'10px'}}>
                       <div className='placeNum' style={{backgroundColor:'#1e90ff',margin:'0px',color:'white',paddingLeft:'7px'}}>{index + 1}</div>
+                    <Link  to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black'}}>
                       <div style={{marginLeft:'10px'}}>{course.placeDTO.placeName}</div>
+                    </Link>
                     </div>
                     <div style={{display:'flex'}}>
+                    <Link  to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black'}}>
                       <img src={course.placeDTO.imageUrl} style={{width:'150px',height:'150px', borderRadius:'10px'}}></img>
+                    </Link>
                       <div style={{display:'block',marginLeft:'20px'}}>
                       <div><GeoAltFill style={{color:'#3163C9',fontSize:'20px'}}/> {course.placeDTO.addressName} <StarFill style={{color:'orange',marginBottom:'5px'}}/>
                        {course.avgScore}</div>
-                    
-                      <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px'}}>{course.reviewInfo}</div>
+                    <Link  to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black'}}>
+                      <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px',fontWeight:'normal'}}>
+                        {course.isDel === 1 ?<span className='toCenter' style={{paddingTop:'25px'}}>관리자에 의해 숨김 처리된 후기 입니다.</span> : course.reviewInfo}</div>
+                    </Link>
                       </div>
                     </div>
                     
@@ -308,15 +353,16 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
           return (
             <div key={id}>
               <div style={{display:'flex'}}>
-                <div style={{marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
-                <div style={{marginLeft:'20px'}}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm')}</div>
+                <div style={{paddingTop:'10px',marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
+                <div style={{paddingTop:'10px',marginLeft:'20px'}}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm:ss')}</div>
+                <button className='delBtn' style={{width:'50px',marginTop:'10px',marginLeft:'15px'}} onClick={() =>  handleDeleteConfirm(comment.id, comment.courseId, comment.commentDate)}>삭제</button>
               </div>           
 
               <div className='toCenter'>
                 <div style={{width: '50px', height: '50px' }} className='toCenter'>
                   <PersonCircle style={{ fontSize: '40px',color:'dimgray' }} />
                 </div>
-                <div style={{ marginLeft: '10px', width: '600px',borderBottom:'1px solid lightgray',marginTop:'20px',paddingBottom:'25px' }}>
+                <div style={{ marginLeft: '10px', width: '600px',borderBottom:'1px solid lightgray',marginTop:'10px',paddingBottom:'25px',fontWeight:'normal'}}>
                   {comment.commentText}
                 </div>
               </div>

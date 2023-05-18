@@ -21,7 +21,6 @@ function Mypage() {
   const id = localStorage.getItem('id');
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
   const [showModal, setShowModal] = useState(false);
   const [userMood,setuserMood] = useState('');
   const history = useHistory();
@@ -36,7 +35,9 @@ function Mypage() {
     setShow(true);
   }
 
-
+  const handleClose = () =>{
+    setShow(false);
+  }
 
   useEffect(() => {
   
@@ -54,8 +55,23 @@ function Mypage() {
       });
   }, [token, id]);
   
-
+  //취향수정
+  const handleConfirm = () => {
+    handleClose(); //모달 닫기
   
+    const token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  
+    axios
+      .put(`${ADDRESS}/users/${id}?userMood=${userMood}`, { userMood: userMood })
+      .then((response) => {
+        console.log(response);
+        setData(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
   
   //회원 탈퇴 확인
   function handleDeleteConfirm(id) {
@@ -118,7 +134,7 @@ function Mypage() {
       <span style={{ fontWeight: 'bold' }}>취향: </span>
       <span style={{ fontWeight: 'normal',marginLeft:'10px',marginRight:'10px' }}>{data.userMood}</span>
     
-      <button  className='reBtn' onClick={handleShow} >수정</button></div></div>
+      <button  className='reBtn' onClick={handleShow} style={{fontSize:'11px'}}>수정</button></div></div>
               <Modal show={show} onHide={handleClose}>
                <Modal.Header closeButton>
                  <Modal.Title>내 취향 변경하기</Modal.Title>
@@ -152,9 +168,9 @@ function Mypage() {
 
                   </Modal.Body>
 
-                <Modal.Footer>
-                  <button onClick={handleClose}>확인</button>
-                </Modal.Footer>
+                  <Modal.Footer>
+                    <button onClick={handleConfirm}>확인</button>
+                  </Modal.Footer>
               </Modal>
       </div>
       
