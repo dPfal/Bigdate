@@ -183,6 +183,7 @@ const PlaceView = (props) => {
             place.reviewList.map((review) => (
               <div className='toCenter'>
                 <div style={{marginBottom:'10px'}}>
+                
                   <div style={{display:'flex',marginLeft:'80px',marginTop:'10px'}}>
                     <div> {moment(review.postedDate).format('YYYY-MM-DD HH:mm')}</div>
                     <div style={{marginLeft:'10px'}}> 
@@ -204,6 +205,7 @@ const PlaceView = (props) => {
                   <div style={{float:'right'}}>
                     비용 : {review.expense}원
                   </div>
+                
                 </div>
               </div>
             ))

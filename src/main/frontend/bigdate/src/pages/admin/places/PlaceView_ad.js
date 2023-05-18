@@ -88,20 +88,19 @@ const PlaceView_ad = (props) => {
     try {
       const response = await axios.patch(`${ADDRESS}/admin/places/${placeId}?placeMood=${placeMood}`);
       console.log(response);
+      alert('수정되었습니다.')
     } catch (error) {
       console.error(error);
     }
   };
 
   function handleDeleteConfirm(placeSequence,placeId,courseId) {
-    const result = window.confirm(`후기 숨김 처리 하시겠습니까?`);
-    if (result === true) {
+   
+    
       handleDelete(placeSequence, placeId, courseId)
         .then(() => setIsDeleted(true))
         .catch(error => console.log(error));
-    } else {
-      return;
-    }
+    
   }
 
   const handleDelete = async (placeSequence, placeId, courseId) => {

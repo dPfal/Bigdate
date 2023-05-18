@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './PostView.css';
-import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
+import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill, Icon0SquareFill} from 'react-bootstrap-icons';
 
 import moment from 'moment';
 import { ADDRESS } from '../../../Adress';
+import { Link } from 'react-router-dom';
 const { kakao } = window;
 
 
@@ -197,14 +198,19 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
   const handleDelete = async (userId, courseId, commentDate) => {
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log(commentDate)
+    const dateString = commentDate;
+    const utcDate = new Date(dateString.replace(' ', 'T'));
+    const offset = 9; // 한국 표준시의 오프셋은 +09:00
     
-    const isoDate = new Date(commentDate).toISOString();
-    const formattedDate = isoDate.slice(0, isoDate.length - 5);
-  console.log(formattedDate)
+    const localDate = new Date(dateString.replace(' ', 'T') + ':00');
+const isoDate = localDate.toISOString();
+    console.log(isoDate); // 로컬 시간대로 변환된 ISO 8601 형식의 날짜 출력
+
     const requestData = {
       id: userId,
       courseId: courseId,
-      commentDate: formattedDate
+      commentDate:isoDate
     };
   
     try {
@@ -286,7 +292,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
          <div className='line'>코스 설명
         </div>
-        <div style={{marginLeft:'40px',fontSize:'12px'}}>{data.courseInfo}</div>
+        <div style={{marginLeft:'40px',fontSize:'12px',marginBottom:'50px'}}>{data.courseInfo}</div>
 
 
 
@@ -298,16 +304,21 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                   <div key={index} style={{marginTop:'30px',marginLeft:'40px'}}>
                     <div style={{display:'flex',marginBottom:'10px'}}>
                       <div className='placeNum' style={{backgroundColor:'#1e90ff',margin:'0px',color:'white',paddingLeft:'7px'}}>{index + 1}</div>
+                    <Link  to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black'}}>
                       <div style={{marginLeft:'10px'}}>{course.placeDTO.placeName}</div>
+                    </Link>
                     </div>
                     <div style={{display:'flex'}}>
+                    <Link  to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black'}}>
                       <img src={course.placeDTO.imageUrl} style={{width:'150px',height:'150px', borderRadius:'10px'}}></img>
+                    </Link>
                       <div style={{display:'block',marginLeft:'20px'}}>
                       <div><GeoAltFill style={{color:'#3163C9',fontSize:'20px'}}/> {course.placeDTO.addressName} <StarFill style={{color:'orange',marginBottom:'5px'}}/>
                        {course.avgScore}</div>
-                    
+                    <Link  to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black'}}>
                       <div style={{border:'1px solid lightgray', borderRadius:'10px',width:'500px',height:'100px',marginTop:'10px',padding:'10px',fontWeight:'normal'}}>
                         {course.isDel === 1 ?<span className='toCenter' style={{paddingTop:'25px'}}>관리자에 의해 숨김 처리된 후기 입니다.</span> : course.reviewInfo}</div>
+                    </Link>
                       </div>
                     </div>
                     
