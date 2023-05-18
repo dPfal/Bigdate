@@ -127,7 +127,7 @@ public class CourseService {
         Course course = courseRepository.findByCourseId(commentDTO.getCourseId());
         Optional<User> user = userRepository.findById(commentDTO.getId());
         Comment comment = Comment.builder().commentId(CommentId.builder().courseId(commentDTO.getCourseId())
-                .id(commentDTO.getId()).commentDate(LocalDateTime.now()).build()).commentText(commentDTO.getCommentText()).course(course).user(user.get()).build();
+                .id(commentDTO.getId()).commentDate(LocalDateTime.parse(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss").format(LocalDateTime.now()))).build()).commentText(commentDTO.getCommentText()).course(course).user(user.get()).build();
         System.out.println(comment);
         System.out.println(commentDTO);
         this.commentRepository.save(comment);
