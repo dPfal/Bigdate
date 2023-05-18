@@ -1,9 +1,11 @@
 package gachon.bigdate.thenthen.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import gachon.bigdate.thenthen.entity.Comment;
 import gachon.bigdate.thenthen.entity.Course;
 import gachon.bigdate.thenthen.entity.Review;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ public class CourseDTO {
     private Long courseId;
     private Long id;
     private String userId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime postedDate;
     private String courseTitle;
     private String courseInfo;

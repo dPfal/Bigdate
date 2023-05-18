@@ -26,11 +26,9 @@ public class Course {
 
     @Column(name="id")
     private Long id;
-    @CreationTimestamp
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+
     @Column(name ="posted_date")
     private LocalDateTime postedDate;
-
 
     @Column(name ="course_name")
     private String courseName;
