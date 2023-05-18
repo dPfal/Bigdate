@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +28,7 @@ public class CourseService {
     private final PlaceRepository placeRepository;
     @Transactional
     public CourseDTO createCourse(CourseDTO courseDTO){
-        Course createdCourse = this.courseRepository.save(Course.builder()
+        Course createdCourse = this.courseRepository.save(Course.builder().postedDate(LocalDateTime.now())
                         .id(courseDTO.getId())
                 .courseInfo(courseDTO.getCourseInfo())
                 .courseName(courseDTO.getCourseTitle())
@@ -127,8 +128,10 @@ public class CourseService {
         Optional<User> user = userRepository.findById(commentDTO.getId());
         Comment comment = Comment.builder().commentId(CommentId.builder().courseId(commentDTO.getCourseId())
                 .id(commentDTO.getId()).commentDate(LocalDateTime.now()).build()).commentText(commentDTO.getCommentText()).course(course).user(user.get()).build();
-       this.commentRepository.save(comment);
-       return new CommentDTO(comment,comment.getUser());
+        System.out.println(comment);
+        System.out.println(commentDTO);
+        this.commentRepository.save(comment);
+       return new CommentDTO(comment,user.get());
     }
     @Transactional
     public String deleteCourse(Long courseId){

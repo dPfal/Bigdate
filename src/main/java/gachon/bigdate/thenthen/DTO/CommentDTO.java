@@ -1,11 +1,13 @@
 package gachon.bigdate.thenthen.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import gachon.bigdate.thenthen.entity.Comment;
 import gachon.bigdate.thenthen.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +18,7 @@ import java.time.LocalDateTime;
 public class CommentDTO {
     private Long id;
     private Long courseId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime commentDate;
     private String commentText;
     private UserDTO user;
