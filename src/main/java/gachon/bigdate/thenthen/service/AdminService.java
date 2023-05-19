@@ -30,7 +30,7 @@ public class AdminService {
         ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
 
         for(User user : userList){
-            userDTOArrayList.add(new UserDTO(user));
+            userDTOArrayList.add(new UserDTO(user,userLogRepository.findById(user.getId()).get().getJoinDate()));
         }
         return userDTOArrayList;
     }
