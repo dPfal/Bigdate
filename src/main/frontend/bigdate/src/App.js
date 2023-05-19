@@ -24,6 +24,7 @@ import PlaceList from './pages/admin/places/PlaceList';
 import PlaceView_ad from './pages/admin/places/PlaceView_ad';
 import ModifyPost from './pages/ModifyPost';
 import Register_ad from './pages/admin/post/Register_ad';
+import Footer from './pages/Footer';
 
 
 
@@ -79,7 +80,7 @@ const App = () => {
         <Route path="/places" component={PlaceList}/>
         <Route path="/ad/place/:id" component={PlaceView_ad}/>
         <Route path='/course/write/admin' component={Register_ad}/>
-
+        <Footer/>
       </>
     </BrowserRouter>
   );
