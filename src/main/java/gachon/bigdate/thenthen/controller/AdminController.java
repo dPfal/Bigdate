@@ -74,4 +74,9 @@ public class AdminController {
     public ResponseEntity<?> deleteComment(@RequestBody CommentDTO commentDTO){
         return this.courseService.deleteComment(commentDTO);
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> modifyUserRole(@PathVariable long id,@RequestParam String userRole){
+        return this.adminService.modifyUserRole(id,userRole);
+    }
 }
