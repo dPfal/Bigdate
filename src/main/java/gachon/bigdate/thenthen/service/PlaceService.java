@@ -59,7 +59,9 @@ public class PlaceService {
                     courseDTOArrayList.add(courseDTO);
                 }
             }
-            avgExpense = avgExpense/reviewList.get().size();
+            if (reviewList.get().size()!=0){
+                avgExpense = avgExpense/reviewList.get().size();
+            }
         }
       return new PlaceDTO(place,placeAvg,courseDTOArrayList,reviewDTOs,avgExpense);
     }
