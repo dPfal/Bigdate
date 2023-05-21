@@ -105,8 +105,8 @@ function Mypage() {
     
 
   return (
-    <div>
-      <div style={{display:'flex'}}>
+    <div style={{display : 'flex', justifyContent:'center'}}>
+      <div style={{display:'flex', width:'1200px'}}>
       <div style={{width:'250px',margin:'30px 30px'}}>
          <ListGroup defaultActiveKey='/mypage'>
           <ListGroup.Item action href='/mypage'>
