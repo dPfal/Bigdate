@@ -10,38 +10,41 @@ import ListTable from '../../components/table/admin/ListTable';
 
 
 function UserList() {
-    const history=useHistory();
-    const [ dataList, setDataList ] = useState([]);
-    const [pageNumber, setPageNumber] = useState(1); 
-    const token = localStorage.getItem('token');
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  const history = useHistory();
+  const [dataList, setDataList] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
+  const token = localStorage.getItem('token');
+  axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  const [users, setUsers] = useState([]); // 목록 항목을 저장하는 배열
 
   
-  
-  
-//페이지 이동
-const handlePageChange = (page) => {
-  setPageNumber(page);
-};
+ 
+   // 페이지 이동
+    const handlePageChange = (page) => {
+      setPageNumber(page);
+    };
+
+    useEffect(() => {
+      fetchDataList();
+    }, [pageNumber]);
     
+    // 서버에 사용자 목록 조회 요청하기
+    const fetchDataList = () => {
+      const id = localStorage.getItem('id');
+      const pageSize = 15; // 페이지당 데이터 개수
+      const startIndex = (pageNumber - 1) * pageSize; // 시작 인덱스 계산
+
+      axios.get(`${ADDRESS}/admin/members?start=${startIndex}&size=${pageSize}`)
+        .then(response => {
+          console.log(response.data);
+          setDataList(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    };
+
      
-    
-      //서버에 사용자 목록 조회 요청하기
-      const fetchDataList = () => {
-        const id = localStorage.getItem('id');
-        axios.get(`${ADDRESS}/admin/members?page=${pageNumber}`)
-          .then(response => {
-            console.log(response.data);
-            setDataList(response.data);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      };
-
-      useEffect(() => {
-        fetchDataList();
-      }, [pageNumber]);
       
       //회원 탈퇴 확인
       function handleDeleteConfirm(id) {
@@ -69,6 +72,47 @@ const handlePageChange = (page) => {
         console.error(error);
       }
     };
+
+    //Role 변경
+    const handleRoleChange = (event, itemId) => {
+      const { value } = event.target;
+     
+      const updatedUsers = users.map((item) => {
+        if (item.id === itemId) {
+          return {
+            ...item,
+            selectedRole: value, 
+          };
+        }
+        return item;
+      });
+      setUsers(updatedUsers);
+    
+      // 선택된 역할로 권한 부여 함수 호출
+      handleGiveAuth(itemId, value);
+    };
+
+    
+    //권한 변경 
+    const handleGiveAuth = async (id, role) => {
+      const token = localStorage.getItem("token");
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    
+      try {
+        const response = await axios.patch(
+          `${ADDRESS}/admin/${id}?userRole=${role}`
+        );
+        console.log(response.data);
+    
+        // 목록을 다시 불러오기 위해 1초 대기 후에 실행
+        setTimeout(() => {
+          fetchDataList();
+        }, 1000);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    
   
       return (
         <div>
@@ -84,7 +128,7 @@ const handlePageChange = (page) => {
         <div >
         <>
             
-            <ListTable headersName={['유저번호','이름','아이디', '취향', '관리']}>
+            <ListTable headersName={['유저번호','이름','아이디', '취향', '관리','권한']}>
                 
               { dataList ? dataList.map((item, index) => {
                   return (
@@ -95,6 +139,25 @@ const handlePageChange = (page) => {
                       <CommonTableColumn>{ item.userId }</CommonTableColumn>
                       <CommonTableColumn>{item.userMood}</CommonTableColumn>
                       <div><button className='delBtn' style={{marginTop:'10px'}} onClick={() =>  handleDeleteConfirm(item.id)}>탈퇴</button></div>
+                      <CommonTableColumn>  
+                      <div>
+                      <select
+                        value={item.selectedRole} // 개별 목록 항목의 선택된 역할 값으로 설정합니다.
+                        onChange={(event) => handleRoleChange(event, item.id)}>
+                         {item.userRole === 'ADMIN' ? (
+                            <>
+                              <option value="ADMIN">관리자</option>
+                              <option value="USER">사용자</option>
+                            </>
+                          ) : (
+                            <>
+                              <option value="USER">사용자</option>
+                              <option value="ADMIN">관리자</option>
+                            </>
+                          )}
+                      </select>
+                    </div>
+                    </CommonTableColumn>
                     </CommonTableRow>
                   )
                 }) : ''
@@ -107,21 +170,20 @@ const handlePageChange = (page) => {
       </div>   
         </div>
         <div  style={{marginTop:'30px'}}>
-            <Pagination 
-              activePage={pageNumber}
-              itemsCountPerPage={15}
-              totalItemsCount={450}
-              pageRangeDisplayed={5}
-              prevPageText={"‹"}
-              nextPageText={"›"}
-              onChange={handlePageChange}
-              itemClass="page-item"
-              linkClass="page-link"
-              innerClass="pagination"
-              prevPageLinkClassName="page-link prev"
-              nextPageLinkClassName="page-link next"
-            
-            />
+        <Pagination 
+        activePage={pageNumber}
+        itemsCountPerPage={15}
+        totalItemsCount={450}
+        pageRangeDisplayed={5}
+        prevPageText={"‹"}
+        nextPageText={"›"}
+        onChange={handlePageChange}
+        itemClass="page-item"
+        linkClass="page-link"
+        innerClass="pagination"
+        prevPageLinkClassName="page-link prev"
+        nextPageLinkClassName="page-link next"
+      />
             </div>  
         </div>
 

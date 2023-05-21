@@ -108,4 +108,9 @@ public class UserController {
         return this.userService.updateUserMood(id,userMood);
     }
 
+    @DeleteMapping("/comments")
+    public ResponseEntity<?> deleteComment(@RequestBody CommentDTO commentDTO){
+        return this.courseService.deleteComment(commentDTO);
+    }
+
 }

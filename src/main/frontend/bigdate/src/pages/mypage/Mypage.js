@@ -126,15 +126,18 @@ function Mypage() {
        <div className='line'>내 정보
       </div>
       <div style={{display:'flex'}}>
-      <PersonCircle fontSize={80} style={{margin:'60px 50px'}}color='gray'/>
+      <PersonCircle fontSize={80} style={{margin:'80px 50px'}}color='gray'/>
      <div style={{margin:"55px 20px",fontSize:'14px'}}>
       <div  style={{marginBottom: "10px"}}> 이름 : <span style={{fontWeight:'normal'}}>{data.userName}</span></div>
       <div  style={{marginBottom: "10px"}}> 아이디 : <span style={{fontWeight:'normal'}}>{data.userId}</span></div>
       <div style={{display:'flex'}}>
       <span style={{ fontWeight: 'bold' }}>취향: </span>
       <span style={{ fontWeight: 'normal',marginLeft:'10px',marginRight:'10px' }}>{data.userMood}</span>
+      
+      <button  className='reBtn' onClick={handleShow} style={{fontSize:'11px'}}>수정</button></div>
+      <div  style={{marginTop: "10px"}}> 가입일자 : <span style={{fontWeight:'normal'}}>{data.userJoinDate}</span></div>
+      </div>
     
-      <button  className='reBtn' onClick={handleShow} style={{fontSize:'11px'}}>수정</button></div></div>
               <Modal show={show} onHide={handleClose}>
                <Modal.Header closeButton>
                  <Modal.Title>내 취향 변경하기</Modal.Title>

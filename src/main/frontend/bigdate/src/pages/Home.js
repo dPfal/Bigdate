@@ -4,19 +4,20 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { ADDRESS } from '../Adress';
-import { Cloud, SunFill } from 'react-bootstrap-icons';
+
 
 
 
 
 function Home() {
  
-
+  const [totalSpot,setTotalSpot] = useState([]);
   const [topFiveCongest, setTopFiveCongest] = useState([]);
   const [lowFiveCongest, setLowFiveCongest] = useState([]);
   const [lowFiveDust, setLowFiveDust] = useState([]);
   const [lowFiveSky, setLowFiveSky] = useState([]);
   const [lowFiveTraffic, setLowFiveTraffic] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('실시간 기반 추천');
   
   useEffect(() => {
     axios.get(`${ADDRESS}/hotspots`)
@@ -34,6 +35,7 @@ function Home() {
         // 교통수준를 기준으로 오름차순 정렬
         const ascendingTraffic = [...response.data].sort((a, b) => a.roadTrafficSpd- b.roadTrafficSpd);
   
+      
         // 상위 5개의 요소를 추출하여 새로운 배열에 저장
         const topFiveCongest = descendingCongest.slice(0, 5);
         // 하위 5개의 요소를 추출하여 새로운 배열에 저장
@@ -41,7 +43,9 @@ function Home() {
         const lowFiveDust = ascendingDust.slice(0, 5);
         const lowFiveSky = ascendingSky.slice(0, 5);
         const lowFiveTraffic = ascendingTraffic.slice(0, 5);
-  
+      
+        // 전체 목록
+        setTotalSpot(response.data);
         // 상태 업데이트
         setTopFiveCongest(topFiveCongest);
         setLowFiveCongest(lowFiveCongest);
@@ -57,25 +61,73 @@ function Home() {
       });
   }, []);
 
+  
 
-  return (
-  <div>
-    
-      <div className='main_img'>
-        <img src="/images/main_img.png" alt="Example" />
-      </div>
-      <div className='main_img_tag'>
-        <span># 실시간 추천</span>
-        <span># 데이트 코스</span>
-        <span># 날씨</span>
-        <span># 분위기</span>
-      </div>
-    
+  const handleOptionChange = (event) => {
+    setSelectedOption(event.target.value);
 
-    <div className='recommand_category'>
-      <div className='rank'># 실시간 혼잡도 Top5</div>
+    // 선택한 값에 따라 필요한 로직 실행
+    if (event.target.value === '전체보기') {
+      // 전체보기에 대한 로직 실행
+      console.log('전체보기');
+    } else if (event.target.value === '실시간 기반 추천') {
+      renderRanking();
+      console.log('실시간 기반 추천');
+    }
+  };
+
+
+  const renderRanking = () => {
+    if (selectedOption === '전체보기') {
+      // 전체보기에 대한 로직
+      return (
+        <div>
+        <div className='rank'>지역 전체</div>  
+      
+        <div className='card-container' style={{ display: 'flex', flexWrap: 'wrap' }}>
+          {totalSpot.map((spot, index) => (
+            <div key={spot.hotspotId} style={{  width: '16rem',height:'100%',marginBottom:'20px' }}>
+              <Card>
+                <Link to={{ pathname: `/hotspots/${spot.hotspotId}`, state: { hotspotName: spot.hotspotName, hotspotId: spot.hotspotId } }}>
+                  <Card.Img variant="top" src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${spot.hotspotName}.jpg`} />
+                </Link>
+                <Card.Body style={{ padding: '10px' }}>
+                  <Card.Title style={{ fontWeight: 'bold', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
+                    <span style={{ flex: 1, whiteSpace: 'nowrap', textOverflow: 'ellipsis', float:'left',width:'70%' }}>
+                      {spot.hotspotName.length > 12 ? (
+                        <>
+                          {spot.hotspotName.slice(0, 12)}...
+                        </>
+                      ) : spot.hotspotName}
+                    </span>
+                  </Card.Title>
+                </Card.Body>
+              </Card>
+            </div>
+          )).reduce((rows, card, index) => {
+            if (index % 5 === 0) rows.push([]);
+            rows[Math.floor(index / 5)].push(card);
+            return rows;
+          }, []).map((row, index) => (
+            <div key={index} style={{ display: 'flex', justifyContent: 'space-between' }}>
+              {row}
+            </div>
+          ))}
+        </div>
+      </div>
+      
+
+
+      
+      );
+      
+    } else if (selectedOption === '실시간 기반 추천') {
+      // 실시간 기반 추천에 대한 로직
+      return (
+        <div>
+        <div className='rank'># 실시간 혼잡도 Top5</div>
       <div className='card-container'>
-          <div style={{ display: "flex", justifyContent: 'space-between' }}>
+      <div style={{ display: "flex", justifyContent: 'space-between' }}>
       {topFiveCongest.map((topFiveCongest) => (
         <span key={topFiveCongest.hotspot_id} style={{ width: '16rem',height:'100%' }}>
              
@@ -329,11 +381,38 @@ function Home() {
             ))}
             </div>
         </div>
+        </div>
+      );
+    }
+  };
 
-       
-
+  return (
+  <div>
     
-      
+      <div className='main_img'>
+        <img src="/images/main_img.png" alt="Example" />
+      </div>
+      <div className='main_img_tag'>
+        <span># 실시간 추천</span>
+        <span># 데이트 코스</span>
+        <span># 날씨</span>
+        <span># 분위기</span>
+      </div>
+    
+
+    <div className='recommand_category'>
+
+    <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <select value={selectedOption} onChange={handleOptionChange} style={{ width: '200px', padding: '8px', borderRadius: '4px', border: '1px solid #ccc', backgroundColor: '#f7f7f7', fontSize: '14px' }}>
+        <option value="전체보기">전체보기</option>
+        <option value="실시간 기반 추천">실시간 기반 추천</option>
+      </select>
+    </div>
+
+     <div>
+      {renderRanking()}
+     </div>
+
     </div>
     
  </div>
