@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useRef } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import './PostView.css';
@@ -18,11 +18,20 @@ const PostView = ({ history, location, match }) => {
   const [isScrapped, setIsScrapped] = useState(false);
 
   const { course_id } = match.params;
+  const userId = localStorage.getItem('userId');
 
 
-  const pageNumber = sessionStorage.getItem('pageNumber');
-/**코스 상세 정보 조회 axio get  course id로*/
-/**코스 댓글 조회 axio get */
+// 스크롤을 맨 위로 올리는 함수
+const scrollToTop = () => {
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant',
+    });
+  } else {
+    window.scrollTo(0, 0);
+  }
+};
 
 useEffect(() => {
   const id = localStorage.getItem('id');
@@ -36,8 +45,8 @@ useEffect(() => {
       setScrapCount(response.data.scrapCount);
       setIsScrapped(response.data.scraped);
       setPlaces(response.data.reviewList);
-  
-      
+      scrollToTop(); // 스크롤을 맨 위로 올림
+
       const container = document.getElementById('myMap');
       
       // 모든 장소들의 좌표를 담는 bounds 객체를 생성합니다
@@ -156,6 +165,40 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       console.error(error);
     }
   };
+
+  function handleCommentDeleteConfirm(userId,commentDate,courseId) {
+    const result = window.confirm(`댓글을 삭제하시겠습니까?`);
+    if (result === true) {
+     handleDelete(userId,courseId,commentDate);
+    }
+    else{ return;}
+  }
+
+  const handleDelete = async (userId, courseId, commentDate) => {
+    const token = localStorage.getItem('token');
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log(commentDate)
+
+    const requestData = {
+      id: userId,
+      courseId: courseId,
+      commentDate:commentDate
+    };
+  
+    try {
+      // 댓글 삭제 요청
+      axios.delete(`${ADDRESS}/admin/comments`, { data: requestData })
+        .then(response => {
+          console.log(response.data);
+          window.location.reload(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
   
   const handleScrapClick = async () => {
     
@@ -184,6 +227,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       console.error(error);
     }
   };
+  
  
   return (
     <>
@@ -313,35 +357,51 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
         <div className='line'>댓글</div>
        <div>
-      {/**댓글 리스트 */} 
        <div>
-       {commentArray && commentArray.length > 0 ? (
-          commentArray.map((comment) => {
-          const { id} = comment;
+      {commentArray && commentArray.length > 0 ? (
+        commentArray.map((comment) => {
+          const { id } = comment;
+          const isMyComment = comment.user.userId=== userId; // 내가 작성한 댓글인지 확인합니다.
+
           return (
             <div key={id}>
-              <div style={{display:'flex'}}>
-                <div style={{marginLeft:'130px',color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
-                <div style={{marginLeft:'20px'}}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm')}</div>
-              </div>           
+              <div style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    marginLeft: '130px',
+                    color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black',
+                  }}
+                >
+                  {comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}
+                </div>
+                <div style={{ marginLeft: '20px' }}>
+                  {comment.commentDate}
+                </div>
+                {isMyComment && (
+                  <div style={{ marginLeft: '20px' }}>
+                    <button className='delBtn' onClick={() => handleCommentDeleteConfirm(comment.id,comment.commentDate,comment.courseId)}>
+                     삭제
+                    </button>
+                  </div>
+                )}
+              </div>
 
               <div className='toCenter'>
-                <div style={{width: '50px', height: '50px' }} className='toCenter'>
-                  <PersonCircle style={{ fontSize: '40px',color:'dimgray' }} />
+                <div style={{ width: '50px', height: '50px' }} className='toCenter'>
+                  <PersonCircle style={{ fontSize: '40px', color: 'dimgray' }} />
                 </div>
-                <div style={{ marginLeft: '10px', width: '600px',borderBottom:'1px solid lightgray',marginTop:'20px',paddingBottom:'25px' }}>
+                <div style={{ marginLeft: '10px', width: '600px', borderBottom: '1px solid lightgray', marginTop: '20px', paddingBottom: '25px' }}>
                   {comment.commentText}
                 </div>
               </div>
             </div>
-          )
-          })
-          ) : (
-            <div style={{textAlign:'center',color:'gray',marginTop:'30px',marginBottom:'30px'}}>댓글이 없습니다.</div>
-          )}
-        </div>
-
-      </div>
+          );
+        })
+      ) : (
+        <div style={{ textAlign: 'center', color: 'gray', marginTop: '30px', marginBottom: '30px' }}>댓글이 없습니다.</div>
+      )}
+    </div>
+    </div>
 
 
 

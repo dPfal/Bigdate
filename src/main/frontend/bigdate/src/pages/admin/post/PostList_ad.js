@@ -20,27 +20,29 @@ const PostList_ad = props => {
   
   const [pageNumber, setPageNumber] = useState(location.state?.pageNumber || 1);
   const [sortOption, setSortOption] = useState(location.state?.sortOption || 'courseId');
-  
+  const [totalItemsCount,setTotalItemsCount] = useState(1);
 
 
 
   const handlePageChange = (pageNumber) => {
     setPageNumber(pageNumber);
+    window.scrollTo(0,0)
   }
   
   const handleSortOptionChange = (e) => {
     const newSortOption = e.target.value;
     setSortOption(newSortOption);
+    setPageNumber(1)
   }
 
  
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
+
     const handlePopState = (event) => {
       const { state } = event;
       if (state) {
-        setPageNumber(state.pageNumber);
         setSortOption(state.sortOption);
       }
     };
@@ -57,6 +59,7 @@ const PostList_ad = props => {
       .then(response => {
         console.log(response.data);
         setDataList(response.data.content);
+        setTotalItemsCount(response.data.totalElements);
       })
       .catch(error => {
         console.log(error);
@@ -113,7 +116,7 @@ const handleButtonClick = () => {
   return (
     
     <div>
-       <div className='background-container'style={{height:'770px'}} >
+       <div className='background-container' style={{height:'780px'}}>
         <div className='overlay-container'>
         <div className='line' style={{marginBottom:'10px'}} >
             커뮤니티 관리
@@ -166,16 +169,10 @@ const handleButtonClick = () => {
                           </span>
                           </CommonTableColumn>
                           <CommonTableColumn>{item.userId}</CommonTableColumn>
-                          <CommonTableColumn>
-                         
-                            {item.likeCount}
+                          <CommonTableColumn> {item.likeCount}</CommonTableColumn>
+                          <CommonTableColumn>{item.scrapCount}
                           </CommonTableColumn>
-                          <CommonTableColumn>
-                         
-                            {item.scrapCount}
-                          </CommonTableColumn>
-                          <CommonTableColumn>
-                            {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
+                          <CommonTableColumn> {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
                           </CommonTableColumn>
                          <button className='delBtn' style={{width:'50px',marginTop:'10px'}} onClick={() =>  handleDeleteConfirm(item.courseId)}>삭제</button>
                         </CommonTableRow>
@@ -186,14 +183,14 @@ const handleButtonClick = () => {
             </>
            
           </div>
-          
+
         </div>
       </div>
-      <div  style={{marginTop:'30px'}}>
+      <div  style={{marginTop:'20px'}}>
             <Pagination 
               activePage={pageNumber}
               itemsCountPerPage={15}
-              totalItemsCount={450}
+              totalItemsCount={totalItemsCount}
               pageRangeDisplayed={5}
               prevPageText={"‹"}
               nextPageText={"›"}

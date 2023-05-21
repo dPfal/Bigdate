@@ -6,7 +6,7 @@ import CommonTableColumn from '../../components/table/CommonTableColumn';
 import CommonTableRow from '../../components/table/CommonTableRow';
 import { HandThumbsUp,Heart, HeartFill, } from 'react-bootstrap-icons';
 import axios from 'axios';
-import Pagination from 'react-bootstrap/Pagination';
+import Pagination from "react-js-pagination";
 import './Mypage.css'
 import MycourseTable from '../../components/table/MyCourseTable';
 import { ADDRESS } from '../../Adress';
@@ -16,36 +16,12 @@ import moment from 'moment';
 function MyPostList() {
     const history=useHistory();
     const [ dataList, setDataList ] = useState([]);
-    const [pageNumber, setPageNumber] = useState(0); 
+    const [pageNumber, setPageNumber] = useState(1); 
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const [totalItemsCount,setTotalItemsCount] = useState(1);
+    const pageSize = 15; // 페이지당 데이터 개수
 
-  
-  
-    let items = [];
-    const totalPages = 10; // 예시로 총 10 페이지가 있다고 가정합니다.
-    const startPage = Math.max(1, pageNumber - 2);
-    const endPage = Math.min(totalPages, pageNumber + 1);
-    for (let number = startPage; number <= endPage; number++) {
-      items.push(
-        <Pagination.Item
-          key={number}
-          active={number === pageNumber + 1}
-          onClick={() => setPageNumber(number - 1)}
-        >
-          {number}
-        </Pagination.Item>
-      );
-    }
-      
-      const paginationBasic = (
-        <div>
-          <Pagination size="sm">{items}</Pagination>
-        </div>
-      );
-    
-     
-    
       //서버에 코스 목록 조회 요청하기
       const fetchDataList = () => {
         const id = localStorage.getItem('id');
@@ -53,6 +29,8 @@ function MyPostList() {
           .then(response => {
             console.log(response.data);
             setDataList(response.data);
+            setTotalItemsCount(response.data.length)
+
           })
           .catch(error => {
             console.log(error);
@@ -62,6 +40,11 @@ function MyPostList() {
       useEffect(() => {
         fetchDataList();
       }, [pageNumber]);
+
+      const handlePageChange = (pageNumber) => {
+        setPageNumber(pageNumber);
+        window.scrollTo(0,0);
+      }
 
 
       function handleDeleteConfirm(courseId) {
@@ -95,9 +78,9 @@ function MyPostList() {
     }
   
       return (
-        <div>
-        <div style={{display:'flex'}}>
-        <div style={{width:'250px',margin:'30px 30px'}}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <div style={{ display: 'flex', width: '1200px' }}>
+            <div style={{ width: '250px', margin: '30px 30px' }}>
           <ListGroup>
             <ListGroup.Item action href='/mypage'active={false}>
               마이페이지
@@ -110,7 +93,8 @@ function MyPostList() {
             </ListGroup.Item>
           </ListGroup>
         </div>
-        <div className='background-container' id='mypage_background'>
+        <div>
+      < div className='background-container'style={{height:'820px'}} >
         <div className='overlay-container'>
 
         <div className='line'>내 코스 목록
@@ -136,24 +120,39 @@ function MyPostList() {
                       <CommonTableColumn> {item.scrapCount}</CommonTableColumn>
                       <CommonTableColumn>{moment(item.postedDate).format('YYYY-MM-DD')}</CommonTableColumn>
                       <CommonTableColumn> 
-                      <button className='reBtn' style={{marginTop:'10px',fontSize:'12px'}}  onClick={() => handleModify(item.courseId)}>수정</button>
-                      <button className='delBtn'  onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px',marginTop:'10px',fontSize:'12px'}}>삭제</button>
+                      <button className='reBtn' style={{marginTop:'5px',fontSize:'12px'}}  onClick={() => handleModify(item.courseId)}>수정</button>
+                      <button className='delBtn'  onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px',marginTop:'5px',fontSize:'12px'}}>삭제</button>
                       </CommonTableColumn>
-
-                         
+ 
                     </CommonTableRow>
                   )
                 }) : ''
               }
             </MycourseTable>
           </>
-        </div>
-        
 
-      </div>    {paginationBasic}
         </div>
-        </div>
-
+      </div>
+      </div>    
+      <div  style={{marginTop:'20px'}}>
+       <Pagination 
+              activePage={pageNumber}
+              itemsCountPerPage={15}
+              totalItemsCount={totalItemsCount}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              itemClass="page-item"
+              linkClass="page-link"
+              innerClass="pagination"
+              prevPageLinkClassName="page-link prev"
+              nextPageLinkClassName="page-link next"
+            
+            />
+      </div>
+      </div>
+      </div>
       </div>
       
 )
