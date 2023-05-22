@@ -6,6 +6,7 @@ import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp, Heart, StarFill, PersonC
 import { ADDRESS } from '../../Adress';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
+import { Message } from 'semantic-ui-react';
 const { kakao } = window;
 
 const PostView = ({ history, location, match }) => {
@@ -133,6 +134,8 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
    
       return response.data;
     } catch (error) {
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.')
+      localStorage.clear();
       console.error(error);
     }
   };
