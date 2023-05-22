@@ -20,17 +20,19 @@ const PostList_ad = props => {
   
   const [pageNumber, setPageNumber] = useState(location.state?.pageNumber || 1);
   const [sortOption, setSortOption] = useState(location.state?.sortOption || 'courseId');
-  
+  const [totalItemsCount,setTotalItemsCount] = useState(1);
 
 
 
   const handlePageChange = (pageNumber) => {
     setPageNumber(pageNumber);
+    window.scrollTo(0,0)
   }
   
   const handleSortOptionChange = (e) => {
     const newSortOption = e.target.value;
     setSortOption(newSortOption);
+    setPageNumber(1)
   }
 
  
@@ -40,7 +42,6 @@ const PostList_ad = props => {
     const handlePopState = (event) => {
       const { state } = event;
       if (state) {
-        setPageNumber(state.pageNumber);
         setSortOption(state.sortOption);
       }
     };
@@ -57,6 +58,7 @@ const PostList_ad = props => {
       .then(response => {
         console.log(response.data);
         setDataList(response.data.content);
+        setTotalItemsCount(response.data.totalElements);
       })
       .catch(error => {
         console.log(error);
@@ -113,7 +115,7 @@ const handleButtonClick = () => {
   return (
     
     <div>
-       <div className='background-container'style={{height:'770px'}} >
+       <div className='background-container' style={{height:'780px'}}>
         <div className='overlay-container'>
         <div className='line' style={{marginBottom:'10px'}} >
             커뮤니티 관리
@@ -149,32 +151,26 @@ const handleButtonClick = () => {
                   '찜 수',
                   '작성일',
                   '관리'
-                ]} 
+                ]}
               >
                 {dataList
                   ? dataList.map((item, index) => {
                       return (
                         <CommonTableRow key={index}>
-                          <CommonTableColumn >{item.courseId}</CommonTableColumn>
+                          <CommonTableColumn>{item.courseId}</CommonTableColumn>
                           <CommonTableColumn>
                           <span onClick={() =>history.push({
                               pathname: `/postViewAd/${item.courseId}`,
                               state: { pageNumber, sortOption }
-                            })} >
+                            })}>
                             {item.courseTitle} ({item.commentCount})
                           </span>
                           </CommonTableColumn>
                           <CommonTableColumn>{item.userId}</CommonTableColumn>
-                          <CommonTableColumn>
-                         
-                            {item.likeCount}
+                          <CommonTableColumn> {item.likeCount}</CommonTableColumn>
+                          <CommonTableColumn>{item.scrapCount}
                           </CommonTableColumn>
-                          <CommonTableColumn>
-                         
-                            {item.scrapCount}
-                          </CommonTableColumn>
-                          <CommonTableColumn>
-                            {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
+                          <CommonTableColumn> {item. date = moment(item.postedDate).format('YYYY-MM-DD')}
                           </CommonTableColumn>
                          <button className='delBtn' style={{width:'50px',marginTop:'10px'}} onClick={() =>  handleDeleteConfirm(item.courseId)}>삭제</button>
                         </CommonTableRow>
@@ -183,13 +179,14 @@ const handleButtonClick = () => {
                   : ''}
               </CommonTable>
           </div>
+
         </div>
       </div>
       <div  style={{marginTop:'30px'}}>
             <Pagination 
               activePage={pageNumber}
               itemsCountPerPage={15}
-              totalItemsCount={450}
+              totalItemsCount={totalItemsCount}
               pageRangeDisplayed={5}
               prevPageText={"‹"}
               nextPageText={"›"}

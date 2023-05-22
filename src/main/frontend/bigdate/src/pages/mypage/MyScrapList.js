@@ -1,66 +1,54 @@
 import React, { useEffect, useState } from 'react'
 import ListGroup from 'react-bootstrap/ListGroup';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import CommonTable from '../../components/table/CommonTable';
 import CommonTableColumn from '../../components/table/CommonTableColumn';
 import CommonTableRow from '../../components/table/CommonTableRow';
-import { HandThumbsUp,Heart, HeartFill, } from 'react-bootstrap-icons';
 import axios from 'axios';
-import Pagination from 'react-bootstrap/Pagination';
 import './Mypage.css'
 import MyScrapTable from '../../components/table/MyScrapTable';
 import { ADDRESS } from '../../Adress';
 import moment from 'moment';
+import Pagination from "react-js-pagination";
 
-function MyPostList() {
+
+function MyScrapList() {
     const history=useHistory();
     const [ dataList, setDataList ] = useState([]);
-    const [pageNumber, setPageNumber] = useState(0); 
+    const [pageNumber, setPageNumber] = useState(1);
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    const [totalItemsCount,setTotalItemsCount] = useState(1);
+    const pageSize = 15; // 페이지당 데이터 개수
 
-  
-    let items = [];
-    const totalPages = 10; // 예시로 총 10 페이지가 있다고 가정합니다.
-    const startPage = Math.max(1, pageNumber - 2);
-    const endPage = Math.min(totalPages, pageNumber + 1);
-    for (let number = startPage; number <= endPage; number++) {
-      items.push(
-        <Pagination.Item
-          key={number}
-          active={number === pageNumber + 1}
-          onClick={() => setPageNumber(number - 1)}
-        >
-          {number}
-        </Pagination.Item>
-      );
-    }
-      
-  const paginationBasic = (
-    <div>
-      <Pagination size="sm">{items}</Pagination>
-    </div>
-  );
-
- 
 
   // 서버에 코스 목록 조회 요청하기
   useEffect(() => {
     fetchDataList();
-  }, []);
+  }, [pageNumber]);
 
   const fetchDataList = () => {
     axios
       .get(`${ADDRESS}/users/scraps`)
       .then((response) => {
-        console.log(response.data);
-        setDataList(response.data);
+        const startIndex = (pageNumber - 1) * pageSize;
+        const endIndex = startIndex + pageSize;
+        const slicedData = response.data.slice(startIndex, endIndex); // 페이징 처리된 데이터 슬라이싱
+        setDataList(slicedData);
+        setTotalItemsCount(response.data.length);
+
       })
       .catch((error) => {
         console.log(error);
       });
   };
-  
+
+  const handlePageChange = (pageNumber) => {
+    setPageNumber(pageNumber);
+    window.scrollTo(0,0);
+  }
+
+
   const handleDeleteConfirm = (courseId) => {
     const result = window.confirm(`${courseId}번 글을 찜 목록에서 삭제하시겠습니까?`);
     if (result === true) {
@@ -103,7 +91,8 @@ function MyPostList() {
         </ListGroup.Item>
       </ListGroup>
     </div>
-    <div className='background-container' id='mypage_background'>
+    <div>
+    <div className='background-container' style={{height:'720px'}}>
      <div className='overlay-container'>
 
      <div className='line'>내 찜 목록
@@ -132,19 +121,36 @@ function MyPostList() {
                 </CommonTableRow>
               )
             }) : ''
+
           }
+
         </MyScrapTable>
       </>
-    </div>
-    
+      </div>
+      </div>
+      </div>
+      <div  style={{marginTop:'20px'}}>
+       <Pagination
+              activePage={pageNumber}
+              itemsCountPerPage={15}
+              totalItemsCount={totalItemsCount}
+              pageRangeDisplayed={5}
+              prevPageText={"‹"}
+              nextPageText={"›"}
+              onChange={handlePageChange}
+              itemClass="page-item"
+              linkClass="page-link"
+              innerClass="pagination"
+              prevPageLinkClassName="page-link prev"
+              nextPageLinkClassName="page-link next"
 
-  </div>    {paginationBasic}
-    </div>
-    </div>
+            />
+      </div>
+      </div>
+      </div>
+      </div>
 
-  </div>
-  
 )
 }
 
-export default MyPostList
+export default MyScrapList;

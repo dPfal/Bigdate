@@ -68,13 +68,14 @@ function PlaceList() {
     const token = localStorage.getItem('token');
     const [sortOption, setSortOption] = useState(""); 
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+    const [totalItemsCount,setTotalItemsCount] = useState(1);
   
   
    //페이지 이동
-const handlePageChange = (page) => {
-  setPageNumber(page);
-};
+    const handlePageChange = (page) => {
+      setPageNumber(page);
+      window.scrollTo(0,0);
+    };
 
     useEffect(() => {
         axios.get(`${ADDRESS}/hotspots`)
@@ -118,6 +119,7 @@ const handlePageChange = (page) => {
           .then(response => {
             console.log(response.data);
             setDataList(response.data.content);
+            setTotalItemsCount(response.data.totalPages)
           })
           .catch(error => {
             console.log(error);
@@ -129,95 +131,64 @@ const handlePageChange = (page) => {
       }, [pageNumber]);
 
 
-     const handleDelete = async (courseId) => {
-      const token = localStorage.getItem('token');
-      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            
-      try {
-        const response = await axios.delete(`${ADDRESS}/users/courses/${courseId}`);
-        console.log(response);
-        
-        // 목록을 다시 불러오기 위해 1초 대기 후에 실행
-        setTimeout(() => {
-          fetchDataList();
-        }, 1000);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-  
+   
       return (
         <div>
-       <div className="background-container">
+          <div className="background-container" style={{ height: '980px' }}>
+            <div className="overlay-container">
+              <div className='line'>장소 관리</div>
+              <div>  
+                  <div className='select_container' style={{ marginBottom: '10px' }}>
+                    <select value={sortOption} onChange={handleSortOptionChange}>
+                      <option value="">전체</option>
+                      {hotspotList.map((option) => (
+                        <option key={option.hotspotId} value={option.hotspotId}>
+                          {option.hotspotName}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <>
+                  <ListTable headersName={['장소 ID', '장소명', '지역', '후기', '분위기']}>
+                    {dataList ? dataList.map((item, index) => {
+                      const placeName = placeList.find(placeItem => placeItem.hotspotId === item.hotpotId)?.hotspotName ?? '';
       
-      <div className="overlay-container">
-  
-     
-
-        <div  className='line'>장소 관리
-        </div>
-
-        <div >
-        <>
-            <div className='select_container' style={{marginBottom:'10px'}}>
-            <select value={sortOption} onChange={ handleSortOptionChange}>
-            <option value="">전체</option>
-            {hotspotList.map((option) => (
-                <option key={option.hotspotId} value={option.hotspotId}>
-                {option.hotspotName}
-                </option>
-            ))}
-            </select>
+                      return (
+                        <CommonTableRow key={index}>
+                          <CommonTableColumn>{item.placeId}</CommonTableColumn>
+                          <span onClick={() => history.push(`/ad/place/${item.placeId}`)}>
+                            <CommonTableColumn>{item.placeName}</CommonTableColumn>
+                          </span>
+                          <CommonTableColumn>{placeName}</CommonTableColumn>
+                          <CommonTableColumn>{item.reviewCount}</CommonTableColumn>
+                          <CommonTableColumn>{item.placeMood}</CommonTableColumn>
+                        </CommonTableRow>
+                      )
+                    }) : ''}
+                  </ListTable>
+                </>
+              </div>
             </div>
-            
-            <ListTable headersName={['장소 ID','장소명','지역', '후기', '분위기']}>
-                
-              { dataList ? dataList.map((item, index) => {
-                 const placeName = placeList.find(placeItem => placeItem.hotspotId === item.hotpotId)?.hotspotName ?? '';
-
-                  return (
-                  
-                    <CommonTableRow key={index}>
-                      <CommonTableColumn>{ item.placeId }</CommonTableColumn>
-                      <span onClick={() => history.push(`/ad/place/${item.placeId}`)}>
-                      <CommonTableColumn>{item.placeName} </CommonTableColumn>
-                      </span>
-                      <CommonTableColumn>{placeName}</CommonTableColumn>
-                      <CommonTableColumn>{item.reviewCount}</CommonTableColumn>
-                      <CommonTableColumn>{item.placeMood}</CommonTableColumn>
-                    </CommonTableRow>
-                  )
-                }) : ''
-              }
-            </ListTable>
-          </>
-        </div>
-        
-
-      </div>   
-        </div>
-              {!sortOption && (
-          <div style={{marginTop:'30px'}}>
-            <Pagination 
-              activePage={pageNumber}
-              itemsCountPerPage={15}
-              totalItemsCount={450}
-              pageRangeDisplayed={5}
-              prevPageText={"‹"}
-              nextPageText={"›"}
-              onChange={handlePageChange}
-              itemClass="page-item"
-              linkClass="page-link"
-              innerClass="pagination"
-              prevPageLinkClassName="page-link prev"
-              nextPageLinkClassName="page-link next"
-            />
           </div>
-        )} 
+          {!sortOption && (
+            <div className="pagination-container" style={{ marginTop: '30px' }}>
+              <Pagination
+                activePage={pageNumber}
+                itemsCountPerPage={15}
+                totalItemsCount={totalItemsCount}
+                pageRangeDisplayed={5}
+                prevPageText={"‹"}
+                nextPageText={"›"}
+                onChange={handlePageChange}
+                itemClass="page-item"
+                linkClass="page-link"
+                innerClass="pagination"
+                prevPageLinkClassName="page-link prev"
+                nextPageLinkClassName="page-link next"
+              />
+            </div>
+          )}
         </div>
-
-     
-      
-)
-}
+      );
+  }      
 export default PlaceList

@@ -14,37 +14,34 @@ const PostList = props => {
   const history=useHistory();
   const [dataList, setDataList] = useState([]);
   const location = useLocation();
-
-  
   const [pageNumber, setPageNumber] = useState(location.state?.pageNumber || 1);
   const [sortOption, setSortOption] = useState(location.state?.sortOption || 'courseId');
-  
-
+  const [totalItemsCount,setTotalItemsCount] = useState(1);
 
 
   const handlePageChange = (pageNumber) => {
     setPageNumber(pageNumber);
+    window.scrollTo(0,0);
   }
   
   const handleSortOptionChange = (e) => {
     const newSortOption = e.target.value;
     setSortOption(newSortOption);
+    setPageNumber(1)
   }
 
- 
+
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
+
     const handlePopState = (event) => {
       const { state } = event;
       if (state) {
-        setPageNumber(state.pageNumber);
         setSortOption(state.sortOption);
       }
     };
-  
     window.addEventListener('popstate', handlePopState);
-  
     return () => {
       window.removeEventListener('popstate', handlePopState);
     };
@@ -55,6 +52,7 @@ const PostList = props => {
       .then(response => {
         console.log(response.data);
         setDataList(response.data.content);
+        setTotalItemsCount(response.data.totalElements);
       })
       .catch(error => {
         console.log(error);
@@ -146,8 +144,7 @@ const PostList = props => {
                   : ''}
               </CommonTable>
             </>
-          
-
+      
           </div>
           
         </div>
@@ -156,7 +153,7 @@ const PostList = props => {
             <Pagination 
               activePage={pageNumber}
               itemsCountPerPage={15}
-              totalItemsCount={450}
+              totalItemsCount={totalItemsCount}
               pageRangeDisplayed={5}
               prevPageText={"‹"}
               nextPageText={"›"}

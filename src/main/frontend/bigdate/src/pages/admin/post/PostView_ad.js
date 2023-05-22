@@ -21,8 +21,17 @@ const PostView_ad = ({ history, location, match }) => {
 
   const { course_id } = match.params;
 
-/**코스 상세 정보 조회 axio get  course id로*/
-/**코스 댓글 조회 axio get */
+// 스크롤을 맨 위로 올리는 함수
+const scrollToTop = () => {
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant',
+    });
+  } else {
+    window.scrollTo(0, 0);
+  }
+};
 
 useEffect(() => {
   const id = localStorage.getItem('id');
@@ -35,7 +44,7 @@ useEffect(() => {
       setIsLiked(response.data.liked);
       setScrapCount(response.data.scrapCount);
       setPlaces(response.data.reviewList);
-  
+      scrollToTop(); // 스크롤을 맨 위로 올림
       
       const container = document.getElementById('myMap');
       

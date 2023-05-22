@@ -16,33 +16,36 @@ function UserList() {
   const token = localStorage.getItem('token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   const [users, setUsers] = useState([]); // 목록 항목을 저장하는 배열
+  const [totalItemsCount,setTotalItemsCount] = useState(0);
+  const pageSize = 15; // 페이지당 데이터 개수
 
-  
- 
    // 페이지 이동
     const handlePageChange = (page) => {
       setPageNumber(page);
+      window.scrollTo(0, 0); // 페이지 이동 후 맨 위로 스크롤
     };
 
     useEffect(() => {
       fetchDataList();
     }, [pageNumber]);
     
-    // 서버에 사용자 목록 조회 요청하기
-    const fetchDataList = () => {
-      const id = localStorage.getItem('id');
-      const pageSize = 15; // 페이지당 데이터 개수
-      const startIndex = (pageNumber - 1) * pageSize; // 시작 인덱스 계산
 
-      axios.get(`${ADDRESS}/admin/members?start=${startIndex}&size=${pageSize}`)
-        .then(response => {
-          console.log(response.data);
-          setDataList(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    };
+   // 서버에 사용자 목록 조회 요청하기
+const fetchDataList = () => {
+  axios
+    .get(`${ADDRESS}/admin/members`)
+    .then(response => {
+      console.log(response.data);
+      const startIndex = (pageNumber - 1) * pageSize;
+      const endIndex = startIndex + pageSize;
+      const slicedData = response.data.slice(startIndex, endIndex); // 페이징 처리된 데이터 슬라이싱
+      setDataList(slicedData);
+      setTotalItemsCount(response.data.length);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};
 
      
       
@@ -116,7 +119,7 @@ function UserList() {
   
       return (
         <div>
-       <div className="background-container">
+       <div className="background-container" style={{height:'850px'}}>
       
       <div className="overlay-container">
   
@@ -163,10 +166,10 @@ function UserList() {
       </div>   
         </div>
         <div  style={{marginTop:'30px'}}>
-        <Pagination 
+        <Pagination
         activePage={pageNumber}
-        itemsCountPerPage={15}
-        totalItemsCount={450}
+        itemsCountPerPage={pageSize}
+        totalItemsCount={totalItemsCount}
         pageRangeDisplayed={5}
         prevPageText={"‹"}
         nextPageText={"›"}

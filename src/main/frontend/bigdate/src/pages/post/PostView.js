@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState,useRef } from 'react';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
 import './PostView.css';
 import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp, Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill } from 'react-bootstrap-icons';
@@ -18,75 +18,84 @@ const PostView = ({ history, location, match }) => {
   const [isScrapped, setIsScrapped] = useState(false);
 
   const { course_id } = match.params;
+  const userId = localStorage.getItem('userId');
 
 
-  const pageNumber = sessionStorage.getItem('pageNumber');
-  /**코스 상세 정보 조회 axio get  course id로*/
-  /**코스 댓글 조회 axio get */
+// 스크롤을 맨 위로 올리는 함수
+const scrollToTop = () => {
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant',
+    });
+  } else {
+    window.scrollTo(0, 0);
+  }
+};
 
-  useEffect(() => {
-    const id = localStorage.getItem('id');
-    const url = id ? `${ADDRESS}/courses/${course_id}?id=${id}` : `${ADDRESS}/courses/${course_id}`;
-    axios.get(url)
-      .then(response => {
-        setData(response.data);
-        console.log(response.data);
-        setLikeCount(response.data.likeCount);
-        setIsLiked(response.data.liked);
-        setScrapCount(response.data.scrapCount);
-        setIsScrapped(response.data.scraped);
-        setPlaces(response.data.reviewList);
+useEffect(() => {
+  const id = localStorage.getItem('id');
+  const url = id ? `${ADDRESS}/courses/${course_id}?id=${id}` : `${ADDRESS}/courses/${course_id}`;
+  axios.get(url)
+    .then(response => {
+      setData(response.data);
+      console.log(response.data);
+      setLikeCount(response.data.likeCount);
+      setIsLiked(response.data.liked);
+      setScrapCount(response.data.scrapCount);
+      setIsScrapped(response.data.scraped);
+      setPlaces(response.data.reviewList);
+      scrollToTop(); // 스크롤을 맨 위로 올림
 
+      const container = document.getElementById('myMap');
 
-        const container = document.getElementById('myMap');
+      // 모든 장소들의 좌표를 담는 bounds 객체를 생성합니다
+      const bounds = new kakao.maps.LatLngBounds();
 
-        // 모든 장소들의 좌표를 담는 bounds 객체를 생성합니다
-        const bounds = new kakao.maps.LatLngBounds();
-
-        var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
-        const map = new kakao.maps.Map(container, {
-          center: new kakao.maps.LatLng(37.5502, 126.982), // 기본 중심 좌표
-          level: 3,
-        });
-
-        // 각각의 장소에 대해 마커를 생성하여 지도에 표시합니다
-        response.data.reviewList.forEach(review => {
-          const latLng = new kakao.maps.LatLng(review.placeDTO.placeY, review.placeDTO.placeX);
-          let marker = new kakao.maps.Marker({
-            map: map,
-            position: latLng,
-          });
-
-          // 마커에 클릭이벤트를 등록합니다
-          kakao.maps.event.addListener(marker, 'click', function () {
-            // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-            infowindow.setContent('<div style="padding:5px;font-size:12px;">' + review.placeDTO.placeName + '</div>');
-            infowindow.open(map, marker);
-          });
-
-          // bounds 객체에 현재 마커의 좌표를 추가합니다
-          bounds.extend(latLng);
-        });
-
-        // 모든 장소들의 좌표를 포함하는 지도 영역을 설정합니다
-        map.setBounds(bounds);
-      })
-      .catch(error => {
-        console.log(error);
+      var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+      const map = new kakao.maps.Map(container, {
+        center: new kakao.maps.LatLng(37.5502, 126.982), // 기본 중심 좌표
+        level: 3,
       });
-  }, [course_id]);
+
+      // 각각의 장소에 대해 마커를 생성하여 지도에 표시합니다
+      response.data.reviewList.forEach(review => {
+        const latLng = new kakao.maps.LatLng(review.placeDTO.placeY, review.placeDTO.placeX);
+        let marker = new kakao.maps.Marker({
+          map: map,
+          position: latLng,
+        });
+
+        // 마커에 클릭이벤트를 등록합니다
+        kakao.maps.event.addListener(marker, 'click', function () {
+          // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+          infowindow.setContent('<div style="padding:5px;font-size:12px;">' + review.placeDTO.placeName + '</div>');
+          infowindow.open(map, marker);
+        });
+
+        // bounds 객체에 현재 마커의 좌표를 추가합니다
+        bounds.extend(latLng);
+      });
+
+      // 모든 장소들의 좌표를 포함하는 지도 영역을 설정합니다
+      map.setBounds(bounds);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+}, [course_id]);
 
 
-  const courses = data?.reviewList ?? [];
+const courses = data?.reviewList ?? [];
 
-  const commentArray = data?.commentList ?? [];
+const commentArray = data?.commentList ?? [];
 
-  const totalExpense = courses.reduce((acc, review) => {
-    const expense = review?.expense ?? 0;
-    return acc + expense;
-  }, 0);
+const totalExpense = courses.reduce((acc, review) => {
+  const expense = review?.expense ?? 0;
+  return acc + expense;
+}, 0);
 
-  const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
+const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
 
 
@@ -113,7 +122,7 @@ const PostView = ({ history, location, match }) => {
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${ADDRESS}/users/comments`, { commentText: comment, courseId: parseInt(course_id), id: parseInt(id) }, {
+      const response = await axios.post(`${ADDRESS}/users/comments`, { commentText:comment,courseId:parseInt(course_id),id:parseInt(id) }, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -121,22 +130,22 @@ const PostView = ({ history, location, match }) => {
       });
       alert('댓글이 등록되었습니다.')
       window.location.reload(false);
-
+   
       return response.data;
     } catch (error) {
       console.error(error);
     }
   };
-
+  
 
   const handleLikeClick = async () => {
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-    if (token == null) {
+    if(token==null){
       alert('로그인이 필요한 서비스입니다.')
     }
-
+    
     try {
       const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`
       );
@@ -152,26 +161,61 @@ const PostView = ({ history, location, match }) => {
 
       }
 
+
     } catch (error) {
       console.error(error);
     }
   };
 
-  const handleScrapClick = async () => {
+  function handleCommentDeleteConfirm(userId,commentDate,courseId) {
+    const result = window.confirm(`댓글을 삭제하시겠습니까?`);
+    if (result === true) {
+     handleDelete(userId,courseId,commentDate);
+    }
+    else{ return;}
+  }
 
+  const handleDelete = async (userId, courseId, commentDate) => {
     const token = localStorage.getItem('token');
-    if (token == null) {
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    console.log(commentDate)
+
+    const requestData = {
+      id: userId,
+      courseId: courseId,
+      commentDate:commentDate
+    };
+
+    try {
+      // 댓글 삭제 요청
+      axios.delete(`${ADDRESS}/admin/comments`, { data: requestData })
+        .then(response => {
+          console.log(response.data);
+          window.location.reload(false);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
+  const handleScrapClick = async () => {
+    
+    const token = localStorage.getItem('token');
+    if(token==null){
       alert('로그인이 필요한 서비스입니다.')
     }
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
+   
     try {
       const response = await axios.post(`${ADDRESS}/users/scraps?courseId=${course_id}`,
       );
       console.log(response);
-
-      if (response.data == '찜 목록에서 삭제되었습니다.') {
-        setScrapCount(scrapCount - 1);
+      
+      if(response.data=='찜 목록에서 삭제되었습니다.'){
+        setScrapCount(scrapCount-1);
         setIsScrapped(false);
 
       } else {
@@ -184,6 +228,7 @@ const PostView = ({ history, location, match }) => {
       console.error(error);
     }
   };
+
 
   return (
     <>
@@ -314,42 +359,53 @@ const PostView = ({ history, location, match }) => {
                   </div>
 
 
-                  <div className='line'>댓글</div>
-                  <div>
-                    {/**댓글 리스트 */}
-                    <div>
-                      {commentArray && commentArray.length > 0 ? (
-                        commentArray.map((comment) => {
-                          const { id } = comment;
-                          return (
-                            <div key={id} style={{ marginLeft: '40px' , marginTop:'10px'}}>
-                              <div style={{ display: 'flex', alignItems: 'flexEnd' }}>
-                                <div style={{ color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black'}}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
-                                <div style={{ marginLeft: '20px' }}>  {comment.commentDate = moment(comment.commentDate).format('YYYY-MM-DD HH:mm')}</div>
-                              </div>
+        <div className='line'>댓글</div>
+       <div>
+       <div>
+      {commentArray && commentArray.length > 0 ? (
+        commentArray.map((comment) => {
+          const { id } = comment;
+          const isMyComment = comment.user.userId=== userId; // 내가 작성한 댓글인지 확인합니다.
 
-                              <div style={{
-                                display: 'flex', alignItems: 'flexEnd'
-                              }} >
-                                <div style={{
-                                  width: '50px', height: '50px', display: 'flex',
-                                  marginTop:'20px'
-                                }} >
-                                  <PersonCircle style={{ fontSize: '40px', color: 'dimgray' }} />
-                                </div>
-                                <div style={{ marginLeft: '10px', width: '750px', borderBottom: '1px solid lightgray', marginTop: '20px', paddingBottom: '25px' }}>
-                                  {comment.commentText}
-                                </div>
-                              </div>
-                            </div>
-                          )
-                        })
-                      ) : (
-                        <div style={{ textAlign: 'center', color: 'gray', marginTop: '30px', marginBottom: '30px' }}>댓글이 없습니다.</div>
-                      )}
-                    </div>
-
+          return (
+            <div key={id}>
+              <div style={{ display: 'flex' }}>
+                <div
+                  style={{
+                    marginLeft: '130px',
+                    color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black',
+                  }}
+                >
+                  {comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}
+                </div>
+                <div style={{ marginLeft: '20px' }}>
+                  {comment.commentDate}
+                </div>
+                {isMyComment && (
+                  <div style={{ marginLeft: '20px' }}>
+                    <button className='delBtn' onClick={() => handleCommentDeleteConfirm(comment.id,comment.commentDate,comment.courseId)}>
+                     삭제
+                    </button>
                   </div>
+                )}
+              </div>
+
+              <div className='toCenter'>
+                <div style={{ width: '50px', height: '50px' }} className='toCenter'>
+                  <PersonCircle style={{ fontSize: '40px', color: 'dimgray' }} />
+                </div>
+                <div style={{ marginLeft: '10px', width: '600px', borderBottom: '1px solid lightgray', marginTop: '20px', paddingBottom: '25px' }}>
+                  {comment.commentText}
+                </div>
+              </div>
+            </div>
+          );
+        })
+      ) : (
+        <div style={{ textAlign: 'center', color: 'gray', marginTop: '30px', marginBottom: '30px' }}>댓글이 없습니다.</div>
+      )}
+    </div>
+    </div>
 
 
 
