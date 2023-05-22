@@ -36,8 +36,7 @@ public class MainController {
 
     @GetMapping("/hotspots")
     public ResponseEntity<?> index(HttpServletRequest request) throws Exception {
-        hitCountRepository.save(HitCount.builder().remoteAddr(request.getRemoteAddr()).visitDate(LocalDateTime.now()).build());
-        return ResponseEntity.ok().body(hotspotService.getHotspots());
+        return ResponseEntity.ok().body(hotspotService.getHotspots(request.getRemoteAddr()));
     }
 
     @GetMapping("/hotspots/{hotspotId}")
