@@ -189,7 +189,7 @@ const aa = (newReview, key) => {
 
       <div className='line'>코스 설명</div>
       <div  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}  >
-      <textarea
+          <textarea 
             className='input'
             style={{marginTop:"30px",width:'700px'}}
             rows={3}
