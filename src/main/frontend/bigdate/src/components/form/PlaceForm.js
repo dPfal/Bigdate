@@ -100,7 +100,7 @@ const PlaceForm = (props) => {
                 <div className='place_add' style={{ marginBottom:'10px',marginLeft:'10px'}}>
             <div style={{ display: 'flex' }}><div style={{ marginTop:'18px' }}>장소 검색</div> 
               <div>
-                  <input
+                <input onBlur={handleAddReview}
                   className='input'
                   style={{ marginLeft: '10px', width:'300px',height:'25px' }}
                   type="text"
@@ -141,7 +141,7 @@ const PlaceForm = (props) => {
              </div>
        </div>
       <div style={{ paddingLeft: '50px', paddingRight: '50px' }}>
-       <div>
+        <div onBlur={handleAddReview}>
               평점   <select
                         style={{marginTop:"15px",width:"70px"}}
                         value={avg_score}
@@ -157,7 +157,7 @@ const PlaceForm = (props) => {
               </div>
 
               <div style={{width:'100%', display: 'flex',marginTop:"15px"}} >
-              <textarea
+          <textarea onBlur={handleAddReview}
                 rows={3}
                 cols={120}
                 value={review_info}
@@ -168,7 +168,7 @@ const PlaceForm = (props) => {
             <div style={{display: "flex", justifyContent: "flex-end"}}>
               <div style={{marginTop:"15px"}}>
                 총 지출 금액 : 
-              <input
+            <input onBlur={handleAddReview}
                 type="number"
                 value={expense}
                 onChange={(e) => setExpense(e.target.value)}
@@ -178,17 +178,7 @@ const PlaceForm = (props) => {
             </div>
             
             </div>
-        <div style={{fontSize:'12px', marginTop: '20px', marginBottom: '20px',height:'20px',textAlign:'right' }}>
-          <button onClick={handleAddReview} style={{
-            color: "white",
-            backgroundColor: "#1E90FF",
-            borderRadius: "10px",
-            fontSize: "small",
-            width: "80px",
-            height: "30px",
-            marginBottom: '10px' }}>
-            확인
-          </button></div>
+        
         
        </div>
      

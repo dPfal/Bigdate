@@ -27,9 +27,11 @@ function MyPostList() {
         const id = localStorage.getItem('id');
         axios.get(`${ADDRESS}/users/${id}/courses`)
           .then(response => {
-            console.log(response.data);
-            setDataList(response.data);
-            setTotalItemsCount(response.data.length)
+            const startIndex = (pageNumber - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const slicedData = response.data.slice(startIndex, endIndex); // 페이징 처리된 데이터 슬라이싱
+            setDataList(slicedData);
+            setTotalItemsCount(response.data.length);
 
           })
           .catch(error => {

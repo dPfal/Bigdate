@@ -157,7 +157,7 @@ const aa = (newReview, key) => {
   return (
     <div className="background-container">
       
-    <div className="overlay-container">
+      <div className="overlay-container" style={{ paddingLeft: '150px', paddingRight: '150px' }}>
 
     <div className='line'>코스 등록
     </div>
@@ -189,7 +189,7 @@ const aa = (newReview, key) => {
 
       <div className='line'>코스 설명</div>
       <div  style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}  >
-      <textarea
+          <textarea 
             className='input'
             style={{marginTop:"30px",width:'700px'}}
             rows={3}
