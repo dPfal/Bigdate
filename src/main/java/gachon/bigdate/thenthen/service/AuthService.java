@@ -59,7 +59,7 @@ public class AuthService {
             User user = userRepository.findByUserId(userId).get();
             // token 유효시간 : 30분
             //1000L*60*30
-            messages.put("JWT", JwtUtil.IssuanceToken(user.getId(),key,user.getUserRole(),1000L*60*3000000));
+            messages.put("JWT", JwtUtil.IssuanceToken(user.getId(),key,user.getUserRole(),1000L*60*30));
             messages.put("userRole", user.getUserRole());
             messages.put("userId", user.getUserId());
             messages.put("Id", String.valueOf(user.getId()));
