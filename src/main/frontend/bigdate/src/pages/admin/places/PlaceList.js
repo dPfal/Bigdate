@@ -119,7 +119,7 @@ function PlaceList() {
           .then(response => {
             console.log(response.data);
             setDataList(response.data.content);
-            setTotalItemsCount(response.data.totalPages)
+            setTotalItemsCount(response.data.totalElements)
           })
           .catch(error => {
             console.log(error);
@@ -174,9 +174,9 @@ function PlaceList() {
             <div className="pagination-container" style={{ marginTop: '30px' }}>
               <Pagination
                 activePage={pageNumber}
-                itemsCountPerPage={15}
-                totalItemsCount={totalItemsCount}
+                itemsCountPerPage={20}
                 pageRangeDisplayed={5}
+                totalItemsCount={totalItemsCount}
                 prevPageText={"‹"}
                 nextPageText={"›"}
                 onChange={handlePageChange}
