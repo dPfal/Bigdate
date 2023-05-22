@@ -366,37 +366,33 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
         commentArray.map((comment) => {
           const { id } = comment;
           const isMyComment = comment.user.userId=== userId; // 내가 작성한 댓글인지 확인합니다.
-
           return (
             <div key={id}>
-              <div style={{ display: 'flex' }}>
-                <div
-                  style={{
-                    marginLeft: '130px',
-                    color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black',
-                  }}
-                >
-                  {comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}
-                </div>
-                <div style={{ marginLeft: '20px' }}>
+              <div style={{display: 'flex',width: '850px',marginTop: '20px',justifyContent:' space-between' }}>
+                <div style={{ marginLeft:'45px',paddingTop: '10px', color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black' }}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
+                <div >
+                  {isMyComment && (
+                    <span style={{ margin: '10px' }}>
+                      <button className='delBtn' onClick={() => handleCommentDeleteConfirm(comment.id, comment.commentDate, comment.courseId)}>
+                        삭제
+                      </button>
+                    </span>
+                  )}
                   {comment.commentDate}
+                  
                 </div>
-                {isMyComment && (
-                  <div style={{ marginLeft: '20px' }}>
-                    <button className='delBtn' onClick={() => handleCommentDeleteConfirm(comment.id,comment.commentDate,comment.courseId)}>
-                     삭제
-                    </button>
-                  </div>
-                )}
+                
               </div>
+              
 
-              <div className='toCenter'>
+              <div style = {{display:'flex', marginLeft:'40px'}}>
                 <div style={{ width: '50px', height: '50px' }} className='toCenter'>
                   <PersonCircle style={{ fontSize: '40px', color: 'dimgray' }} />
                 </div>
-                <div style={{ marginLeft: '10px', width: '600px', borderBottom: '1px solid lightgray', marginTop: '20px', paddingBottom: '25px' }}>
+                <div style={{ marginLeft: '20px', width: '750px', borderBottom: '1px solid lightgray',display:'flex',alignItems:'center' }}>
                   {comment.commentText}
                 </div>
+               
               </div>
             </div>
           );
@@ -426,11 +422,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
                         style={{ marginLeft: '10px', width: '750px' }}
                       />
                     </div>
-
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '50px' }}>
                     <button type="submit" className='postComment' style={{ marginLeft: '700px' }}>
                       등록
                     </button>
-
+</div>
                   </form>
 
                 </div>
