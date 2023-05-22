@@ -9,8 +9,8 @@ const MyScrapTable = props => {
   
   return (
     <div>
-      <table className="common-table" >
-<thead>    
+      <table className="common-table"  >
+<thead>
      <tr>
       
        
