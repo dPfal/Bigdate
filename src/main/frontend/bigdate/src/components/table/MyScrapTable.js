@@ -9,7 +9,7 @@ const MyScrapTable = props => {
   
   return (
     <div>
-      <table className="common-table" style={{ width: '850px' }} >
+      <table className="common-table"  >
 <thead>    
      <tr>
       
