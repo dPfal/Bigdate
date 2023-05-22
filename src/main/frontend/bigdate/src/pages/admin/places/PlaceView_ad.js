@@ -142,13 +142,13 @@ const PlaceView_ad = (props) => {
    return (
     <div className="background-container">
       
-      <div className="overlay-container">
+       <div className="overlay-container" style={{ padding: '30px 150px 30px 150px' }}>
 
       <div className='line'>{place.placeName} <StarFill style={{color:'orange',marginBottom:'5px'}}/>({place.score})
   
         </div>
 
-             <div style={{marginLeft:'8%',marginTop:'3%',marginBottom:'3%'}}>
+             <div style={{marginLeft:'40px',marginTop:'3%',marginBottom:'3%'}}>
                 <select value={sortOption} onChange={ handleSortOptionChange}>
 
                 <option value='힙한' selected={sortOption === '힙한'}>힙한</option>
@@ -162,7 +162,7 @@ const PlaceView_ad = (props) => {
             </div>
 
 
-        <div style={{display:'flex',paddingLeft:'60px'}}>
+        <div style={{display:'flex',paddingLeft:'40px'}}>
           <div>
             <img src={place.imageUrl} 
             style={{
@@ -171,16 +171,18 @@ const PlaceView_ad = (props) => {
             }}/></div>
           <div>
             <div style=
-            {{borderBottom :'1px solid lightgray', 
-              width:'300px',
-              marginLeft:'50px',
-              padding:'10px'}}>
-                <GeoAltFill style={{color:'#3163C9',fontSize:'20px'}}/>
-                {place.addressName}</div>
+               {{
+                 borderBottom: '1px solid lightgray',
+                 width: '500px',
+                 marginLeft: '50px',
+                 padding: '10px'
+               }}>
+               <GeoAltFill style={{ color: '#3163C9', fontSize: '20px' }} />
+               {place.addressName}</div>
 
             <div style=
             {{borderBottom :'1px solid lightgray', 
-              width:'300px',
+               width:'500px',
               marginLeft:'50px',
               marginTop:'30px',
               padding:'10px'}}>
@@ -188,7 +190,7 @@ const PlaceView_ad = (props) => {
 
             <div style=
             {{borderBottom :'1px solid lightgray', 
-              width:'300px',
+               width:'500px',
               marginLeft:'50px',
               marginTop:'30px',
               padding:'10px'}}>{place.placePhone}</div>
@@ -196,19 +198,36 @@ const PlaceView_ad = (props) => {
 
             <div style=
             {{borderBottom :'1px solid lightgray', 
-              width:'300px',
+               width:'500px',
               marginLeft:'50px',
               marginTop:'30px',
               padding:'10px',
               wordWrap: 'break-word'}}><a href={place.placeUrl}>{place.placeUrl}</a></div>
+             {place.reviewList && place.reviewList.length > 0 ? <div style=
+               {{
+                 width: '500px',
+                 marginLeft: '50px',
+                 marginTop: '10px',
+                 padding: '10px',
+                 wordWrap: 'break-word',
+               }}> 평균 지출 금액 : {place.avgPrice} 원</div> : <div style=
+                 {{
+                   width: '500px',
+                   marginLeft: '50px',
+                   marginTop: '10px',
+                   padding: '10px',
+                   wordWrap: 'break-word'
+                 }}> 평균 지출 금액 : 정보 없음</div>}
           </div>
           
         </div>
         
         <div style=
-        {{display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'}}>
+           {{
+             margin: '10px', display: 'flex',
+             justifyContent: 'center'
+
+           }}>
 
         <div
         id="myMap"
