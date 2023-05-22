@@ -157,7 +157,7 @@ const aa = (newReview, key) => {
   return (
     <div className="background-container">
       
-    <div className="overlay-container">
+      <div className="overlay-container" style={{ paddingLeft: '150px', paddingRight: '150px' }}>
 
     <div className='line'>코스 등록
     </div>
