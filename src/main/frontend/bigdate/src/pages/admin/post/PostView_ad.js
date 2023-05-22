@@ -220,6 +220,7 @@ const PostView_ad = ({ history, location, match }) => {
       axios.delete(`${ADDRESS}/admin/comments`, { data: requestData })
         .then(response => {
           console.log(response.data);
+          alert('댓글이 삭제되었습니다.')
           window.location.reload(false);
         })
         .catch(error => {

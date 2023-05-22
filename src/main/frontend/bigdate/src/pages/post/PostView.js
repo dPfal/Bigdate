@@ -171,6 +171,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
     const result = window.confirm(`댓글을 삭제하시겠습니까?`);
     if (result === true) {
      handleDelete(userId,courseId,commentDate);
+
     }
     else{ return;}
   }
@@ -188,9 +189,10 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
     try {
       // 댓글 삭제 요청
-      axios.delete(`${ADDRESS}/admin/comments`, { data: requestData })
+      axios.delete(`${ADDRESS}/users/comments`, { data: requestData })
         .then(response => {
           console.log(response.data);
+          alert('댓글이 삭제되었습니다.')
           window.location.reload(false);
         })
         .catch(error => {
