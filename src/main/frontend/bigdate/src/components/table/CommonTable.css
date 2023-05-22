@@ -1,5 +1,5 @@
 .common-table {
-    width: 800px;
+    width: 1130px;
     margin: 0 auto;
     text-align: center;
     border-spacing: 0;
@@ -46,7 +46,7 @@
 }
 
 .common-table {
-  width: 800px;
+  width:1130px;
   margin: 0 auto;
   text-align: center;
   border-spacing: 0;
@@ -70,6 +70,10 @@
 
 .common-table-column {
   padding: 10px 5px;
+ 
+        width: '700px';
+          text-align: 'left';
+  
 
 }
 .common-table-row {

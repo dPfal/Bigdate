@@ -97,14 +97,13 @@ function Signup() {
             <div style={{
             fontWeight:"bold",
             fontSize:"large",
-            marginRight:"40px",
-            marginLeft:"40px",
-            borderBottom: '1px solid gray'
+            textAlign:'center',
+            paddingTop:'30px'
             }}>회원가입
             </div>
-
+            
             <form onSubmit={handleSignup}>
-                <div style={{textAlign:'center', marginTop:'70px'}}>
+                <div style={{textAlign:'center', marginTop:'30px'}}>
                 <div><input value={userName} onChange={(event) => setUserName(event.target.value)} className='input' type='text' placeholder='이름을 입력하세요.'></input></div>
                 <div><input value={userId} onChange={(event) => setUserId(event.target.value)} className='input' type='text' placeholder='아이디를 입력하세요.' style={{width:'320px'}}></input>
                 <span style={{marginLeft:'20px'}}><button onClick={overlapCheack}>중복확인</button></span></div>

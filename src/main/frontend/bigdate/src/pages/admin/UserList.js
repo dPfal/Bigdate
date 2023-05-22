@@ -103,7 +103,7 @@ function UserList() {
           `${ADDRESS}/admin/${id}?userRole=${role}`
         );
         console.log(response.data);
-    
+        alert('권한이 변경되었습니다.')
         // 목록을 다시 불러오기 위해 1초 대기 후에 실행
         setTimeout(() => {
           fetchDataList();
@@ -128,36 +128,29 @@ function UserList() {
         <div >
         <>
             
-            <ListTable headersName={['유저번호','이름','아이디', '취향', '관리','권한']}>
+                  <ListTable headersName={['유저번호', '이름', '아이디', '취향', '권한', '관리']}>
                 
               { dataList ? dataList.map((item, index) => {
                   return (
                   
                     <CommonTableRow key={index}>
                       <CommonTableColumn>{ item.id }</CommonTableColumn>
-                      <CommonTableColumn>{item.userName} </CommonTableColumn>
+                      {item.userRole === 'ADMIN' ? <CommonTableColumn>{item.userName} (관리자) </CommonTableColumn> : <CommonTableColumn>{item.userName} </CommonTableColumn>}
                       <CommonTableColumn>{ item.userId }</CommonTableColumn>
                       <CommonTableColumn>{item.userMood}</CommonTableColumn>
-                      <div><button className='delBtn' style={{marginTop:'10px'}} onClick={() =>  handleDeleteConfirm(item.id)}>탈퇴</button></div>
+                      
                       <CommonTableColumn>  
                       <div>
                       <select
-                        value={item.selectedRole} // 개별 목록 항목의 선택된 역할 값으로 설정합니다.
+                        value={item.userRole} // 개별 목록 항목의 선택된 역할 값으로 설정합니다.
                         onChange={(event) => handleRoleChange(event, item.id)}>
-                         {item.userRole === 'ADMIN' ? (
-                            <>
                               <option value="ADMIN">관리자</option>
                               <option value="USER">사용자</option>
-                            </>
-                          ) : (
-                            <>
-                              <option value="USER">사용자</option>
-                              <option value="ADMIN">관리자</option>
-                            </>
-                          )}
                       </select>
                     </div>
                     </CommonTableColumn>
+                      {item.userRole === 'USER' ? <div><button className='delBtn' style={{ marginTop: '10px' }} onClick={() => handleDeleteConfirm(item.id)}>탈퇴</button></div>:"" }
+                      
                     </CommonTableRow>
                   )
                 }) : ''

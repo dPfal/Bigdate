@@ -139,8 +139,7 @@ const handleButtonClick = () => {
        </div>
 
 
-          <div>
-            <>
+          <div >
               <CommonTable
                 headersName={[
                   '글번호',
@@ -150,18 +149,18 @@ const handleButtonClick = () => {
                   '찜 수',
                   '작성일',
                   '관리'
-                ]}
+                ]} 
               >
                 {dataList
                   ? dataList.map((item, index) => {
                       return (
                         <CommonTableRow key={index}>
-                          <CommonTableColumn>{item.courseId}</CommonTableColumn>
+                          <CommonTableColumn >{item.courseId}</CommonTableColumn>
                           <CommonTableColumn>
                           <span onClick={() =>history.push({
                               pathname: `/postViewAd/${item.courseId}`,
                               state: { pageNumber, sortOption }
-                            })}>
+                            })} >
                             {item.courseTitle} ({item.commentCount})
                           </span>
                           </CommonTableColumn>
@@ -183,10 +182,7 @@ const handleButtonClick = () => {
                     })
                   : ''}
               </CommonTable>
-            </>
-           
           </div>
-          
         </div>
       </div>
       <div  style={{marginTop:'30px'}}>

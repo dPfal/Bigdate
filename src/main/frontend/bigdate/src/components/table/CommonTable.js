@@ -8,7 +8,7 @@ const CommonTable = props => {
 
   return (
     <div>
-    <table className="common-table" style={{width:'720px', marginTop:'10px'}} >
+    <table className="common-table" style={{width:'1130px', marginTop:'10px'}} >
       <thead>
   
         <tr>

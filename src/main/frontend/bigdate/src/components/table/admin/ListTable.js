@@ -18,11 +18,9 @@ const ListTable = props => {
 
   return (
     <div>
-    <table className="common-table"style={{width:'720px'}}>
+    <table className="common-table">
 <thead>    
      <tr>
-      
-       
           {
             headersName.map((item, index) => {
               return (
