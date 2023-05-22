@@ -82,7 +82,7 @@ function PlaceList() {
           .then(response => {
             // 서버로부터 받은 데이터 처리
             console.log(response.data);
-            setHotspotList(response.data);
+            setHotspotList(response.data.hotspotDTOArrayList);
            
           })
           .catch(error => {

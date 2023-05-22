@@ -17,6 +17,8 @@ function Home() {
   const [lowFiveDust, setLowFiveDust] = useState([]);
   const [lowFiveSky, setLowFiveSky] = useState([]);
   const [lowFiveTraffic, setLowFiveTraffic] = useState([]);
+  const [totalHit, setTotalHit] = useState([]);
+  const [todayHit, setTodayHit] = useState([]);
   const [selectedOption, setSelectedOption] = useState('실시간 기반 추천');
   
   useEffect(() => {
@@ -25,16 +27,17 @@ function Home() {
         // 서버로부터 받은 데이터 처리
         console.log(response.data);
         // 혼잡도를 기준으로 내림차순 정렬
-        const descendingCongest = [...response.data].sort((a, b) => b.congestionLevel- a.congestionLevel);
+        const descendingCongest = [...response.data.hotspotDTOArrayList].sort((a, b) => b.congestionLevel- a.congestionLevel);
         // 혼잡도를 기준으로 오름차순 정렬
-        const ascendingCongest = [...response.data].sort((a, b) => a.congestionLevel - b.congestionLevel);
+        const ascendingCongest = [...response.data.hotspotDTOArrayList].sort((a, b) => a.congestionLevel - b.congestionLevel);
         // 미세먼지를 기준으로 오름차순 정렬
-        const ascendingDust = [...response.data].sort((a, b) => a.pm10- b.pm10);
+        const ascendingDust = [...response.data.hotspotDTOArrayList].sort((a, b) => a.fineDust- b.fineDust);
         // 하늘상태를 기준으로 오름차순 정렬
-        const ascendingSky = [...response.data].sort((a, b) => a.skyStatus - b.skyStatus);
+        const ascendingSky = [...response.data.hotspotDTOArrayList].sort((a, b) => a.skyStatusLevel - b.skyStatusLevel);
         // 교통수준를 기준으로 오름차순 정렬
-        const ascendingTraffic = [...response.data].sort((a, b) => a.roadTrafficSpd- b.roadTrafficSpd);
-  
+        const ascendingTraffic = [...response.data.hotspotDTOArrayList].sort((a, b) => b.roadTrafficSpd- a.roadTrafficSpd);
+        setTotalHit(response.data.totalHit);
+        setTodayHit(response.data.todayHit);
       
         // 상위 5개의 요소를 추출하여 새로운 배열에 저장
         const topFiveCongest = descendingCongest.slice(0, 5);
@@ -45,7 +48,7 @@ function Home() {
         const lowFiveTraffic = ascendingTraffic.slice(0, 5);
       
         // 전체 목록
-        setTotalSpot(response.data);
+        setTotalSpot(response.data.hotspotDTOArrayList);
         // 상태 업데이트
         setTopFiveCongest(topFiveCongest);
         setLowFiveCongest(lowFiveCongest);
@@ -251,10 +254,10 @@ function Home() {
                   <span style={{
                     color: 'white',
                     backgroundColor:
-                      lowFiveDust.pm10 >= 151 ? 'orangered' :
-                      81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? 'orange' :
-                      31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? 'gold' :
-                      0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? 'limegreen' : 'white',
+                      lowFiveDust.fineDust >= 151 ? 'orangered' :
+                      81 <= lowFiveDust.fineDust && lowFiveDust.fineDust <= 150 ? 'orange' :
+                      31 <= lowFiveDust.fineDust && lowFiveDust.fineDust <= 80 ? 'gold' :
+                      0 <= lowFiveDust.fineDust && lowFiveDust.fineDust <= 30 ? 'limegreen' : 'white',
                     padding: '2%',
                     fontSize: '14px',
                     border: '1px solid white',
@@ -263,10 +266,10 @@ function Home() {
                     marginLeft: '2px',
                     float: 'right'         
                   }}>
-                    {lowFiveDust.pm10 >= 151 ? '매우나쁨' :
-                      81 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 150 ? '나쁨' :
-                      31 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 80 ? '보통' :
-                      0 <= lowFiveDust.pm10 && lowFiveDust.pm10 <= 30 ? '좋음' : ''}
+                    {lowFiveDust.fineDust >= 151 ? '매우나쁨' :
+                      81 <= lowFiveDust.fineDust && lowFiveDust.fineDust <= 150 ? '나쁨' :
+                      31 <= lowFiveDust.fineDust && lowFiveDust.fineDust <= 80 ? '보통' :
+                      0 <= lowFiveDust.fineDust && lowFiveDust.fineDust <= 30 ? '좋음' : ''}
                   </span>
                 </Card.Title>
      
@@ -303,9 +306,9 @@ function Home() {
                       <span style={{
                         color: 'white',
                         backgroundColor: 
-                          lowFiveSky.skyStatus === 3 ? 'gray' :
-                          lowFiveSky.skyStatus === 2 ? 'skyBlue' :
-                          lowFiveSky.skyStatus === 1 ? 'limegreen' : 'white',
+                          lowFiveSky.skyStatusLevel === 3 ? 'gray' :
+                          lowFiveSky.skyStatusLevel === 2 ? 'skyBlue' :
+                          lowFiveSky.skyStatusLevel === 1 ? 'limegreen' : 'white',
                     padding: '2%',
                     fontSize: '14px',
                     border: '1px solid white',
@@ -314,9 +317,9 @@ function Home() {
                     marginLeft: '2px',
                     float: 'right'     
                       }}>
-                        {lowFiveSky.skyStatus === 3 ? '구름 많음' :
-                          lowFiveSky.skyStatus === 2 ? '구름 조금' :
-                          lowFiveSky.skyStatus === 1 ? '맑음' : ''}
+                        {lowFiveSky.skyStatusLevel === 3 ? '구름 많음' :
+                          lowFiveSky.skyStatusLevel === 2 ? '구름 조금' :
+                          lowFiveSky.skyStatusLevel === 1 ? '맑음' : ''}
                       
                     </span>
 
@@ -381,6 +384,7 @@ function Home() {
             ))}
             </div>
         </div>
+         
         </div>
       );
     }
@@ -411,11 +415,17 @@ function Home() {
 
      <div>
       {renderRanking()}
+      </div>
+      <div style={{ display: 'flex', gap: '40px' , justifyContent:'flex-end', fontWeight:'normal'}}>
+        <div>total : {totalHit} </div><div>today : {todayHit}</div>
+      </div>
      </div>
 
-    </div>
     
- </div>
+      
+ </div> 
+ 
+
     
   )
 }

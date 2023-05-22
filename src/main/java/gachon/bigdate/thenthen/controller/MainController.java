@@ -2,6 +2,8 @@ package gachon.bigdate.thenthen.controller;
 
 import gachon.bigdate.thenthen.DTO.CourseDTO;
 import gachon.bigdate.thenthen.DTO.PlaceDTO;
+import gachon.bigdate.thenthen.entity.HitCount;
+import gachon.bigdate.thenthen.repository.HitCountRepository;
 import gachon.bigdate.thenthen.service.CourseService;
 import gachon.bigdate.thenthen.service.HotspotService;
 import gachon.bigdate.thenthen.service.PlaceService;
@@ -16,6 +18,10 @@ import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @RestController
@@ -26,10 +32,12 @@ public class MainController {
     private final HotspotService hotspotService;
     private final PlaceService placeService;
     private final CourseService courseService;
+    private final HitCountRepository hitCountRepository;
 
     @GetMapping("/hotspots")
-    public ResponseEntity<List<Hotspot>> index() throws Exception {
-         return ResponseEntity.ok().body(hotspotService.getHotspots());
+    public ResponseEntity<?> index(HttpServletRequest request) throws Exception {
+        hitCountRepository.save(HitCount.builder().remoteAddr(request.getRemoteAddr()).visitDate(LocalDateTime.now()).build());
+        return ResponseEntity.ok().body(hotspotService.getHotspots());
     }
 
     @GetMapping("/hotspots/{hotspotId}")
