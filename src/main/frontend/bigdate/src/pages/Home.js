@@ -372,7 +372,7 @@ function Home() {
                     {lowFiveTraffic.roadTrafficSpd === '정보 없음' ? '정보 없음' :
                       lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 15 ? '정체' :
                       15 <= lowFiveTraffic.roadTrafficSpd && lowFiveTraffic.roadTrafficSpd < 25 ? '서행' :
-                      25 <= lowFiveTraffic.roadTrafficSpd ? '원할' : ''}
+                      25 <= lowFiveTraffic.roadTrafficSpd ? '원활' : ''}
                   </span>
                 </Card.Title>
 
