@@ -16,7 +16,7 @@ import moment from 'moment';
 function MyPostList() {
     const history=useHistory();
     const [ dataList, setDataList ] = useState([]);
-    const [pageNumber, setPageNumber] = useState(1); 
+    const [pageNumber, setPageNumber] = useState(1);
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     const [totalItemsCount,setTotalItemsCount] = useState(1);
@@ -79,7 +79,7 @@ function MyPostList() {
   
       return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{ display: 'flex', width: '1200px' }}>
+          <div style={{display:'flex', width:'1200px',margin:'50px'}}>
             <div style={{ width: '250px', margin: '30px 30px' }}>
           <ListGroup>
             <ListGroup.Item action href='/mypage'active={false}>
@@ -123,7 +123,7 @@ function MyPostList() {
                       <button className='reBtn' style={{marginTop:'5px',fontSize:'12px'}}  onClick={() => handleModify(item.courseId)}>수정</button>
                       <button className='delBtn'  onClick={() => handleDeleteConfirm(item.courseId)} style={{marginLeft:'5px',marginTop:'5px',fontSize:'12px'}}>삭제</button>
                       </CommonTableColumn>
- 
+
                     </CommonTableRow>
                   )
                 }) : ''
@@ -133,9 +133,9 @@ function MyPostList() {
 
         </div>
       </div>
-      </div>    
+      </div>
       <div  style={{marginTop:'20px'}}>
-       <Pagination 
+       <Pagination
               activePage={pageNumber}
               itemsCountPerPage={15}
               totalItemsCount={totalItemsCount}
@@ -148,13 +148,13 @@ function MyPostList() {
               innerClass="pagination"
               prevPageLinkClassName="page-link prev"
               nextPageLinkClassName="page-link next"
-            
+
             />
       </div>
       </div>
       </div>
       </div>
-      
+
 )
 }
 

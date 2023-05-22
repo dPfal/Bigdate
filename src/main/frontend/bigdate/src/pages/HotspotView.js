@@ -88,14 +88,13 @@ function HotspotView() {
           const traffic_level=jsonData["SeoulRtd.citydata"].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_IDX;
           const traffic_speed=jsonData["SeoulRtd.citydata"].CITYDATA.ROAD_TRAFFIC_STTS.AVG_ROAD_DATA.ROAD_TRAFFIC_SPD;
           
-         
           setTemp(temp);
           setSensibleTemp(sensible_temp);
           setUv_level(uv_level);
           setRainper(rainper);
           setPm10(pm10);
           setSky(sky);
-          setAir_msg(air_msg);
+          setAir_msg(air_msg.split('.')[0]+'.');
           setCongest(congest);
           setTraffic_mag(traffic_msg);
           setTraffic_level(traffic_level);
@@ -224,15 +223,15 @@ function HotspotView() {
       
     <div className="overlay-container">
 <div>
-<div className='toCenter' style={{fontSize:'25px',fontWeight:'bold'}}><Clock style={{marginRight:'10px'}}/>{moment().format('YYYY-MM-DD HH:mm')}</div>
+<div className='toCenter' style={{fontSize:'25px',fontWeight:'bold', marginTop:'30px'}}><Clock style={{marginRight:'10px'}}/>{moment().format('YYYY-MM-DD HH:mm')}</div>
   <div className='toCenter' >
-         <div className='hotspot_title'>{hotspotName}의 실시간 정보</div>
+         <div className='hotspot_title'> {hotspotName}의 실시간 정보 </div>
   </div>      
   
          <div className='row-1'> 
             <img src={`https://data.seoul.go.kr/SeoulRtd/images/hotspot/${hotspotName}.jpg`} width="25%"/>
             <div style={{display: 'flex', flexDirection: 'column'}}>
-                <div className='row-1_content' style={{height:'35px'}}>실시간 혼잡도는<span
+                <div className='row-1_content' style={{padding:'10px'}}>실시간 혼잡도는<span
                 style={{
                   fontWeight:"bold",
                   marginLeft:'10px',
@@ -253,7 +252,9 @@ function HotspotView() {
               >
                 {congest} 
               </span>&nbsp; 입니다.</div>
-                <div>날씨/환경</div>
+              <div
+                style={{ fontSize: '15px',marginTop:'20px'}}
+>날씨/환경</div>
                 <div className='row-1_content'><ThermometerHalf style={{color:"red",fontSize:"25px"}}/> {temp} ℃</div>
                 <div className='row-1_content'>체감온도  {sensible_temp} ℃</div>
                 <div style={{display: 'flex', flexDirection: 'row'}}>
@@ -264,9 +265,9 @@ function HotspotView() {
             </div>
          </div>
          <div  className="row-2"> 
-            <div>
-            <div >교통</div>
-            <div style={{width:"300px",backgroundColor:"white",marginTop:"2%",height:"120px",paddingTop:"15px",}}>
+            <div style={{ width: '300px' }}>
+            <div style={{fontSize:'15px'}}>교통</div>
+            <div style={{backgroundColor:"white",marginTop:"2%",height:"120px",paddingTop:"15px",}}>
             <div className='row-2_content'>
               <div style={{paddingTop:'4px'}}>도로 소통 단계</div> 
               <span
@@ -315,11 +316,11 @@ function HotspotView() {
             
             </div>
 
-            <div>
-            <div style={{marginLeft:"5%"}}>그때그때 소식</div>
-            <div style={{width:"450px", marginLeft:"5%",}}>
+            <div style ={{width:'650px'}}>
+              <div style={{ marginLeft: "40px", fontSize: '15px' }}>그때그때 소식</div>
+            <div style={{marginLeft:"5%"}}>
             <div className='row-1_content' id='row-2_content' >{traffic_msg}</div>
-            <div className='row-1_content' id='row-2_content'>{air_msg}</div>
+                <div className='row-1_content' id='row-2_content' >{air_msg}</div>
             <div className='row-1_content' id='row-2_content'>{rainper}</div>
             </div>
             </div>

@@ -106,7 +106,7 @@ export default function LineChart() {
   <div className='background-container' >
     <div className="overlay-container">
     <div className='line'>일자별 통계</div> 
-      <Line data={data} options={options} />
+        <Line data={data} options={options} style={{ margin: '30px' }} />
     </div>
 
     <div  style={{paddingBottom:'20px'}}>

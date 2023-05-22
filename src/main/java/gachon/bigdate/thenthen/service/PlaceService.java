@@ -8,6 +8,7 @@ import gachon.bigdate.thenthen.repository.*;
 import gachon.bigdate.thenthen.entity.Course;
 import gachon.bigdate.thenthen.entity.Place;
 import gachon.bigdate.thenthen.entity.Review;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,11 +25,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PlaceService {
-    private final LikeRepository likeRepository;
-    private final ScrapRepository scrapRepository;
     private final PlaceRepository placeRepository;
     private final CourseRepository courseRepository;
-    private final UserRepository userRepository;
     public List<Place> getPlacesByHotspotId(Long hotspotId) {
         return this.placeRepository.findByHotspotId(hotspotId);
     }
@@ -36,6 +34,7 @@ public class PlaceService {
     @Transactional
     public PlaceDTO getPlaceByPlaceId(Long placeId){
        Place place = this.placeRepository.findByPlaceId(placeId);
+        int avgExpense = 0;
        ArrayList<ReviewDTO> reviewDTOs = new ArrayList<>();
         System.out.println(place.getReviewList());
         ArrayList<CourseDTO> courseDTOArrayList = new ArrayList<>();
@@ -48,10 +47,10 @@ public class PlaceService {
        }
        double placeAvg = this.placeRepository.calculateAvg(placeId);
         Optional<List<Review>> reviewList = Optional.ofNullable(place.getReviewList());
-
         if(reviewList.isPresent()){
             List<Course> courseList = new ArrayList<>();
             for(Review review : reviewList.get()){
+                avgExpense+=review.getExpense();
                 courseList.add(courseRepository.findByCourseId(review.getReviewId().getCourse().getCourseId()));
             }
             if(courseList!=null){
@@ -60,8 +59,11 @@ public class PlaceService {
                     courseDTOArrayList.add(courseDTO);
                 }
             }
+            if (reviewList.get().size()!=0){
+                avgExpense = avgExpense/reviewList.get().size();
+            }
         }
-      return new PlaceDTO(place,placeAvg,courseDTOArrayList,reviewDTOs);
+      return new PlaceDTO(place,placeAvg,courseDTOArrayList,reviewDTOs,avgExpense);
     }
     public List<PlaceDTO> getPlaceByPlaceName(String searchData) {
         Optional<List<Place>> placeList = this.placeRepository.findByPlaceNameContaining(searchData);

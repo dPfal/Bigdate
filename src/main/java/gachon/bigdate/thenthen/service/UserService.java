@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserLogRepository userLogRepository;
     public UserDTO getUserInfo(Long id){
-       return new UserDTO(userRepository.findById(id).get());
+        return new UserDTO(userRepository.findById(id).get(),userLogRepository.findById(id).get().getJoinDate());
     }
 
 //    public UserDTO updateUser(String userId) {

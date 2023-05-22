@@ -9,11 +9,9 @@ import axios from 'axios';
 const EbayCarousel = ({ places }) => {
     const settings = {
       dots: true,
-      infinite: true,
       speed: 500,
       slidesToShow: 3,
       slidesToScroll: 3,
-      
       infinite: false,
       
 
@@ -29,14 +27,14 @@ const handleImageClick = (placeId) => {
 };
 
     return (
-      <div>
-      <Slider {...settings}>
+      <div >
+        <Slider {...settings}>
         {/* 장소 목록을 map() 메소드를 사용하여 동적으로 슬라이드로 생성 */}
         {places.map(place => (
-          <div className="carousel-slide" key={place.placeId}>
-            <img className="carousel-image" src={place.imageUrl} style={{width:'200px',height:'200px',borderRadius:'10px',marginTop:'20px',marginLeft:'30px'}} 
+          <div className="carousel-slide" key={place.placeId} >
+            <img className="carousel-image" src={place.imageUrl} style={{width:'200px',height:'200px',borderRadius:'10px',marginTop:'20px'}} 
             onClick={() => handleImageClick(place.placeId)}/>
-            <div>{place.placeName}</div>
+            <div style={{margin:'10px', fontSize:'15px'}}>{place.placeName}</div>
             {/* 추가적인 장소 정보 혹은 컴포넌트 */}
           </div>
         ))}

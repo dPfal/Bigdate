@@ -28,6 +28,7 @@ public class PlaceDTO {
     private String placePhone;
     private double score;
     private String imageUrl;
+    private int avgPrice;
     private ArrayList<CourseDTO> courseList;
     private ArrayList<ReviewDTO> reviewList;
     private int reviewCount;
@@ -50,7 +51,7 @@ public class PlaceDTO {
         this.hotpotId = place.getHotspotId();
         this.reviewCount= place.getReviewList().size();
     }
-    public PlaceDTO (Place place, double score, ArrayList<CourseDTO> courseList, ArrayList<ReviewDTO> reviewList) {
+    public PlaceDTO (Place place, double score, ArrayList<CourseDTO> courseList, ArrayList<ReviewDTO> reviewList, int avgPrice) {
         this.placeId = place.getPlaceId();
         this.placeX = place.getPlaceX();
         this.placeY = place.getPlaceY();
@@ -66,5 +67,6 @@ public class PlaceDTO {
         this.score = score;
         this.courseList = courseList;
         this.reviewList = reviewList;
+        this.avgPrice = avgPrice;
     }
 }

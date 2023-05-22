@@ -15,12 +15,12 @@ import Pagination from "react-js-pagination";
 function MyScrapList() {
     const history=useHistory();
     const [ dataList, setDataList ] = useState([]);
-    const [pageNumber, setPageNumber] = useState(1); 
+    const [pageNumber, setPageNumber] = useState(1);
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     const [totalItemsCount,setTotalItemsCount] = useState(1);
     const pageSize = 15; // 페이지당 데이터 개수
-  
+
 
   // 서버에 코스 목록 조회 요청하기
   useEffect(() => {
@@ -48,7 +48,7 @@ function MyScrapList() {
     window.scrollTo(0,0);
   }
 
-  
+
   const handleDeleteConfirm = (courseId) => {
     const result = window.confirm(`${courseId}번 글을 찜 목록에서 삭제하시겠습니까?`);
     if (result === true) {
@@ -77,7 +77,7 @@ function MyScrapList() {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
-      <div style={{ display: 'flex', width: '1200px' }}>
+      <div style={{ display: 'flex', width: '1200px', margin: '50px' }}>
         <div style={{ width: '250px', margin: '30px 30px' }}>
        <ListGroup>
         <ListGroup.Item action href='/mypage'active={false}>
@@ -121,16 +121,16 @@ function MyScrapList() {
                 </CommonTableRow>
               )
             }) : ''
-            
+
           }
-          
+
         </MyScrapTable>
       </>
       </div>
       </div>
-      </div>    
+      </div>
       <div  style={{marginTop:'20px'}}>
-       <Pagination 
+       <Pagination
               activePage={pageNumber}
               itemsCountPerPage={15}
               totalItemsCount={totalItemsCount}
@@ -143,13 +143,13 @@ function MyScrapList() {
               innerClass="pagination"
               prevPageLinkClassName="page-link prev"
               nextPageLinkClassName="page-link next"
-            
+
             />
       </div>
       </div>
       </div>
       </div>
-      
+
 )
 }
 

@@ -2,16 +2,16 @@ import React, { useEffect, useState,useRef } from 'react';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
 import './PostView.css';
-import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp,Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill} from 'react-bootstrap-icons';
+import { CircleFill, GeoAltFill, GeoFill, HandThumbsUp, Heart, StarFill, PersonCircle, HeartFill, HandThumbsUpFill } from 'react-bootstrap-icons';
 import { ADDRESS } from '../../Adress';
 import moment from 'moment';
 import { useHistory } from 'react-router-dom';
 const { kakao } = window;
 
 const PostView = ({ history, location, match }) => {
-  const [ data, setData ] = useState({});
-  const [comment,setComment] = useState('');
-  const[places,setPlaces]=useState([]);
+  const [data, setData] = useState({});
+  const [comment, setComment] = useState('');
+  const [places, setPlaces] = useState([]);
   const [likeCount, setLikeCount] = useState(data.likeCount);
   const [isLiked, setIsLiked] = useState(false);
   const [scrapCount, setScrapCount] = useState(data.scrapCount);
@@ -48,7 +48,7 @@ useEffect(() => {
       scrollToTop(); // 스크롤을 맨 위로 올림
 
       const container = document.getElementById('myMap');
-      
+
       // 모든 장소들의 좌표를 담는 bounds 객체를 생성합니다
       const bounds = new kakao.maps.LatLngBounds();
 
@@ -118,7 +118,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       return;
     }
     const id = localStorage.getItem('id');
-    
+
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
@@ -150,17 +150,18 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       const response = await axios.post(`${ADDRESS}/users/likes?courseId=${course_id}`
       );
       console.log(response);
-      
-      if(response.data=='좋아요 목록에서 삭제되었습니다.'){
-        setLikeCount(likeCount-1);
+
+      if (response.data == '좋아요 목록에서 삭제되었습니다.') {
+        setLikeCount(likeCount - 1);
         setIsLiked(false);
-        
-       }else{
-        setLikeCount(likeCount+1);
+
+      } else {
+        setLikeCount(likeCount + 1);
         setIsLiked(true);
-       
+
       }
-      
+
+
     } catch (error) {
       console.error(error);
     }
@@ -170,6 +171,7 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
     const result = window.confirm(`댓글을 삭제하시겠습니까?`);
     if (result === true) {
      handleDelete(userId,courseId,commentDate);
+
     }
     else{ return;}
   }
@@ -184,12 +186,13 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       courseId: courseId,
       commentDate:commentDate
     };
-  
+
     try {
       // 댓글 삭제 요청
-      axios.delete(`${ADDRESS}/admin/comments`, { data: requestData })
+      axios.delete(`${ADDRESS}/users/comments`, { data: requestData })
         .then(response => {
           console.log(response.data);
+          alert('댓글이 삭제되었습니다.')
           window.location.reload(false);
         })
         .catch(error => {
@@ -216,143 +219,146 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       if(response.data=='찜 목록에서 삭제되었습니다.'){
         setScrapCount(scrapCount-1);
         setIsScrapped(false);
-      
-      }else{
-        setScrapCount(scrapCount+1);
+
+      } else {
+        setScrapCount(scrapCount + 1);
         setIsScrapped(true);
-       
+
       }
-      
+
     } catch (error) {
       console.error(error);
     }
   };
-  
- 
+
+
   return (
     <>
-     
+
 
       <div className="post-view-wrapper">
 
         {
           data ? (
             <>
-            <div className='background-container'>
-            <div className="overlay-container">
-            <div className='line' style={{display:'flex', justifyContent:'space-between'}}>
-            <div>{data.courseTitle}</div>  
-            <div style={{fontSize:'12px',color:'dimgray'}}><div > {date}</div><div style={{float:'right'}}> {data.userId}</div> </div>
-            </div>
-
-
-        <div style={{ display: 'flex' }}>
-               <div
-                    id="myMap"
-                    style={{ 
-                      width: '400px',
-                      height: '400px',
-                      margin:'30px',
-                      zIndex:0
-                    }}>
-                </div>
-
-
-
-
-
-                {/**map함수로 코스에 해당하는 장소 넣기 */}
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-
-                {courses.map((course, index) => (
-                  <div key={index} style={{marginTop:'30px'}}>
-                    <div style={{display:'flex'}}>
-                      <div className='placeNum' style={{backgroundColor:'#1e90ff',margin:'0px',color:'white',paddingLeft:'7px'}}>{index + 1}</div>
-                      <div style={{marginLeft:'10px'}}>{course.placeDTO.placeName}</div>
-                    </div>
-                    <div style={{display:'flex',marginTop:'7px'}}>
-                      <div style={{marginLeft:'5px',fontSize:'11px'}}><CircleFill style={{fontSize:'5px',color:'#1e90ff',marginRight:'20px'}}/>{course.placeDTO.categoryName}</div>
-                      <div style={{marginLeft:'10px',fontSize:'11px'}}><StarFill style={{color:'orange',marginBottom:'5px'}}/>
-                       {course.avgScore}</div>
-                    </div>
-                    <div style={{marginLeft:'5px',marginTop:'7px',fontSize:'11px'}}><CircleFill style={{fontSize:'5px',color:'#1e90ff',marginRight:'20px'}}/><GeoAltFill style={{color:'gray',fontSize:'10px'}}/>
-                    {course.placeDTO.addressName}</div>                 
+              <div className='background-container'>
+                <div className="overlay-container" style={{
+                  paddingLeft: '150px',
+                  paddingRight: '150px'
+                }}>
+                  <div className='line' style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <div>{data.courseTitle}</div>
+                    <div style={{ fontSize: '12px', color: 'dimgray' }}><div > {date}</div><div style={{ float: 'right' }}> {data.userId}</div> </div>
                   </div>
 
-                  
-                ))}
 
-                    <div style={{marginTop:'50px',display:'flex',justifyContent:'center',borderTop:'1px solid lightgray',width:'300px'}}>
-                  1인 예상 금액 :{totalExpense}  원</div>
-                
-              </div>
-
-              
-
-         </div>
-              
-
-         <div className='line'>코스 설명
-        </div>
-        <div style={{marginLeft:'40px',marginTop:'20px',fontSize:'15px',fontWeight:'initial'}}>{data.courseInfo}</div>
+                  <div style={{ display: 'flex' }}>
+                    <div
+                      id="myMap"
+                      style={{
+                        width: '400px',
+                        height: '400px',
+                        margin: '30px',
+                        zIndex: 0
+                      }}>
+                    </div>
 
 
 
-        <div className='line' style={{marginTop:'50px'}}>코스 상세보기
-        </div>
-       {/**map함수로 코스에 해당하는 장소 넣기 */}
-   
-       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {courses.map((course, index) => (
-          <div key={index} style={{ marginTop: '30px', marginLeft: '40px' }}>
-            <div style={{ display: 'flex', marginBottom: '10px' }}>
-             
-                <div className='placeNum' style={{ backgroundColor: '#1e90ff', margin: '0px', color: 'white', paddingLeft: '7px' }}>{index + 1}</div>
-                <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black' }}>
-                <div style={{ marginLeft: '10px' }}>{course.placeDTO.placeName}</div>
-              </Link>
-            </div>
-            <div style={{ display: 'flex' }}>
-              <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none'}}>
-                <img src={course.placeDTO.imageUrl} style={{ width: '150px', height: '150px', borderRadius: '10px' }}></img>
-              </Link>
-              <div style={{ display: 'block', marginLeft: '20px' }}>
-                <div><GeoAltFill style={{ color: '#3163C9', fontSize: '20px' }} /> {course.placeDTO.addressName} <StarFill style={{ color: 'orange', marginBottom: '5px' }} />
-                  {course.avgScore}</div>
 
-                <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none',color:'black'  }}>
-                  <div style={{ border: '1px solid lightgray', borderRadius: '10px', width: '500px', height: '100px',maxHeight:'200px',overflow: 'hidden',overflowY: 'auto', marginTop: '10px', padding: '10px', fontWeight: '500' }}>
-                    {course.isDel === 1 ? <span className='toCenter' style={{ paddingTop: '25px' }}>관리자에 의해 숨김 처리된 후기 입니다.</span> : course.reviewInfo}
+
+                    {/**map함수로 코스에 해당하는 장소 넣기 */}
+                    <div style={{ display: 'flex', flexDirection: 'column' }}>
+
+                      {courses.map((course, index) => (
+                        <div key={index} style={{ marginTop: '30px' }}>
+                          <div style={{ display: 'flex' }}>
+                            <div className='placeNum' style={{ backgroundColor: '#1e90ff', margin: '0px', color: 'white', paddingLeft: '7px' }}>{index + 1}</div>
+                            <div style={{ marginLeft: '10px' }}>{course.placeDTO.placeName}</div>
+                          </div>
+                          <div style={{ display: 'flex', marginTop: '7px' }}>
+                            <div style={{ marginLeft: '5px', fontSize: '11px' }}><CircleFill style={{ fontSize: '5px', color: '#1e90ff', marginRight: '20px' }} />{course.placeDTO.categoryName}</div>
+                            <div style={{ marginLeft: '10px', fontSize: '11px' }}><StarFill style={{ color: 'orange', marginBottom: '5px' }} />
+                              {course.avgScore}</div>
+                          </div>
+                          <div style={{ marginLeft: '5px', marginTop: '7px', fontSize: '11px' }}><CircleFill style={{ fontSize: '5px', color: '#1e90ff', marginRight: '20px' }} /><GeoAltFill style={{ color: 'gray', fontSize: '10px' }} />
+                            {course.placeDTO.addressName}</div>
+                        </div>
+
+
+                      ))}
+
+                      <div style={{ fontSize:'17px',marginTop: '50px', display: 'flex', justifyContent:'center', borderTop: '1px solid lightgray', width: '400px' ,paddingTop:'30px'}}>
+                        총 지출 금액 : {totalExpense}  원</div>
+
+                    </div>
+
+
+
                   </div>
-                </Link>
-                <div style={{ float: 'right' }}>지출 금액 : {course.expense}원</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+
+
+                  <div className='line'>코스 설명
+                  </div>
+                  <div style={{ marginLeft: '40px', marginTop: '20px', fontSize: '15px', fontWeight: 'initial' }}>{data.courseInfo}</div>
 
 
 
-        
-        <div style={{display:'flex',justifyContent:'center',marginTop:'50px'}}>
-          <div style={{border: '1px solid lightgray',padding:'10px',alignContent:'center',textAlign:'center'}} onClick={handleLikeClick}>
-              {isLiked?
-              (<HandThumbsUpFill style={{ fontSize: '20px',color:'#1E90FF'}} />):
-              (<HandThumbsUp style={{ fontSize: '20px',color:'#1E90FF'}} />)
-              }
+                  <div className='line' style={{ marginTop: '50px' }}>코스 상세보기
+                  </div>
+                  {/**map함수로 코스에 해당하는 장소 넣기 */}
 
-              <div>{likeCount}</div>
-          </div>
-          <div style={{ border: '1px solid lightgray', padding: '10px', marginLeft: '20px', textAlign: 'center' }} onClick={handleScrapClick}>
-              
-              {isScrapped?
-              (<HeartFill style={{ fontSize: '20px', color: 'red' }} /> ):
-              (<Heart style={{ fontSize: '20px', color: 'red' }} /> )
-              }
-              <div>{scrapCount}</div>
-          </div>
-        </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    {courses.map((course, index) => (
+                      <div key={index} style={{ marginTop: '30px', marginLeft: '40px' }}>
+                        <div style={{ display: 'flex', marginBottom: '10px' }}>
+
+                          <div className='placeNum' style={{ backgroundColor: '#1e90ff', margin: '0px', color: 'white', paddingLeft: '7px' }}>{index + 1}</div>
+                          <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                            <div style={{ marginLeft: '10px' }}>{course.placeDTO.placeName}</div>
+                          </Link>
+                        </div>
+                        <div style={{ display: 'flex' }}>
+                          <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none' }}>
+                            <img src={course.placeDTO.imageUrl} style={{ width: '150px', height: '150px', borderRadius: '10px' }}></img>
+                          </Link>
+                          <div style={{ display: 'block', marginLeft: '20px' }}>
+                            <div><GeoAltFill style={{ color: '#3163C9', fontSize: '20px' }} /> {course.placeDTO.addressName} <StarFill style={{ color: 'orange', marginBottom: '5px' }} />
+                              {course.avgScore}</div>
+
+                            <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                              <div style={{ border: '1px solid lightgray', borderRadius: '10px', width: '600px', height: '100px', maxHeight: '200px', overflow: 'hidden', overflowY: 'auto', marginTop: '10px', padding: '10px', fontWeight: '500' }}>
+                                {course.isDel === 1 ? <span className='toCenter' style={{ paddingTop: '25px' }}>관리자에 의해 숨김 처리된 후기 입니다.</span> : course.reviewInfo}
+                              </div>
+                            </Link>
+                            <div style={{ float: 'right' , marginTop:'10px'}}>지출 금액 : {course.expense}원</div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+
+
+
+                  <div style={{ display: 'flex', justifyContent: 'center', marginTop: '50px' }}>
+                    <div style={{ border: '1px solid lightgray', padding: '10px', alignContent: 'center', textAlign: 'center' }} onClick={handleLikeClick}>
+                      {isLiked ?
+                        (<HandThumbsUpFill style={{ fontSize: '20px', color: '#1E90FF' }} />) :
+                        (<HandThumbsUp style={{ fontSize: '20px', color: '#1E90FF' }} />)
+                      }
+
+                      <div>{likeCount}</div>
+                    </div>
+                    <div style={{ border: '1px solid lightgray', padding: '10px', marginLeft: '20px', textAlign: 'center' }} onClick={handleScrapClick}>
+
+                      {isScrapped ?
+                        (<HeartFill style={{ fontSize: '20px', color: 'red' }} />) :
+                        (<Heart style={{ fontSize: '20px', color: 'red' }} />)
+                      }
+                      <div>{scrapCount}</div>
+                    </div>
+                  </div>
 
 
         <div className='line'>댓글</div>
@@ -362,37 +368,33 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
         commentArray.map((comment) => {
           const { id } = comment;
           const isMyComment = comment.user.userId=== userId; // 내가 작성한 댓글인지 확인합니다.
-
           return (
             <div key={id}>
-              <div style={{ display: 'flex' }}>
-                <div
-                  style={{
-                    marginLeft: '130px',
-                    color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black',
-                  }}
-                >
-                  {comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}
-                </div>
-                <div style={{ marginLeft: '20px' }}>
+              <div style={{display: 'flex',width: '850px',marginTop: '20px',justifyContent:' space-between' }}>
+                <div style={{ marginLeft:'45px',paddingTop: '10px', color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black' }}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
+                <div >
+                  {isMyComment && (
+                    <span style={{ margin: '10px' }}>
+                      <button className='delBtn' onClick={() => handleCommentDeleteConfirm(comment.id, comment.commentDate, comment.courseId)}>
+                        삭제
+                      </button>
+                    </span>
+                  )}
                   {comment.commentDate}
+                  
                 </div>
-                {isMyComment && (
-                  <div style={{ marginLeft: '20px' }}>
-                    <button className='delBtn' onClick={() => handleCommentDeleteConfirm(comment.id,comment.commentDate,comment.courseId)}>
-                     삭제
-                    </button>
-                  </div>
-                )}
+                
               </div>
+              
 
-              <div className='toCenter'>
+              <div style = {{display:'flex', marginLeft:'40px'}}>
                 <div style={{ width: '50px', height: '50px' }} className='toCenter'>
                   <PersonCircle style={{ fontSize: '40px', color: 'dimgray' }} />
                 </div>
-                <div style={{ marginLeft: '10px', width: '600px', borderBottom: '1px solid lightgray', marginTop: '20px', paddingBottom: '25px' }}>
+                <div style={{ marginLeft: '20px', width: '750px', borderBottom: '1px solid lightgray',display:'flex',alignItems:'center' }}>
                   {comment.commentText}
                 </div>
+               
               </div>
             </div>
           );
@@ -405,37 +407,37 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
 
 
 
-        <form onSubmit={handleSubmit}>
-          <div>
-          <div style={{marginLeft:'130px',marginTop:'20px'}}>{localStorage.getItem('userId')}</div>
-          </div>
+                  <form onSubmit={handleSubmit}>
+                    <div style={{ marginLeft: '40px' }}>
+                      <div style={{ marginTop: '20px' }}>{localStorage.getItem('userId')}</div>
+                    </div>
 
-          
-            <div className='toCenter'>
-              <div style={{width: '50px', height: '50px' }} className='toCenter'>
-                <PersonCircle style={{ fontSize: '40px',color:'dimgray' }} />
-              </div>
-              <textarea
-                value={comment}
-                onChange={(e) => setComment(e.target.value)} // state를 업데이트합니다.
-                placeholder='댓글을 입력하세요'
-                style={{ marginLeft: '10px', width: '600px' }}
-              />
-            </div>
-            
-              <button type="submit" className='postComment' style={{marginLeft:'700px'}}>
-                등록
-              </button>
-            
-          </form>
-        
-              </div>
+
+                    <div style={{marginLeft:'40px',display:'flex'}}>
+                      <div style={{ width: '50px', height: '50px', alignItems: 'flexEnd', display: 'flex' }} className='toCenter'>
+                        <PersonCircle style={{ fontSize: '40px', color: 'dimgray' }} />
+                      </div>
+                      <textarea
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)} // state를 업데이트합니다.
+                        placeholder='댓글을 입력하세요'
+                        style={{ marginLeft: '10px', width: '750px' }}
+                      />
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '50px' }}>
+                    <button type="submit" className='postComment' style={{ marginLeft: '700px' }}>
+                      등록
+                    </button>
+</div>
+                  </form>
+
+                </div>
               </div>
             </>
-            
+
           ) : '해당 게시글을 찾을 수 없습니다.'
         }
-       
+
       </div>
     </>
   )

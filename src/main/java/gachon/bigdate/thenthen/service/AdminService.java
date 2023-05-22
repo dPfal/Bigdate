@@ -9,6 +9,7 @@ import gachon.bigdate.thenthen.repository.UserLogRepository;
 import gachon.bigdate.thenthen.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,7 +31,7 @@ public class AdminService {
         ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
 
         for(User user : userList){
-            userDTOArrayList.add(new UserDTO(user));
+            userDTOArrayList.add(new UserDTO(user,userLogRepository.findById(user.getId()).get().getJoinDate()));
         }
         return userDTOArrayList;
     }
@@ -57,5 +58,12 @@ public class AdminService {
         } else {
             return "{\"message\":\"사용자 삭제 실패!\"}";
         }
+    }
+
+    public ResponseEntity<?> modifyUserRole(long id,String userRole){
+        User user = userRepository.findById(id).get();
+        user.setUserRole(userRole);
+        userRepository.save(user);
+        return ResponseEntity.ok().body(new UserDTO(user));
     }
 }

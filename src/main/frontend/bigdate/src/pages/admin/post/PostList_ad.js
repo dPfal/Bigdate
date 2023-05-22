@@ -39,7 +39,6 @@ const PostList_ad = props => {
 
   //서버에 코스 목록 조회 요청하기
   useEffect(() => {
-
     const handlePopState = (event) => {
       const { state } = event;
       if (state) {
@@ -142,8 +141,7 @@ const handleButtonClick = () => {
        </div>
 
 
-          <div>
-            <>
+          <div >
               <CommonTable
                 headersName={[
                   '글번호',
@@ -180,13 +178,11 @@ const handleButtonClick = () => {
                     })
                   : ''}
               </CommonTable>
-            </>
-           
           </div>
 
         </div>
       </div>
-      <div  style={{marginTop:'20px'}}>
+      <div  style={{marginTop:'30px'}}>
             <Pagination 
               activePage={pageNumber}
               itemsCountPerPage={15}

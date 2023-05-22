@@ -77,13 +77,13 @@ const PlaceView = (props) => {
    return (
     <div className="background-container">
       
-      <div className="overlay-container">
+      <div className="overlay-container" style = {{padding:'30px 150px 30px 150px'}}>
 
       <div className='line'>{place.placeName} <StarFill style={{color:'orange',marginBottom:'5px'}}/>({place.score})
 
         </div>
-        <div className='tag' style={{margin:'20px 20px'}}> # {place.placeMood}</div>
-        <div style={{display:'flex',paddingLeft:'60px'}}>
+        <div className='tag' style={{margin:'20px 40px '}}> # {place.placeMood}</div>
+        <div style={{display:'flex',paddingLeft:'40px'}}>
           <div>
             <img src={place.imageUrl} 
             style={{
@@ -93,7 +93,7 @@ const PlaceView = (props) => {
           <div>
             <div style=
             {{borderBottom :'1px solid lightgray', 
-              width:'300px',
+               width:'500px',
               marginLeft:'50px',
               padding:'10px'}}>
                 <GeoAltFill style={{color:'#3163C9',fontSize:'20px'}}/>
@@ -101,7 +101,7 @@ const PlaceView = (props) => {
 
             <div style=
             {{borderBottom :'1px solid lightgray', 
-              width:'300px',
+               width:'500px',
               marginLeft:'50px',
               marginTop:'30px',
               padding:'10px'}}>
@@ -109,7 +109,7 @@ const PlaceView = (props) => {
 
             <div style=
             {{borderBottom :'1px solid lightgray', 
-              width:'300px',
+               width:'500px',
               marginLeft:'50px',
               marginTop:'30px',
               padding:'10px'}}>{place.placePhone}</div>
@@ -117,19 +117,38 @@ const PlaceView = (props) => {
 
             <div style=
             {{borderBottom :'1px solid lightgray', 
-              width:'300px',
+               width:'500px',
               marginLeft:'50px',
               marginTop:'30px',
               padding:'10px',
               wordWrap: 'break-word'}}><a href={place.placeUrl}>{place.placeUrl}</a></div>
+
+             {place.reviewList && place.reviewList.length > 0 ? <div style=
+               {{
+                 width: '500px',
+                 marginLeft: '50px',
+                 marginTop: '10px',
+                 padding: '10px',
+                 wordWrap: 'break-word',
+               }}> 평균 지출 금액 : {place.avgPrice} 원</div> : <div style=
+                 {{
+                   width: '500px',
+                   marginLeft: '50px',
+                   marginTop: '10px',
+                   padding: '10px',
+                   wordWrap: 'break-word'
+                 }}> 평균 지출 금액 : 정보 없음</div>}
           </div>
+
           
         </div>
         
         <div style=
-        {{display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center'}}>
+           {{
+           margin: '10px', display: 'flex',
+          justifyContent: 'center'
+             
+}}>
 
         <div
         id="myMap"
