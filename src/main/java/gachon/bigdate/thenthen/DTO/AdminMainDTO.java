@@ -13,4 +13,5 @@ public class AdminMainDTO {
     private int withDrawCount;
     private int courseCount;
     private int commentCount;
+    private long hitCount;
 }

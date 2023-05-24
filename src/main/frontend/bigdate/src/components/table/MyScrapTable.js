@@ -10,7 +10,7 @@ const MyScrapTable = props => {
   return (
     <div>
       <table className="common-table"  >
-<thead>
+<thead>    
      <tr>
       
        

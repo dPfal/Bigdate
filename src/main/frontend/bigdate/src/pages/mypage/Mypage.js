@@ -14,7 +14,7 @@ import { useHistory } from 'react-router-dom';
 
 
 function Mypage() {
-  
+  const [joindate,setJoinDate]=useState();
   const [data,setData]=useState({});
   const token = localStorage.getItem('token');
   const id = localStorage.getItem('id');
@@ -39,25 +39,28 @@ function Mypage() {
   }
 
   useEffect(() => {
-  
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     axios.get(`${ADDRESS}/users/${id}`)
       .then(response => {
         // 서버로부터 받은 데이터 처리
         console.log(response.data);
         setData(response.data);
+        setJoinDate(response.data.userJoinDate)
+
         setuserMood(response.data.userMood);
       })
       .catch(error => {
         // 에러 처리
         console.error(error);
+        localStorage.clear();
+        alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+        window.location.pathname = "/";
       });
   }, [token, id]);
   
+  
   //취향수정
   const handleConfirm = () => {
-    handleClose(); //모달 닫기
-  
     const token = localStorage.getItem('token');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   
@@ -66,9 +69,15 @@ function Mypage() {
       .then((response) => {
         console.log(response);
         setData(response.data);
+  
+        // 데이터 업데이트 후 화면 갱신
+        handleClose(); // 모달 닫기
       })
       .catch((error) => {
         console.error(error);
+        localStorage.clear();
+        alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+        window.location.pathname = '/';
       });
   };
   
@@ -99,6 +108,9 @@ function Mypage() {
       }
     } catch (error) {
       console.error(error);
+      localStorage.clear();
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      window.location.pathname = "/";
     }
   };
     
@@ -134,7 +146,7 @@ function Mypage() {
       <span style={{ fontWeight: 'normal',marginLeft:'10px',marginRight:'10px' }}>{data.userMood}</span>
       
       <button  className='reBtn' onClick={handleShow} style={{fontSize:'11px'}}>수정</button></div>
-      <div  style={{marginTop: "10px"}}> 가입일자 : <span style={{fontWeight:'normal'}}>{data.userJoinDate}</span></div>
+      <div  style={{marginTop: "10px"}}> 가입일자 : <span style={{fontWeight:'normal'}}>{joindate}</span></div>
       </div>
     
               <Modal show={show} onHide={handleClose}>

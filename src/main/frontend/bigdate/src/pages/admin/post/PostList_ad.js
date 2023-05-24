@@ -86,11 +86,12 @@ const handleDelete = async (courseId) => {
       })
       .catch(error => {
         console.log(error);
-       
       });
   } catch (error) {
     console.error(error);
-    alert('관리자 기능입니다.')
+    alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+    localStorage.clear();
+    window.location.pathname = "/";
   }
 };
 

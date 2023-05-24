@@ -113,8 +113,8 @@ const PostView_ad = ({ history, location, match }) => {
     }
 
     if (!localStorage.getItem('token')) {
-      alert('로그인 후 댓글을 작성할 수 있습니다.');
-      return;
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      window.location.pathname = "/";
     }
     const id = localStorage.getItem('id');
 
@@ -133,6 +133,9 @@ const PostView_ad = ({ history, location, match }) => {
       return response.data;
     } catch (error) {
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
     }
   };
 
@@ -142,7 +145,8 @@ const PostView_ad = ({ history, location, match }) => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     if (token == null) {
-      alert('로그인이 필요한 서비스입니다.')
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      window.location.pathname = "/";
     }
 
     try {
@@ -162,6 +166,9 @@ const PostView_ad = ({ history, location, match }) => {
 
     } catch (error) {
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
     }
   };
 
@@ -169,7 +176,8 @@ const PostView_ad = ({ history, location, match }) => {
 
     const token = localStorage.getItem('token');
     if (token == null) {
-      alert('로그인이 필요한 서비스입니다.')
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      window.location.pathname = "/";
     }
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
@@ -190,6 +198,9 @@ const PostView_ad = ({ history, location, match }) => {
 
     } catch (error) {
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
     }
   };
 
@@ -225,9 +236,14 @@ const PostView_ad = ({ history, location, match }) => {
         })
         .catch(error => {
           console.log(error);
+          console.error(error);
+          alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+          localStorage.clear();
+          window.location.pathname = "/";
         });
     } catch (error) {
       console.error(error);
+    
     }
   };
 
@@ -303,36 +319,38 @@ const PostView_ad = ({ history, location, match }) => {
 
 
 
-                  <div className='line'>코스 상세보기
+                  <div className='line' style={{ marginTop: '50px' }}>코스 상세보기
                   </div>
                   {/**map함수로 코스에 해당하는 장소 넣기 */}
+
                   <div style={{ display: 'flex', flexDirection: 'column' }}>
                     {courses.map((course, index) => (
                       <div key={index} style={{ marginTop: '30px', marginLeft: '40px' }}>
                         <div style={{ display: 'flex', marginBottom: '10px' }}>
+
                           <div className='placeNum' style={{ backgroundColor: '#1e90ff', margin: '0px', color: 'white', paddingLeft: '7px' }}>{index + 1}</div>
-                          <Link to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                          <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none', color: 'black' }}>
                             <div style={{ marginLeft: '10px' }}>{course.placeDTO.placeName}</div>
                           </Link>
                         </div>
                         <div style={{ display: 'flex' }}>
-                          <Link to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                          <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none' }}>
                             <img src={course.placeDTO.imageUrl} style={{ width: '150px', height: '150px', borderRadius: '10px' }}></img>
                           </Link>
                           <div style={{ display: 'block', marginLeft: '20px' }}>
                             <div><GeoAltFill style={{ color: '#3163C9', fontSize: '20px' }} /> {course.placeDTO.addressName} <StarFill style={{ color: 'orange', marginBottom: '5px' }} />
                               {course.avgScore}</div>
-                            <Link to={`/ad/place/${course.placeId}`} style={{ textDecoration: 'none', color: 'black' }}>
-                              <div style={{ border: '1px solid lightgray', borderRadius: '10px', width: '500px', height: '100px', marginTop: '10px', padding: '10px', fontWeight: 'normal' }}>
-                                {course.isDel === 1 ? <span className='toCenter' style={{ paddingTop: '25px' }}>관리자에 의해 숨김 처리된 후기 입니다.</span> : course.reviewInfo}</div>
+
+                            <Link to={`/place/${course.placeId}`} style={{ textDecoration: 'none', color: 'black' }}>
+                              <div style={{ border: '1px solid lightgray', borderRadius: '10px', width: '600px', height: '100px', maxHeight: '200px', overflow: 'hidden', overflowY: 'auto', marginTop: '10px', padding: '10px', fontWeight: '500' }}>
+                                {course.isDel === 1 ? <span className='toCenter' style={{ paddingTop: '25px' }}>관리자에 의해 숨김 처리된 후기 입니다.</span> : course.reviewInfo}
+                              </div>
                             </Link>
+                            <div style={{ float: 'right' , marginTop:'10px'}}>지출 금액 : {course.expense}원</div>
                           </div>
                         </div>
-
-
                       </div>
                     ))}
-
                   </div>
 
 

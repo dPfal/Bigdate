@@ -52,18 +52,17 @@ const options = {
 
 export default function LineChart() {
   const history = useHistory();
-    
+  const token = localStorage.getItem('token'); 
   const [log,setLog]=useState([]);
   
   useEffect(() => {
-    const token = localStorage.getItem('token');
-  
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  
-    if (!token) {
-      history.push('/');
+    if(!token){
+      alert('올바른 접근이 아닙니다.')
+      window.location.pathname = "/";
     }
   
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+ 
     axios
       .get(`${ADDRESS}/admin/`)
       .then((response) => {
@@ -71,9 +70,11 @@ export default function LineChart() {
        
       })
       .catch((error) => {
-        alert(error.response.data.error);
+        alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+        localStorage.clear();
+        window.location.pathname = "/";
       });
-  }, []);
+  }, [token]);
 
   const courseCounts = log.map((item) => item.courseCount).reverse();
   const commentCounts = log.map((item) => item.commentCount).reverse();

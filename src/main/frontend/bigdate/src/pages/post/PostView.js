@@ -134,9 +134,11 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
    
       return response.data;
     } catch (error) {
-      alert('세션이 만료되었습니다. 다시 로그인 해주세요.')
-      localStorage.clear();
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
+      
     }
   };
   

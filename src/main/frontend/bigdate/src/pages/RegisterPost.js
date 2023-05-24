@@ -108,6 +108,7 @@ const aa = (newReview, key) => {
       alert('2개 이상 입력하세요.');
       return;
     }
+
     const isConfirmed = window.confirm('등록하시겠습니까??');
     if (isConfirmed) {
       try {
@@ -147,6 +148,10 @@ const aa = (newReview, key) => {
       console.log(response.data);
     } catch (error) {
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
+      
     }
   };
   

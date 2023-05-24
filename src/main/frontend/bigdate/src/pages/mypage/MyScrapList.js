@@ -25,21 +25,22 @@ function MyScrapList() {
   // 서버에 코스 목록 조회 요청하기
   useEffect(() => {
     fetchDataList();
-  }, [pageNumber]);
-
+  }, [pageNumber,token]);
+  
   const fetchDataList = () => {
-    axios
-      .get(`${ADDRESS}/users/scraps`)
+    axios.get(`${ADDRESS}/users/scraps`)
       .then((response) => {
         const startIndex = (pageNumber - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         const slicedData = response.data.slice(startIndex, endIndex); // 페이징 처리된 데이터 슬라이싱
         setDataList(slicedData);
         setTotalItemsCount(response.data.length);
-
       })
       .catch((error) => {
         console.log(error);
+        alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+        localStorage.clear();
+        window.location.pathname = "/";
       });
   };
 
@@ -72,6 +73,9 @@ function MyScrapList() {
       }, 1000);
     } catch (error) {
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
     }
   };
 

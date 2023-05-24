@@ -20,7 +20,9 @@ const Navbar2=() =>{
   const token = localStorage.getItem('token');
   {/**모달 띄우기 상태 */}
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
+  
+  {/**로컬스토리지 로그인 상태 */}
+  const isLoggedInValue = localStorage.getItem("isLoggedIn");
 
   {/**로그인 상태 */}
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -52,11 +54,14 @@ const Navbar2=() =>{
 
   {/**로그아웃 시 */}
   const handleLogout = () => {
-    console.log(isLoggedIn);
-    localStorage.removeItem("isLoggedIn")
-    setIsLoggedIn(false);
-    // 또는 로컬 스토리지에서 삭제
     localStorage.clear();
+    // 로컬 스토리지에서 "isLoggedIn" 값 확인
+    const isLoggedInValue = localStorage.getItem("isLoggedIn");
+
+    // "isLoggedIn" 값이 비어있는 경우
+    if (!isLoggedInValue) {
+      setIsLoggedIn(false);
+    }
     
     // 로그아웃 후 리다이렉트할 페이지로 이동
     history.push("/");
@@ -142,11 +147,11 @@ const Navbar2=() =>{
                   }
                   
                 }}>
-                   {isLoggedIn ? (
-                    <button onClick={handleLogoutConfirm}>로그아웃</button>
-                  ) : (
-                    <button>로그인</button>
-                  )}
+                {isLoggedInValue !== "true" ? (
+                  <button>로그인</button>
+                ) : (
+                  <button onClick={handleLogout}>로그아웃</button>
+                )}
                               
               </Nav.Link>
 

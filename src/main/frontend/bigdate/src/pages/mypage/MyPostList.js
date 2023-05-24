@@ -22,26 +22,28 @@ function MyPostList() {
     const [totalItemsCount,setTotalItemsCount] = useState(1);
     const pageSize = 15; // 페이지당 데이터 개수
 
-      //서버에 코스 목록 조회 요청하기
-      const fetchDataList = () => {
-        const id = localStorage.getItem('id');
-        axios.get(`${ADDRESS}/users/${id}/courses`)
-          .then(response => {
-            const startIndex = (pageNumber - 1) * pageSize;
-            const endIndex = startIndex + pageSize;
-            const slicedData = response.data.slice(startIndex, endIndex); // 페이징 처리된 데이터 슬라이싱
-            setDataList(slicedData);
-            setTotalItemsCount(response.data.length);
-
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      };
-
-      useEffect(() => {
-        fetchDataList();
-      }, [pageNumber]);
+    useEffect(() => {
+      fetchDataList();
+    }, [pageNumber,token]);
+    
+    const fetchDataList = () => {
+      const id = localStorage.getItem('id');
+      axios.get(`${ADDRESS}/users/${id}/courses`)
+        .then(response => {
+          const startIndex = (pageNumber - 1) * pageSize;
+          const endIndex = startIndex + pageSize;
+          const slicedData = response.data.slice(startIndex, endIndex); // 페이징 처리된 데이터 슬라이싱
+          setDataList(slicedData);
+          setTotalItemsCount(response.data.length);
+        })
+        .catch(error => {
+          console.log(error);
+          alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+          localStorage.clear();
+          window.location.pathname = "/";
+        });
+    };
+    
 
       const handlePageChange = (pageNumber) => {
         setPageNumber(pageNumber);
@@ -71,6 +73,9 @@ function MyPostList() {
         }, 1000);
       } catch (error) {
         console.error(error);
+        alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+        localStorage.clear();
+        window.location.pathname = "/";
       }
     };
 
@@ -80,9 +85,9 @@ function MyPostList() {
     }
   
       return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <div style={{ display: 'flex', margin: '50px' }}>
-        <div style={{ width: '250px', margin: '30px 30px' }}>
+         <div style={{display : 'flex', justifyContent:'center'}}>
+      <div style={{display:'flex', margin:'50px'}}>
+      <div style={{width:'250px',margin:'30px 30px'}}>
           <ListGroup>
             <ListGroup.Item action href='/mypage'active={false}>
               마이페이지

@@ -27,7 +27,7 @@ function UserList() {
 
     useEffect(() => {
       fetchDataList();
-    }, [pageNumber]);
+    }, [pageNumber,token]);
     
 
    // 서버에 사용자 목록 조회 요청하기
@@ -44,6 +44,9 @@ const fetchDataList = () => {
     })
     .catch(error => {
       console.log(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
     });
 };
 
@@ -73,6 +76,9 @@ const fetchDataList = () => {
         }, 1000);
       } catch (error) {
         console.error(error);
+        alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+        localStorage.clear();
+        window.location.pathname = "/";
       }
     };
 
@@ -113,6 +119,9 @@ const fetchDataList = () => {
         }, 1000);
       } catch (error) {
         console.error(error);
+        alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+        localStorage.clear();
+        window.location.pathname = "/";
       }
     };
     

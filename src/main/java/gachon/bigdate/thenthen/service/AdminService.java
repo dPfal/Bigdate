@@ -2,11 +2,9 @@ package gachon.bigdate.thenthen.service;
 
 import gachon.bigdate.thenthen.DTO.AdminMainDTO;
 import gachon.bigdate.thenthen.DTO.UserDTO;
+import gachon.bigdate.thenthen.entity.HitCount;
 import gachon.bigdate.thenthen.entity.User;
-import gachon.bigdate.thenthen.repository.CommentRepository;
-import gachon.bigdate.thenthen.repository.CourseRepository;
-import gachon.bigdate.thenthen.repository.UserLogRepository;
-import gachon.bigdate.thenthen.repository.UserRepository;
+import gachon.bigdate.thenthen.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +23,11 @@ public class AdminService {
     private final CourseRepository courseRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final HitCountRepository hitCountRepository;
     public ArrayList<UserDTO> getMemberList(){
         Sort sort = Sort.by(Sort.Direction.ASC, "userRole"); // ADMIN 먼저 정렬
         List<User> userList = userRepository.findAll(sort);
         ArrayList<UserDTO> userDTOArrayList = new ArrayList<>();
-
         for(User user : userList){
             userDTOArrayList.add(new UserDTO(user,userLogRepository.findById(user.getId()).get().getJoinDate()));
         }
@@ -47,7 +45,8 @@ public class AdminService {
                     ,userLogRepository.countByJoinDateBetween(startDateTime,endDateTime),
                     userLogRepository.countByWithDrawDateBetween(startDateTime,endDateTime)
                     ,courseRepository.countByPostedDateBetween(startDateTime,endDateTime),
-                    commentRepository.countByCommentIdCommentDateBetween(startDateTime,endDateTime)));
+                    commentRepository.countByCommentIdCommentDateBetween(startDateTime,endDateTime)
+                    ,hitCountRepository.countByVisitDateBetween(startDateTime, endDateTime)));
         }
         return adminMainDTOArrayList;
     }
