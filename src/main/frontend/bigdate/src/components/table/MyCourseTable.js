@@ -12,7 +12,7 @@ const MycourseTable = props => {
 
   return (
     <div>
-    <table className="common-table"  >
+    <table className="common-table" >
 <thead>    
      <tr>
           {
