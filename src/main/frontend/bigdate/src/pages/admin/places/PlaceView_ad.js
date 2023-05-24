@@ -103,6 +103,9 @@ const PlaceView_ad = (props) => {
       alert('수정되었습니다.')
     } catch (error) {
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
     }
   };
 
@@ -136,6 +139,9 @@ const PlaceView_ad = (props) => {
       console.log(response.data);
     } catch (error) {
       console.error(error);
+      alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
+      localStorage.clear();
+      window.location.pathname = "/";
       throw error;
     }
   };
