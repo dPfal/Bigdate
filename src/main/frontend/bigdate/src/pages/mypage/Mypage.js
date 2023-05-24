@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react'
-import { useState,useContext } from 'react';
+import React, { useEffect,useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { PersonCircle } from 'react-bootstrap-icons';
@@ -106,7 +105,7 @@ function Mypage() {
 
   return (
     <div style={{display : 'flex', justifyContent:'center'}}>
-      <div style={{display:'flex', width:'1200px',margin:'50px'}}>
+      <div style={{display:'flex', margin:'50px'}}>
       <div style={{width:'250px',margin:'30px 30px'}}>
          <ListGroup defaultActiveKey='/mypage'>
           <ListGroup.Item action href='/mypage'>

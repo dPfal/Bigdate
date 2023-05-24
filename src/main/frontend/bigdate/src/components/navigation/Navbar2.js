@@ -10,6 +10,7 @@ import '../login/LoginModal.css';
 import { Link, useHistory } from 'react-router-dom';
 import { ADDRESS } from '../../Adress';
 
+
 Modal.setAppElement('#root');
 
 const Navbar2=() =>{
@@ -55,9 +56,7 @@ const Navbar2=() =>{
     localStorage.removeItem("isLoggedIn")
     setIsLoggedIn(false);
     // 또는 로컬 스토리지에서 삭제
-    localStorage.removeItem("token");
-    localStorage.removeItem('id');
-    localStorage.removeItem('userId');
+    localStorage.clear();
     
     // 로그아웃 후 리다이렉트할 페이지로 이동
     history.push("/");
@@ -66,7 +65,7 @@ const Navbar2=() =>{
   };
 
   
-
+  //로그인
   const handleLogin = async (event) => {
     event.preventDefault();
     
@@ -86,6 +85,7 @@ const Navbar2=() =>{
       localStorage.setItem('token', token); // 받아온 토큰을 로컬 스토리지에 저장합니다.
       localStorage.setItem("userId",userId);
       localStorage.setItem("id",id);
+
       handleModalClose();
       setIsLoggedIn(true);
       localStorage.setItem("isLoggedIn",'true')
@@ -115,7 +115,6 @@ const Navbar2=() =>{
         history.push('/mypage'); // 마이페이지로 이동
       }
     };
-
 
   return (
     <>

@@ -22,6 +22,17 @@ const PlaceView_ad = (props) => {
   const [isDeleted, setIsDeleted] = useState(false); 
   const [update,setUpdate]=useState({});
 
+ // 스크롤을 맨 위로 올리는 함수
+ const scrollToTop = () => {
+  if ('scrollBehavior' in document.documentElement.style) {
+    window.scrollTo({
+      top: 0,
+      behavior: 'instant',
+    });
+  } else {
+    window.scrollTo(0, 0);
+  }
+};
 
   useEffect(() => {
     axios.get(`${ADDRESS}/places/${placeId}`)
@@ -30,6 +41,7 @@ const PlaceView_ad = (props) => {
       const place =setPlace(response.data);
       const sortOption=setSortOption(response.data.placeMood);
       console.log(place);
+      scrollToTop(); // 스크롤을 맨 위로 올림
       
       const container = document.getElementById('myMap');
       

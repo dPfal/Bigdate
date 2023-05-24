@@ -80,9 +80,9 @@ function MyPostList() {
     }
   
       return (
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <div style={{display:'flex', width:'1200px',margin:'50px'}}>
-            <div style={{ width: '250px', margin: '30px 30px' }}>
+         <div style={{display : 'flex', justifyContent:'center'}}>
+      <div style={{display:'flex', margin:'50px'}}>
+      <div style={{width:'250px',margin:'30px 30px'}}>
           <ListGroup>
             <ListGroup.Item action href='/mypage'active={false}>
               마이페이지
