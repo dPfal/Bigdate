@@ -29,12 +29,13 @@ public class HotspotService {
         for(Hotspot hotspot : hotspots){
            hotspotDTOS.add(new HotspotDTO(hotspot));
         }
-        LocalDateTime startDatetime = LocalDateTime.of(LocalDate.now().minusDays(1), LocalTime.of(0,0,0));
-        LocalDateTime endDatetime = LocalDateTime.of(LocalDate.now(), LocalTime.of(23,59,59));
-        if(!hitCountRepository.existsByVisitDateBetweenAndRemoteAddr(startDatetime,endDatetime,remoteAddr)){
+        LocalDate today = LocalDate.now();
+        LocalDateTime startDateTime = LocalDateTime.of(today, LocalTime.MIN);
+        LocalDateTime endDateTime = LocalDateTime.of(today, LocalTime.MAX);
+        if(!hitCountRepository.existsByVisitDateBetweenAndRemoteAddr(startDateTime,endDateTime,remoteAddr)){
             hitCountRepository.save(HitCount.builder().remoteAddr(remoteAddr).visitDate(LocalDateTime.now()).build());
         }
         return new IndexDTO(hotspotDTOS, hitCountRepository.count()
-                ,hitCountRepository.countByVisitDateBetween(startDatetime,endDatetime));
+                ,hitCountRepository.countByVisitDateBetween(startDateTime,endDateTime));
     }
 }
