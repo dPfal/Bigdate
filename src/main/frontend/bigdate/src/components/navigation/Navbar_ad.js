@@ -54,11 +54,7 @@ const Navbar_ad=() =>{
       localStorage.removeItem("isLoggedIn")
       setIsLoggedIn(false);
       // 또는 로컬 스토리지에서 삭제
-      localStorage.removeItem("token");
-      localStorage.removeItem('id');
-      localStorage.removeItem('userId');
-      
-      // 로그아웃 후 리다이렉트할 페이지로 이동
+       localStorage.clear();      
       // 로그아웃 후 리다이렉트할 페이지로 이동
       window.location.pathname = '/'
       alert('로그아웃 되셨습니다')
