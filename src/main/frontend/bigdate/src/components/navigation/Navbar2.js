@@ -86,10 +86,12 @@ const Navbar2=() =>{
       });
       const token = response.data.JWT; // JWT 토큰을 받아옵니다.
       const id = response.data.Id;
+      const userRole = response.data.userRole;
       console.log(response);
       localStorage.setItem('token', token); // 받아온 토큰을 로컬 스토리지에 저장합니다.
       localStorage.setItem("userId",userId);
       localStorage.setItem("id",id);
+      localStorage.setItem("userRole",userRole);
 
       handleModalClose();
       setIsLoggedIn(true);

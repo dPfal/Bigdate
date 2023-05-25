@@ -21,9 +21,15 @@ function Home() {
   const [todayHit, setTodayHit] = useState([]);
   const [selectedOption, setSelectedOption] = useState('실시간 기반 추천');
   
+  const userRole = localStorage.getItem('userRole');
+  
   useEffect(() => {
     axios.get(`${ADDRESS}/hotspots`)
+   
       .then(response => {
+        if(userRole==='ADMIN'){
+          window.location.pathname='admin'
+        }
         // 서버로부터 받은 데이터 처리
         console.log(response.data);
         // 혼잡도를 기준으로 내림차순 정렬
