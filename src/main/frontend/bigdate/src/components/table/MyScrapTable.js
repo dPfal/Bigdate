@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import './CommonTable.css';
-import { useHistory } from 'react-router-dom';
-
 
 const MyScrapTable = props => {
 

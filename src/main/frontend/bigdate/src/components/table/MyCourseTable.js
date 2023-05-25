@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
 import './CommonTable.css';
-import { useHistory } from 'react-router-dom';
 
 const MycourseTable = props => {
 
   const { headersName, children} = props;
-  const history = useHistory();
-
-
-
 
   return (
     <div>

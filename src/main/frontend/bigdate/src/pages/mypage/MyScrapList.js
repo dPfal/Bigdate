@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ListGroup from 'react-bootstrap/ListGroup';
 import { useHistory } from 'react-router-dom';
-import CommonTable from '../../components/table/CommonTable';
 import CommonTableColumn from '../../components/table/CommonTableColumn';
 import CommonTableRow from '../../components/table/CommonTableRow';
 import axios from 'axios';
@@ -96,7 +95,7 @@ function MyScrapList() {
       </ListGroup>
     </div>
     <div>
-    <div className='background-container' style={{height:'720px'}}>
+    <div className='background-container' style={{height:'820px'}}>
      <div className='overlay-container'>
 
      <div className='line'>내 찜 목록
@@ -121,7 +120,7 @@ function MyScrapList() {
                   <CommonTableColumn> {item.likeCount}</CommonTableColumn>
                   <CommonTableColumn> {item.scrapCount}</CommonTableColumn>
                   <CommonTableColumn>{moment(item.postedDate).format('YYYY-MM-DD')}</CommonTableColumn>
-                  <div><button className='delBtn'style={{marginTop:'10px',fontSize:'12px'}}  onClick={() => handleDeleteConfirm(item.courseId)}>삭제</button></div>
+                  <CommonTableColumn><button className='delBtn'style={{marginTop:'5px',fontSize:'12px'}}  onClick={() => handleDeleteConfirm(item.courseId)}>삭제</button></CommonTableColumn>
                 </CommonTableRow>
               )
             }) : ''

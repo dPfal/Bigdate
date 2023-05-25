@@ -1,8 +1,9 @@
 import React from 'react';
+import './CommonTable.css';
 
 const CommonTableColumn = ({ children }) => {
   return (
-    <td className="common-table-column">
+    <td className="common-table-column" >
       {
         children
       }
