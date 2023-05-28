@@ -11,7 +11,7 @@ const Footer = () => {
         <a href='http://data.seoul.go.kr/dataList/OA-21285/A/1/datasetView.do' target='blank'>서울시 실시간 도시 데이터</a><br/>
         
       <span>Copyright 2023. thenthen. All Rights Reserved.</span><br />
-      <a href='https://github.com/dPfal' target='_blank'>Github</a><br />
+      <a href='https://github.com/dPfal/Bigdate' target='_blank'>Github</a><br />
     </footer>
   );
 };

@@ -34,6 +34,8 @@ const scrollToTop = () => {
   }
 };
 
+
+
 useEffect(() => {
   const id = localStorage.getItem('id');
   const url = id ? `${ADDRESS}/courses/${course_id}?id=${id}` : `${ADDRESS}/courses/${course_id}`;
@@ -106,24 +108,39 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
     setComment(''); // 댓글 등록 후 state를 초기화합니다.
   };
 
-  //댓글 등록 함수
+
+  const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u200D|\uFE0F/g;
+
   const postComment = async (comment) => {
     setComment(comment);
     if (!comment) {
       alert('글 내용을 입력해주세요.');
       return;
     }
-
+  
     if (!localStorage.getItem('token')) {
       alert('로그인 후 댓글을 작성할 수 있습니다.');
       return;
     }
+    
+    if (comment.length < 10) {
+      alert('댓글 내용은 최소 10글자여야합니다.');
+      return;
+    }
+    
+    if (comment.length > 2000) {
+      alert('댓글은 최대 2000자까지 입력 가능합니다.');
+      return;
+    }
+  
+    const filteredComment = comment.replace(emojiRegex, '□'); // 이모지 필터링
+    
     const id = localStorage.getItem('id');
-
+  
     try {
-      console.log(comment)
+      console.log(filteredComment)
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${ADDRESS}/users/comments`, { commentText:comment,courseId:parseInt(course_id),id:parseInt(id) }, {
+      const response = await axios.post(`${ADDRESS}/users/comments`, { commentText:filteredComment, courseId:parseInt(course_id), id:parseInt(id) }, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -138,9 +155,10 @@ const date = moment(data.postedDate).format('YYYY-MM-DD HH:mm');
       alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
       localStorage.clear();
       window.location.pathname = "/";
-      
     }
   };
+  
+  
   
 
   const handleLikeClick = async () => {

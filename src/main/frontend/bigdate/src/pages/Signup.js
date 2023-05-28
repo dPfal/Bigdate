@@ -18,6 +18,10 @@ function Signup() {
     //아이디중복체크
     const overlapCheack=async (event)=>{
       event.preventDefault();
+      if (!userId ) {
+        alert('아이디를 입력하세요.');
+        return;
+      }
       try {
         console.log(JSON.stringify({ userId }))
         const response = await axios.get(`${ADDRESS}/id`, {

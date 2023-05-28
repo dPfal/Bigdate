@@ -312,9 +312,9 @@ function Home() {
                       <span style={{
                         color: 'white',
                         backgroundColor: 
-                          lowFiveSky.skyStatusLevel === 3 ? 'gray' :
+                          lowFiveSky.skyStatusLevel === 3 ? 'limegreen' :
                           lowFiveSky.skyStatusLevel === 2 ? 'skyBlue' :
-                          lowFiveSky.skyStatusLevel === 1 ? 'limegreen' : 'white',
+                          lowFiveSky.skyStatusLevel === 1 ? 'gray' : 'white',
                     padding: '2%',
                     fontSize: '14px',
                     border: '1px solid white',
@@ -323,9 +323,9 @@ function Home() {
                     marginLeft: '2px',
                     float: 'right'     
                       }}>
-                        {lowFiveSky.skyStatusLevel === 3 ? '구름 많음' :
-                          lowFiveSky.skyStatusLevel === 2 ? '구름 조금' :
-                          lowFiveSky.skyStatusLevel === 1 ? '맑음' : ''}
+                        {lowFiveSky.skyStatusLevel === 3 ? '맑음' :
+                          lowFiveSky.skyStatusLevel === 2 ? '구름 많음' :
+                          lowFiveSky.skyStatusLevel === 1 ? '흐림' : ''}
                       
                     </span>
 

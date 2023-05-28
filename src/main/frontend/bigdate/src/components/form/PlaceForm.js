@@ -20,12 +20,15 @@ const PlaceForm = (props) => {
 
 
 
+
  const handleAddReview =()=> {
+ 
   if (isNaN(expense)) {
     // 숫자가 아닌 경우 경고창을 
     alert("금액은 숫자로 입력해주세요.");
     return;
   }
+ 
     const newReview = {
       placeName:placeName,
       placeId: placeId,
