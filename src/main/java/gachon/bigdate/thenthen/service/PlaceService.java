@@ -46,6 +46,8 @@ public class PlaceService {
            }
        }
        double placeAvg = this.placeRepository.calculateAvg(placeId);
+        System.out.println("-------------------------------------- placeAvg: "+placeAvg);
+        System.out.println(placeId);
         Optional<List<Review>> reviewList = Optional.ofNullable(place.getReviewList());
         if(reviewList.isPresent()){
             List<Course> courseList = new ArrayList<>();
