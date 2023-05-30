@@ -39,8 +39,7 @@ const options = {
   responsive: true,
   scales: {
     y: {
-      min: 0,
-      max:20
+      min: 0
     },
   },
   plugins: {
