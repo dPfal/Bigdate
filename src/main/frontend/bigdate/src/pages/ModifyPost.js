@@ -111,6 +111,7 @@ const aa = (newReview, key) => {
 
   console.log(components)
   
+  const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u200D|\uFE0F/g;
 
   const handleModify = async (event) => {
     event.preventDefault();
@@ -136,14 +137,26 @@ const aa = (newReview, key) => {
       alert('2개 이상 입력하세요.');
       return;
     }
+
+    const filteredInfo = info.replace(emojiRegex, '□'); // 이모지 필터링
+    const filteredCourseTitle = courseTitle.replace(emojiRegex, '□'); // courseTitle에서 이모지 필터링
+     // components 배열의 각 요소에 대해 필터링 수행
+    const filteredComponents = components.map((component) => {
+      const filteredReviewInfo = component.reviewInfo.replace(emojiRegex, '□'); // reviewInfo에서 이모지 필터링
+      return {
+        ...component,
+        reviewInfo: filteredReviewInfo,
+      };
+    });
+
     const isConfirmed = window.confirm('수정하시겠습니까??');
     if (isConfirmed) {
       try {
         const token = localStorage.getItem('token');
         const data = {
-          courseTitle: courseTitle,
-          reviewList: components,
-          courseInfo: info,
+          courseTitle: filteredCourseTitle,
+          reviewList: filteredComponents,
+          courseInfo: filteredInfo,
         };
         console.log(data);
         await setTotalData(data);

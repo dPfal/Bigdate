@@ -104,6 +104,8 @@ const PostView_ad = ({ history, location, match }) => {
     setComment(''); // 댓글 등록 후 state를 초기화합니다.
   };
 
+  const emojiRegex = /[\uD800-\uDBFF][\uDC00-\uDFFF]|\u200D|\uFE0F/g;
+
   //댓글 등록 함수
   const postComment = async (comment) => {
     setComment(comment);
@@ -112,16 +114,37 @@ const PostView_ad = ({ history, location, match }) => {
       return;
     }
 
+    if (comment.length < 10) {
+      alert('댓글 내용은 최소 10글자여야합니다.');
+      return;
+    }
+    if (comment.length > 2000) {
+      alert('댓글은 최대 2000자까지 입력 가능합니다.');
+      return;
+    }
+
     if (!localStorage.getItem('token')) {
       alert('세션이 만료되었습니다. 다시 로그인 해주세요.');
       window.location.pathname = "/";
     }
+   
+    if (comment.length < 10) {
+      alert('댓글 내용은 최소 10글자여야합니다.');
+      return;
+    }
+    
+    if (comment.length > 2000) {
+      alert('댓글은 최대 2000자까지 입력 가능합니다.');
+      return;
+    }
+  
+    const filteredComment = comment.replace(emojiRegex, '□'); // 이모지 필터링
+  
     const id = localStorage.getItem('id');
-
     try {
       console.log(comment)
       const token = localStorage.getItem('token');
-      const response = await axios.post(`${ADDRESS}/users/comments`, { commentText: comment, courseId: parseInt(course_id), id: parseInt(id) }, {
+      const response = await axios.post(`${ADDRESS}/users/comments`, { commentText: filteredComment, courseId: parseInt(course_id), id: parseInt(id) }, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
