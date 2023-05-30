@@ -16,7 +16,7 @@ public interface PlaceRepository extends JpaRepository<Place,Long> {
     List<Place> findByHotspotId(Long hotspotId);
     Optional<List<Place>> findByPlaceNameContaining(String searchData);
 
-    @Query(value = "select coalesce(truncate(avg(avg_score), 1), 0.0) from mydatabase.reviews_tb where place_id = ?1",nativeQuery = true)
+    @Query(value = "select coalesce(truncate(avg(avg_score), 1), 0.0) from reviews_tb where place_id = ?1",nativeQuery = true)
     Double calculateAvg(Long placeId);
 
 
