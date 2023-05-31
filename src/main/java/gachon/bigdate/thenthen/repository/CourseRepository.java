@@ -13,11 +13,11 @@ import java.util.List;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course,Long> {
-    @Query(value = "select mydatabase.courses_tb.id,course_info,place_id,mydatabase.reviews_tb.course_id,members_tb.user_id,course_name, posted_date, sum(expense) from mydatabase.reviews_tb " +
-            "inner join mydatabase.courses_tb on mydatabase.courses_tb.course_id = mydatabase.reviews_tb.course_id  " +
-            "inner join mydatabase.members_tb on mydatabase.courses_tb.id = mydatabase.members_tb.id " +
-            "where mydatabase.reviews_tb.place_id = ?1 "+
-            "group by mydatabase.reviews_tb.course_id",nativeQuery = true)
+    @Query(value = "select courses_tb.id,course_info,place_id,reviews_tb.course_id,members_tb.user_id,course_name, posted_date, sum(expense) from reviews_tb " +
+            "inner join courses_tb on courses_tb.course_id = reviews_tb.course_id  " +
+            "inner join members_tb on courses_tb.id = members_tb.id " +
+            "where reviews_tb.place_id = ?1 "+
+            "group by reviews_tb.course_id",nativeQuery = true)
     List<Course> findCourseByPlaceId(Long placeId);
 
     Course findByCourseId(long courseId);

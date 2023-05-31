@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,6 +45,10 @@ public class MainController {
         return ResponseEntity.ok().body(placeService.getPlacesByHotspotId(hotspotId));
     }
 
+    @GetMapping("/hotspots/{hotspotId}/congestions")
+    public ResponseEntity<?> getCongestionsByHotspot(@PathVariable("hotspotId") long hotspotId){
+        return ResponseEntity.ok().body(hotspotService.getCongestionsByHotspot(hotspotId));
+    }
     @GetMapping("/places/{placeId}")
     public ResponseEntity<PlaceDTO> getPlaceById(@PathVariable("placeId") Long placeId){
         return ResponseEntity.ok().body(this.placeService.getPlaceByPlaceId(placeId));
