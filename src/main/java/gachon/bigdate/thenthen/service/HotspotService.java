@@ -48,8 +48,11 @@ public class HotspotService {
         LocalDateTime dateTime = LocalDateTime.now();
         DayOfWeek dayOfWeek = dateTime.getDayOfWeek();
         int hour = dateTime.getHour();
+        System.out.println("------------------------- hour : "+ hour);
         int day = dayOfWeek.getValue() - 1;
+        System.out.println("------------------------- day : "+ day);
         int number = (day * 24) + hour;
+        System.out.println("------------------------- number : "+ number);
         List<Congestion> congestionList = this.congestionRepository.findCongestion(number, hotspotId);
         ArrayList<CongestionDTO> congestionDTOArrayList = new ArrayList<>();
         for(Congestion congestion : congestionList){
