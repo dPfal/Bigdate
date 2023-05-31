@@ -10,6 +10,6 @@ import java.util.ArrayList;
 
 @Repository
 public interface CongestionRepository extends JpaRepository<Congestion,CongestionId> {
-    @Query(value = "select id, AREA_NM, AREA_CONGEST_LVL, AREA_PPLTN_MIN, AREA_PPLTN_MAX from congestions_tb where AREA_NM = ?2 and id>=?1 and id < ?1+24", nativeQuery = true)
+    @Query(value = "select id, AREA_NM, AREA_CONGEST_LVL, AREA_PPLTN_MIN, AREA_PPLTN_MAX from congestions_tb where ((id >= ?1 AND id < ?1 + 24) OR (id >= ?1 - 168 AND id < ?1 - 168 + 24))", nativeQuery = true)
     ArrayList<Congestion> findCongestion(int date, long hotspotId);
 }
