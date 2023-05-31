@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @NoArgsConstructor
 public class CongestionDTO {
     private long id;
-    private long hotspotName;
+    private long hotpotId;
     private String congestionLevel;
     private long  minPopulation;
     private long  maxPopulation;
@@ -19,5 +19,6 @@ public class CongestionDTO {
         this.congestionLevel = congestion.AREA_CONGEST_LVL;
         this.maxPopulation = congestion.AREA_PPLTN_MAX;
         this.minPopulation = congestion.AREA_PPLTN_MIN;
+        this.hotpotId = congestion.congestionId.getHOTSPOT_ID();
     }
 }

@@ -16,7 +16,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class CongestionId implements Serializable {
     @Column
-    private long AREA_NM;
+    private long HOTSPOT_ID;
     @Column
     private long id;
 }
