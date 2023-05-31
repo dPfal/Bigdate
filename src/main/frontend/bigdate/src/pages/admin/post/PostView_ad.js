@@ -411,7 +411,7 @@ const PostView_ad = ({ history, location, match }) => {
                                 <div style={{ marginLeft: '45px', paddingTop: '10px', color: comment.user.userRole === 'ADMIN' ? 'darkBlue' : 'black' }}>{comment.user.userRole === 'ADMIN' ? '관리자' : comment.user.userId}</div>
                                 <div >
                                   <span style={{ margin: '10px' }}>
-                                    <button className='delBtn' onClick={() => handleDeleteConfirm(comment.id, comment.commentDate, comment.courseId)}>
+                                    <button className='delBtn' onClick={() => handleDeleteConfirm(comment.id, comment.courseId,comment.commentDate)}>
                                       삭제
                                     </button>
                                   </span>
