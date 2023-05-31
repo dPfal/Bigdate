@@ -9,7 +9,7 @@ import {
   Tooltip,
   Legend,
   Filler,
-  Colors
+  Colors,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import axios from 'axios';

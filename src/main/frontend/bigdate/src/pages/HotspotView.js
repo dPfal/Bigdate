@@ -1,24 +1,125 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState,useMemo } from 'react'
 import { useLocation, useParams } from 'react-router-dom';
 import axios from 'axios';
 import xml2js from 'xml2js';
-import { useState } from 'react';
 import './HotspotView.css';
 import { ThermometerHalf ,Sun,Cloudy,Wind,Clock} from 'react-bootstrap-icons';
 import 'pure-react-carousel/dist/react-carousel.es.css';
 import EbayCarousel from '../components/carousel/EbayCarousel';
 import { ADDRESS } from '../Adress';
 import moment from 'moment';
+import { Bar } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+  Colors,
+  BarElement,
+} from "chart.js";
+import { ItemContent } from 'semantic-ui-react';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler, 
+  Colors
+);
+
+const options = {
+  fill: true,
+  maintainAspectRatio: false,
+  responsive: false,
+  scales: {
+    x: {
+      ticks: {
+        font: {
+          size: 5,
+          color: 'black' // X축 폰트 색상 설정
+        }
+      }
+    },
+    y: {
+      min: 0,
+      ticks: {
+        font: {
+          size: 5,
+          color: 'black' // Y축 폰트 색상 설정
+        }
+      }
+    }
+  },
+  plugins: {
+    legend: {
+      display: false
+    }
+  },
+  tooltip: {
+    enabled: true
+  },
+  plugins: {
+  
+    legend: {
+      display: false
+    }
+  },
+  layout: {
+    padding: {
+      top: 10,
+      bottom: 10,
+      left:20,
+      right:20
+    }
+  },
+  responsive: true,
+  maintainAspectRatio: false,
+  elements: {
+    line: {
+      tension: 0.1
+    }
+  },
+  scales: {
+    x: {
+      grid: {
+        color: 'rgba(0, 0, 0, 0.1)' // X축 그리드 색상 설정
+      },
+      ticks: {
+        font: {
+          color: 'black' // X축 폰트 색상 설정
+        }
+      }
+    },
+    y: {
+      grid: {
+        color: 'rgba(0, 0, 0, 0.1)' // Y축 그리드 색상 설정
+      },
+      ticks: {
+        font: {
+          color: 'black' // Y축 폰트 색상 설정
+        }
+      }
+    }
+  }
+};
 
   // 장소 목록 데이터를 가지고 있는 places 배열을 정의
   const places = [];
 
 function HotspotView() {
- const location = useLocation();
- const { hotspotName,hotspotId} = location.state;
- const [placeList, setPlaceList] = useState([]);
-
-
+  const location = useLocation();
+  const { hotspotName,hotspotId} = location.state;
+  const [placeList, setPlaceList] = useState([]);
+  const [congestionData,setCongestionData] =useState([]);
 
   const [congest, setCongest] = useState('');
   const [temp,setTemp] = useState('');
@@ -39,6 +140,8 @@ function HotspotView() {
   const [data,setData]=useState({});
   const token = localStorage.getItem('token');
   const id = localStorage.getItem('id');
+
+  //장소목록 로드
   useEffect(() => {
    
   if(!id){return;}
@@ -58,6 +161,42 @@ function HotspotView() {
       
   }, []);
 
+  //혼잡도 예측 데이터 로드
+  useEffect(() => {
+  
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    
+      axios.get(`${ADDRESS}/hotspots/${hotspotId}/congestions`)
+        .then(response => {
+          // 서버로부터 받은 데이터 처리
+          console.log(response.data);
+          setCongestionData(response.data);
+  
+        })
+        .catch(error => {
+          // 에러 처리
+          console.error(error);
+        });
+        
+    }, []);
+
+    //혼잡도 예측 그래프 데이터
+    const congestionDatas = congestionData.map((item) => item.maxPopulation);
+    const labels = congestionData.map((item)=>item.id%24+"시");
+    const congestionLevel = congestionData.map((item)=>item.congestionLevel);
+    const backgroundColors = congestionLevel.map((level) => {
+      if (level === "여유") {
+        return "limegreen";
+      } else if (level === "보통") {
+        return "gold"; 
+      }else if (level === "약간 붐빔") {
+        return "orange"; 
+      }else if (level === "붐빔") {
+        return "orangered"; 
+      }
+    });
+
+  //지역 실시간 정보 로드  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -217,7 +356,18 @@ function HotspotView() {
         );
       }
     };
-
+    const graphData = {
+      datasets: [
+        {
+          label: "예상 인구 수",
+          data: congestionDatas,
+          tension: 0.3,
+          pointRadius: 6,
+          backgroundColor: backgroundColors, // 색상 배열 적용
+        },
+      ],
+      labels,
+    };
   return (
     <div className="background-container" style={{backgroundColor:'#f5f5f5'}}>
       
@@ -325,7 +475,16 @@ function HotspotView() {
             </div>
             </div>
          </div>
-
+            
+         <div>
+          <div style={{ fontSize: '15px',marginLeft:'150px',marginTop:'20px'}}>향후 24시 혼잡도 예측</div>
+          <div className='toCenter'>
+          <div style={{backgroundColor:"white",display:'flex',justifyContent:'center',alignItems:'center',width:'900px',marginTop:'20px'}}>
+            <Bar data={graphData} options={options} style={{ width: '700px', height: '250px',marginTop:"20px" }} />
+          </div>
+          </div>
+        </div>
+        
          <div style={{marginTop:'50px'}}>
           {tags.map((tag) => renderTag(tag))}
          </div>
